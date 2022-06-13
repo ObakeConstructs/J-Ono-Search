@@ -80,15 +80,7 @@ a.pick {
   text-align: left;
 }
 
-h1 {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-h3 {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-p {
+h1, h3, p {
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -100,9 +92,38 @@ body {
 input[type=text] {
   background-color: #000000;
   border: 1px solid #5c5c5c;
-  border-radius: 4px;
+  border-radius: 5px;
   padding: 5px 5px;
   color: #d1d1d1;
+}
+
+input[type=button] {
+  background-color: #046dbb;
+  color: white;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=button]:active {            
+  transform: translate(2px, 1px);
+}
+  
+input[type=radio], input[type=checkbox], label {
+  cursor: pointer;
+}
+  
+input.right {
+  float: right;
+  margin-right: 65px
+}
+
+input.transparent {
+  background-color: transparent;
+  padding: 4px 4px;
+  border: none;
+  cursor: pointer;
 }
 
 table {
@@ -112,7 +133,7 @@ table {
   margin-bottom: 10px;
 }
 
-th { 
+th, td { 
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;  
   border: 1px solid;
@@ -120,17 +141,8 @@ th {
   padding: 10px;
 }
 
-td { 
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;  
-  border: 1px solid;  
-  /*background-color: #202020;*/
-  padding: 10px;
-}
-
 td.input { 
-  border: 1px solid;  
-  /*background-color: #202020;*/
+  border: 1px solid;
   padding: 2px;
 }
 

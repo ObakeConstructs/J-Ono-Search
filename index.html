@@ -21,9 +21,10 @@
       <p><b>Search:</b></p>
       
       <input type="button" onclick="clearer()" value="X">
-      <input type="text" id="search_input" class="text" name="src" size="30">
+      <input type="text" id="search_input" class="text" name="src" size="30" placeholder="search text here">
       <input type="button" onclick="searcher()" value="Search"><br />
-      <input type="button" id="pick_button" onclick="show_picker()" value="⏬"> Kana Picker<br />
+      <input type="button" id="copy_button" onclick="copier()" value="copy" class="right"><br />
+      <input type="button" id="pick_button" onclick="show_picker()" value="⏬" class="transparent"><label onclick="show_picker()" >Kana Picker</label><br />
       
       <div class="picker_row" id="pick_place">
       </div>
@@ -86,7 +87,6 @@
 
   <div id="blackOverlay" class="blackOverlay"></div>
   <div id="popup" class="popup">
-    <!--span class="closePopup" onclick="closePopup()">X</span-->
     <img id="popup_img" />
   </div>
 
@@ -345,19 +345,22 @@
     //------------------------------------------------------------------------------------------------------------------------
     
     function get_kana(pos) {
-      //const dakuten1 = "\u3042\u3099";
-      //const dakuten2 = "\u3093\u3099";
-      const kata = "アァXXイィXXウゥヴXエェXXオォXXカXガXキXギXクXグXケXゲXコXゴXサXザXシXジXスXズXセXゼXソXゾXタXダXチXヂXツッヅXテXデXトXドXナXXXニXXXヌXXXネXXXノXXXハXバパヒXビピフXブプヘXベペホXボポマXXXミXXXムXXXメXXXモXXXヤャXXXXXXユュXXXXXXヨョXXラXXXリXXXルXXXレXXXロXXXワヮヷXヰXヸXXXXXヱXヹXヲXヺXンXXXーXXXXXXXXXXXXXXX";
-      const hira = "あぁXXいぃXXうぅゔXえぇXXおぉXXかXがXきXぎXくXぐXけXげXこXごXさXざXしXじXすXずXせXぜXそXぞXたXだXちXぢXつっづXてXでXとXどXなXXXにXXXぬXXXねXXXのXXXはXばぱひXびぴふXぶぷへXべぺほXぼぽまXXXみXXXむXXXめXXXもXXXやゃXXXXXXゆゅXXXXXXよょXXらXXXりXXXるXXXれXXXろXXXわゎXXゐXXXXXXXゑXXXをXXXんXXXーXXXXXXXXXXXXXXX";
+      //const kata = "アァXXイィXXウゥヴXエェXXオォXXカXガXキXギXクXグXケXゲXコXゴXサXザXシXジXスXズXセXゼXソXゾXタXダXチXヂXツッヅXテXデXトXドXナXXXニXXXヌXXXネXXXノXXXハXバパヒXビピフXブプヘXベペホXボポマXXXミXXXムXXXメXXXモXXXヤャXXXXXXユュXXXXXXヨョXXラXXXリXXXルXXXレXXXロXXXワヮヷXヰXヸXXXXXヱXヹXヲXヺXンXXXーXXXXXXXXXXXXXXX";
+      //const hira = "あぁXXいぃXXうぅゔXえぇXXおぉXXかXがXきXぎXくXぐXけXげXこXごXさXざXしXじXすXずXせXぜXそXぞXたXだXちXぢXつっづXてXでXとXどXなXXXにXXXぬXXXねXXXのXXXはXばぱひXびぴふXぶぷへXべぺほXぼぽまXXXみXXXむXXXめXXXもXXXやゃXXXXXXゆゅXXXXXXよょXXらXXXりXXXるXXXれXXXろXXXわゎXXゐXXXXXXXゑXXXをXXXんXXXーXXXXXXXXXXXXXXX";      
+      const kata = "アァ  イィ  ウゥヴ エェ  オォ  カ ガ キ ギ ク グ ケ ゲ コ ゴ サ ザ シ ジ ス ズ セ ゼ ソ ゾ タ ダ チ ヂ ツッヅ テ デ ト ド ナ   ニ   ヌ   ネ   ノ   ハ バパヒ ビピフ ブプヘ ベペホ ボポマ   ミ   ム   メ   モ   ヤャ      ユュ      ヨョ  ラ   リ   ル   レ   ロ   ワヮヷ ヰ ヸ     ヱ ヹ ヲ ヺ ン   ー               ";
+      const hira = "あぁ  いぃ  うぅゔ えぇ  おぉ  か が き ぎ く ぐ け げ こ ご さ ざ し じ す ず せ ぜ そ ぞ た だ ち ぢ つっづ て で と ど な   に   ぬ   ね   の   は ばぱひ びぴふ ぶぷへ べぺほ ぼぽま   み   む   め   も   やゃ      ゆゅ      よょ  ら   り   る   れ   ろ   わゎ  ゐ       ゑ   を   ん   ー               ";
+
       var retVal = "";
       
       if (document.getElementById('hira').checked) retVal = hira.substring(pos, pos + 1);
       else retVal = kata.substring(pos, pos + 1);
       
-      if (retVal === "X") retVal = "";
-      //if (document.getElementById('hira').checked && pos = 2) retVal = "\u3042\u3099";
+      //if (retVal === "X") retVal = "";
       
-      retVal = "<a href=\"#!\" onclick=\"pickMe('" + retVal + "');\" class=\"pick\">" + retVal + "</a>"
+      if (retVal === " ") 
+        retVal = "";
+      else 
+        retVal = "<a href=\"#!\" onclick=\"pickMe('" + retVal + "');\" class=\"pick\">" + retVal + "</a>"
       
       return retVal;
     }
@@ -371,7 +374,7 @@
     //------------------------------------------------------------------------------------------------------------------------------
     
     async function display_stats() {
-      return; //for research - comment out if needed
+      if (1==1) return; //comment out this line to view stats
       var lit_cnt = 0;
       var kana_cnt = 0;
       var def_cnt = 0;
@@ -390,7 +393,7 @@
       var foot = document.getElementById('output_footer');
       foot.innerHTML = "<br /><br /><br />";
       foot.innerHTML += "Base Words: " + lit_cnt + "<br />";
-      foot.innerHTML += "japanese Words: " + kana_cnt + "<br />";
+      foot.innerHTML += "Japanese Fx: " + kana_cnt + "<br />";
       foot.innerHTML += "Definitions: " + def_cnt + "<br />";
       foot.innerHTML += "Images: " + img_cnt + "<br />";
     }
@@ -410,6 +413,13 @@
         img:(Array.isArray(details.examples) ? details.examples.length : 1)
       };
       return cnt;
+    }
+    
+    //------------------------------------------------------------------------------------------------------------------------------
+    
+    function copier() {
+      var srch = document.getElementById("search_input");
+      navigator.clipboard.writeText(srch.value);
     }
 
   </script>
