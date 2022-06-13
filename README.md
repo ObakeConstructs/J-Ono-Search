@@ -7,5 +7,5 @@ A simple, open-source tool for searching against the J-Ono collection of Japanes
 * Additional definitions are being added daily, but we're only adding those for which we have good representative sample images.
 
 ### J-Ono Search Tool:
-> [https://chinchbug.github.io/J-Ono/](https://obakeconstructs.github.io/J-Ono-Search)
+> https://obakeconstructs.github.io/J-Ono-Search/
 
