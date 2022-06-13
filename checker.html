@@ -33,14 +33,14 @@
     } 
 	  
     async function results(letter, word) {
-      try {
+      //try {
         const response = await fetch(content_json + letter + "/" + word + ".json");
         const details = await response.json();
-      }
-      catch(err) {
-        console.log("####### Error Fetching Details: " + word);
-        console.log(err.message);
-      }
+      //}
+      //catch(err) {
+      //  console.log("####### Error Fetching Details: " + word);
+      //  console.log(err.message);
+      //}
       out.innerHTML += word + "<br />";
       checkDetails(details);
       out.innerHTML += "<br /><br /><br /><br /><br /><br /><br /><br />";
