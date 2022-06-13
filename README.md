@@ -1,2 +1,12 @@
-# J-Ono-Search
-Search tool for Japanese onomatopoeic and mimetic sound words
+# J-Ono
+A simple, open-source tool for searching against the J-Ono collection of Japanese onomatopoeic and mimetic sound words.
+
+### Update
+* Moved to ObakeConstructs Org
+* "Kana Picker" added to search page
+* Additional definitions are being added daily, but we're only adding those for which we have good representative sample images.
+
+<!--
+### J-Ono Search Page:
+* https://chinchbug.github.io/J-Ono/
+-->
