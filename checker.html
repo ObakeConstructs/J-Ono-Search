@@ -13,8 +13,10 @@
   </div>
   
   <script type="text/javascript">
-    const content_json = "https://raw.githubusercontent.com/Chinchbug/J-Ono/json/";
-    const content_img = "https://raw.githubusercontent.com/Chinchbug/J-Ono/img/";
+    
+    const content_json = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/json/";
+    const content_img = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/img/";
+	  
     var out = document.getElementById("da_div");
   
     async function checker() {
@@ -31,14 +33,14 @@
     } 
 	  
     async function results(letter, word) {
-      //try {
+      try {
         const response = await fetch(content_json + letter + "/" + word + ".json");
         const details = await response.json();
-      //}
-      //catch(err) {
-      //  console.log("####### Error Fetching Details: " + word);
-      //  console.log(err.message);
-      //}
+      }
+      catch(err) {
+        console.log("####### Error Fetching Details: " + word);
+        console.log(err.message);
+      }
       out.innerHTML += word + "<br />";
       checkDetails(details);
       out.innerHTML += "<br /><br /><br /><br /><br /><br /><br /><br />";
