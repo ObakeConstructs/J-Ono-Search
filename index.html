@@ -19,21 +19,21 @@
     <div></div>
     <div class="sidebar">
       <p><b>Search:</b></p>
-      
-      <input type="button" onclick="clearer()" value="X">
-      <input type="text" id="search_input" class="text" name="src" size="30" placeholder="search text here">
-      <input type="button" onclick="searcher()" value="Search"><br />
-      <input type="button" id="copy_button" onclick="copier()" value="copy" class="right"><br />
-      <input type="button" id="pick_button" onclick="show_picker()" value="⏬" class="transparent"><label onclick="show_picker()" >Kana Picker</label><br />
-      
-      <div class="picker_row" id="pick_place">
-      </div>
-      <div class="picker_row" id = "pick_flip">
-        <input type="radio" id="kata" name="kana_type" value="Katakana" checked="checked">
-        <label for="kata">Katakana</label><br />
-        <input type="radio" id="hira" name="kana_type" value="Hiragana">
-        <label for="hira">Hiragana</label><br />
-      </div>
+      <form>
+        <input type="button" onclick="clearer()" value="X">
+        <input type="text" id="search_input" class="text" name="src" size="30" placeholder="search text here">
+        <input type="button" onclick="searcher()" value="Search"><br />
+        <input type="button" id="copy_button" onclick="copier()" value="copy" class="right"><br />
+        <input type="button" id="pick_button" onclick="show_picker()" value="⏬" class="transparent"><label onclick="show_picker()" >Kana Picker</label><br />
+        <div class="picker_row" id="pick_place">
+        </div>
+        <div class="picker_row" id = "pick_flip">
+          <input type="radio" id="kata" name="kana_type" value="Katakana" checked="checked">
+          <label for="kata">Katakana</label><br />
+          <input type="radio" id="hira" name="kana_type" value="Hiragana">
+          <label for="hira">Hiragana</label><br />
+        </div>
+      </form>
       <br />
       <table>
         <tr>
@@ -54,7 +54,7 @@
             <label for="japanese">Japanese</label><br />
             <input type="checkbox" id="literal" name="search_for" value="Literal" checked="checked">
             <label for="literal">Literal Translations</label><br />
-            <input type="checkbox" id="equivalent" name="search_for" value="Equivalent" checked="checked">
+            <input type="checkbox" id="equivalent" name="search_for" value="Equivalent">
             <label for="equivalent">Equivalent English</label><br />
             <input type="checkbox" id="comment" name="search_for" value="Meaning">
             <label for="comment">Comments</label>
@@ -69,11 +69,11 @@
       <table id="output_table">
         <thead>
           <tr>
-            <th style="width:25%">Japanese</th>
-            <th style="width:10%">Literal Translation</th>
-            <th style="width:30%">English Equivalents</th>
-            <th style="width:30%">Meanings</th>
-            <th style="width:5%">Examples</th>
+            <th style="width:225px">Japanese</th>
+            <th style="width:90px">Literal Translation</th>
+            <th style="width:270px">English Equivalent</th>
+            <th style="width:270px">Meaning</th>
+            <th>Example</th>
           </tr>
         </thead>
         <tbody id="output_body">
@@ -90,338 +90,6 @@
     <img id="popup_img" />
   </div>
 
-  <script type="text/javascript" charset="utf-8">
-    var srch = ""
-    var jap = false;
-    var lit = false;
-    var equ = false;
-    var com = false;
-    var typ = 0; //(full)
-    
-    const content_json = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/json/";
-    const content_img = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/img/";
-    
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    document.getElementById("search_input").addEventListener("keypress", function(event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        searcher();
-      }
-    });
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    document.getElementById('blackOverlay').addEventListener("click", function(event) {
-      if (event.target.closest(".popup")) return;
-      closePopup();
-    });
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    document.getElementById('kata').addEventListener('change', function() {
-      refresh_picker()
-    });
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    document.getElementById('hira').addEventListener('change', function() {
-      refresh_picker()
-    });
-  
-    //------------------------------------------------------------------------------------------------------------------------
-  
-    document.addEventListener("keyup", (e) => {
-      if (e.key === "Escape" && document.getElementById('popup').style.display === "block") closePopup();
-    });
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    function clearer() {
-      document.getElementById("search_input").value = "";
-    }
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    async function searcher() {
-      srch = document.getElementById("search_input").value;
-      if (srch.length == 0) return;
-      jap = document.getElementById("japanese").checked;
-      lit = document.getElementById("literal").checked;
-      equ = document.getElementById("equivalent").checked;
-      com = document.getElementById("comment").checked;
-      if (document.getElementById("match").checked) {
-        typ = 0; //(match)
-      }
-      if (document.getElementById("lead").checked) {
-        typ = 1; //(lead)
-      }
-      if (document.getElementById("any").checked) {
-        typ = 2; //(any)
-      }
-
-      document.getElementById("output_body").innerHTML = "";
-      
-      const response = await fetch(content_json + "index.json");
-      const idx = await response.json();
-
-      Object.entries(idx).forEach(([key, value]) => {
-        value.forEach((v) => {
-          results(v);
-        });
-      })
-    }
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    async function results(word) {
-      const response = await fetch(content_json + word.substring(0,1) + "/" + word + ".json");
-      const details = await response.json();
-      addRow(details);
-    }
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    function addRow(details) {
-      var isMatch = false;
-
-      var txt = "";
-      if (Array.isArray(details.katakana)) {
-        details.katakana.forEach((itm) => {
-          txt += (txt.length>0 ? ", " : "") + itm;
-          if(checkForMatch(itm) && jap) { isMatch = true; }
-        });
-      } else {
-        txt = details.katakana;
-        if(checkForMatch(details.katakana) && jap) { isMatch = true; }
-      }
-      var cell0 = txt + "; <br />";
-
-      txt = "";
-      if (Array.isArray(details.hiragana)) {
-        details.hiragana.forEach((itm) => {
-          txt += (txt.length>0 ? ", " : "") + itm;
-          if(checkForMatch(itm) && jap) { isMatch = true; }
-        });
-      } else {
-        txt = details.hiragana;
-        if(checkForMatch(details.hiragana) && jap) { isMatch = true; }
-      }
-      cell0 += txt;
-      //----------------------
-      var cell1 = details.literal;
-      if(checkForMatch(details.literal) && lit) { isMatch = true; }
-      //----------------------
-      var cell2 = "";
-      if (Array.isArray(details.equivalent)) {
-        details.equivalent.forEach((itm) => {
-          cell2 += (cell2.length>0 ? "<br />" : "") + itm;
-          if(checkForMatch(itm) && equ) { isMatch = true; }
-        });
-      } else {
-        cell2 = details.equivalent;
-        if(checkForMatch(details.equivalent) && equ) { isMatch = true; }
-      }
-      //----------------------
-      var cell3 = "";
-      if (Array.isArray(details.comments)) {
-        details.comments.forEach((itm) => {
-          cell3 += (cell3.length>0 ? "<br />" : "") + itm;
-          if(checkForMatch(itm) && com) { isMatch = true; }
-        });
-      } else {
-        cell3 = details.comments;
-        if(checkForMatch(details.comments) && com) { isMatch = true; }
-      }
-      //----------------------
-      var cell4 = "";
-      details.examples.forEach((itm) => {
-        var path = content_img + (itm.indexOf("/") > -1 ? "" : itm.substring(0, 1) + "/") + itm + (itm.indexOf(".") > -1 ? "" : ".jpg");
-        var lbl = itm.substring (itm.indexOf("-") + 1, itm.length - (itm.indexOf(".") > -1 ? 4 : 0)); 
-        cell4 += (cell4.length>0 ? " / " : "") + "<a href=\"#!\" onclick=\"showPopup('" + path + "');\">" + lbl + "</a>";
-      });
-
-      if (isMatch) {
-        tbl = document.getElementById("output_body");
-        var r = tbl.insertRow(-1);
-        var c0 = r.insertCell(0);
-        var c1 = r.insertCell(1);
-        var c2 = r.insertCell(2);
-        var c3 = r.insertCell(3);
-        var c4 = r.insertCell(4);
-        c0.innerHTML = cell0;
-        c1.innerHTML = cell1;
-        c2.innerHTML = cell2;
-        c3.innerHTML = cell3;
-        c4.innerHTML = cell4;
-      }
-    }
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    function checkForMatch(str1) {
-      switch (typ) {
-        case 0:
-          if(str1 === srch) { return true; }
-          break;
-        case 1:
-          if(str1.substring(0, srch.length) === srch) { return true; }
-          break;
-        case 2:
-          if(str1.includes(srch)) { return true; }
-      }
-      return false;
-    }
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    function showPopup(img_path) {
-      document.getElementById('blackOverlay').style.display = 'block';
-      document.getElementById('popup').style.display = 'block';
-      document.getElementById('popup_img').src = img_path;
-    }
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    function closePopup() {
-      document.getElementById('blackOverlay').style.display = 'none';
-      document.getElementById('popup').style.display = 'none';
-    }
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    function show_picker() {
-      if (document.getElementById('pick_place').style.display === "grid") {
-        hide_picker();
-        return;
-      }
-      
-      document.getElementById('pick_place').style.display = "grid";
-      document.getElementById('pick_flip').style.display = "grid"
-      document.getElementById('pick_button').value = "⏫";
-      
-      refresh_picker();
-    }
-    
-    //------------------------------------------------------------------------------------------------------------------------
-      
-    function hide_picker() {
-      document.getElementById('pick_place').style.display = "none";
-      document.getElementById('pick_flip').style.display = "none"
-      document.getElementById('pick_button').value = "⏬";
-    }
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    function refresh_picker() {
-      place = document.getElementById('pick_place');
-      const div1 = "<div class=\"picker_block\">";
-      const div2 = "<div class=\"picker_pick\">";
-      const div_close = "</div>";
-      
-      place.innerHTML = "";
-      
-      var picker_cnt = 0;
-      for (var i=0; i<52; i++) {
-        var tmp = "";
-        if(i == 36 || i == 38 || i == 47) {
-          tmp = "<div class=\"picker_block_gray\"></div>";
-          picker_cnt += 4;
-        }
-        else {
-          tmp = div1;
-          tmp += div2 + get_kana(picker_cnt++) + div_close;
-          tmp += div2 + get_kana(picker_cnt++) + div_close;
-          tmp += div2 + get_kana(picker_cnt++) + div_close;
-          tmp += div2 + get_kana(picker_cnt++) + div_close;
-          tmp += div_close;
-        }
-        //console.log(tmp);
-        place.innerHTML += tmp;
-      }
-    }
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    function get_kana(pos) {
-      //const kata = "アァXXイィXXウゥヴXエェXXオォXXカXガXキXギXクXグXケXゲXコXゴXサXザXシXジXスXズXセXゼXソXゾXタXダXチXヂXツッヅXテXデXトXドXナXXXニXXXヌXXXネXXXノXXXハXバパヒXビピフXブプヘXベペホXボポマXXXミXXXムXXXメXXXモXXXヤャXXXXXXユュXXXXXXヨョXXラXXXリXXXルXXXレXXXロXXXワヮヷXヰXヸXXXXXヱXヹXヲXヺXンXXXーXXXXXXXXXXXXXXX";
-      //const hira = "あぁXXいぃXXうぅゔXえぇXXおぉXXかXがXきXぎXくXぐXけXげXこXごXさXざXしXじXすXずXせXぜXそXぞXたXだXちXぢXつっづXてXでXとXどXなXXXにXXXぬXXXねXXXのXXXはXばぱひXびぴふXぶぷへXべぺほXぼぽまXXXみXXXむXXXめXXXもXXXやゃXXXXXXゆゅXXXXXXよょXXらXXXりXXXるXXXれXXXろXXXわゎXXゐXXXXXXXゑXXXをXXXんXXXーXXXXXXXXXXXXXXX";      
-      const kata = "アァ  イィ  ウゥヴ エェ  オォ  カ ガ キ ギ ク グ ケ ゲ コ ゴ サ ザ シ ジ ス ズ セ ゼ ソ ゾ タ ダ チ ヂ ツッヅ テ デ ト ド ナ   ニ   ヌ   ネ   ノ   ハ バパヒ ビピフ ブプヘ ベペホ ボポマ   ミ   ム   メ   モ   ヤャ      ユュ      ヨョ  ラ   リ   ル   レ   ロ   ワヮヷ ヰ ヸ     ヱ ヹ ヲ ヺ ン   ー               ";
-      const hira = "あぁ  いぃ  うぅゔ えぇ  おぉ  か が き ぎ く ぐ け げ こ ご さ ざ し じ す ず せ ぜ そ ぞ た だ ち ぢ つっづ て で と ど な   に   ぬ   ね   の   は ばぱひ びぴふ ぶぷへ べぺほ ぼぽま   み   む   め   も   やゃ      ゆゅ      よょ  ら   り   る   れ   ろ   わゎ  ゐ       ゑ   を   ん   ー               ";
-
-      var retVal = "";
-      
-      if (document.getElementById('hira').checked) retVal = hira.substring(pos, pos + 1);
-      else retVal = kata.substring(pos, pos + 1);
-      
-      //if (retVal === "X") retVal = "";
-      
-      if (retVal === " ") 
-        retVal = "";
-      else 
-        retVal = "<a href=\"#!\" onclick=\"pickMe('" + retVal + "');\" class=\"pick\">" + retVal + "</a>"
-      
-      return retVal;
-    }
-    
-    //------------------------------------------------------------------------------------------------------------------------
-    
-    function pickMe(picked) {
-      document.getElementById('search_input').value += picked;
-    }
-    
-    //------------------------------------------------------------------------------------------------------------------------------
-    
-    async function display_stats() {
-      if (1==1) return; //comment out this line to view stats
-      var lit_cnt = 0;
-      var kana_cnt = 0;
-      var def_cnt = 0;
-      var img_cnt = 0;
-      const idxFetch = await fetch(content_json + "index.json");
-      const idx = await idxFetch.json();
-      for (const [key, value] of Object.entries(idx)) {
-        lit_cnt += value.length;
-        for (let i=0; i<value.length; i++) {
-          let retval = await detail_counter(value[i]);
-          kana_cnt += retval.kana;
-          def_cnt += retval.def;
-          img_cnt += retval.img;
-        }
-      }
-      var foot = document.getElementById('output_footer');
-      foot.innerHTML = "<br /><br /><br />";
-      foot.innerHTML += "Base Words: " + lit_cnt + "<br />";
-      foot.innerHTML += "Japanese Fx: " + kana_cnt + "<br />";
-      foot.innerHTML += "Definitions: " + def_cnt + "<br />";
-      foot.innerHTML += "Images: " + img_cnt + "<br />";
-    }
-    
-    //------------------------------------------------------------------------------------------------------------------------------
-      
-    async function detail_counter(lit) {
-      const detailFetch = await fetch(content_json + lit.substring(0,1) + "/" + lit + ".json");
-      const details = await detailFetch.json();
-      let kata_cnt = (Array.isArray(details.katakana) ? details.katakana.length : 1);
-      let hira_cnt = (Array.isArray(details.hiragana) ? details.hiragana.length : 1);
-      let def_cnt = (Array.isArray(details.comments) ? details.comments.length : 1);
-      let img_cnt = (Array.isArray(details.examples) ? details.examples.length : 1);
-      let cnt = {
-        kana:(Array.isArray(details.katakana) ? details.katakana.length : 1) + (Array.isArray(details.hiragana) ? details.hiragana.length : 1), 
-        def:(Array.isArray(details.comments) ? details.comments.length : 1), 
-        img:(Array.isArray(details.examples) ? details.examples.length : 1)
-      };
-      return cnt;
-    }
-    
-    //------------------------------------------------------------------------------------------------------------------------------
-    
-    function copier() {
-      var srch = document.getElementById("search_input");
-      navigator.clipboard.writeText(srch.value);
-    }
-
-  </script>
+  <script src="./search.js" charset="utf-8"></script>
 </body>
 </html>
