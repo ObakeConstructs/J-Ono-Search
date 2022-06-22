@@ -12,15 +12,6 @@ body {
   column-gap: 10px;
 }
 
-.wrapper-input {
-  display: grid;
-  grid-template-columns: auto 700px 300px auto;
-  padding: 5px;
-  align-items: center; 
-  align-content: top;
-  column-gap: 10px;
-}
-
 .picker_row {
   display: none;
   grid-template-columns: 50px 50px 50px 50px 50px;
