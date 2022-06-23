@@ -6,11 +6,8 @@ var equ = false;
 var com = false;
 var typ = 0; //(full)
 
-//const content_json = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/json/";
-//const content_img = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/img/";
-const content_json = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/new-json-structure/json/";
-const content_img = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/new-json-structure/img/";
-
+const content_json = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/json/";
+const content_img = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/img/";
 
 //------------------------------------------------------------------------------------------------------------------------
 
