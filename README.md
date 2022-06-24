@@ -9,3 +9,5 @@ A simple, open-source tool for searching against the J-Ono collection of Japanes
 ### J-Ono Search Tool:
 > https://obakeconstructs.github.io/J-Ono-Search/
 
+### J-Ono Record Editor:
+> https://obakeconstructs.github.io/J-Ono-Search/editor <sup><sub>**(new)**</sub></sup>
