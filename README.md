@@ -10,4 +10,4 @@ A simple, open-source tool for searching against the J-Ono collection of Japanes
 > https://obakeconstructs.github.io/J-Ono-Search/
 
 ### J-Ono Record Editor:
-> https://obakeconstructs.github.io/J-Ono-Search/editor <sup><sub>**(new)**</sub></sup>
+> https://obakeconstructs.github.io/J-Ono-Search/pages/editor <sup><sub>**(new)**</sub></sup>
