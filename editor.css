@@ -1,0 +1,86 @@
+.grid_wrapper {
+  display: grid;
+  grid-template-columns: auto 1600px auto;
+  padding: 5px;
+  align-items: center;
+  column-gap: 10px;
+  /*border: 1px dashed white;*/
+}
+
+.grid_title {  
+  padding: 10px;
+  text-align: left;
+  /*border: 1px dashed violet;*/
+}
+
+.grid_editor {
+  display: grid;
+  grid-template-columns: 175px 400px auto;
+  align-content: start;
+  padding: 5px;
+  /*border: 1px dashed white;*/
+}
+
+.grid_picker {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+  align-content: start;
+  font-size: 12px;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+.column {
+  display: grid;
+  align-content: start;
+  /*border: 1px dashed red;*/
+}
+
+.grid_lit {
+  display: grid;
+  /*align-items: center;*/
+  /*border: 1px dashed green;*/
+}
+
+.grid_kana {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  /*align-items: center;*/
+  /*border: 1px dashed green;*/
+}
+
+.grid_def {
+  display: grid;
+  grid-template-columns: 385px 385px auto;
+  /*order: 1px dashed green;*/
+}
+
+.grid_exam {
+  grid-template-columns: 180px auto;
+  display: grid;
+  align-content: start;
+  /*border: 1px dashed green;*/
+}
+
+.grid_header {
+  display: grid;
+  padding: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  height: 16px;
+}
+
+.little_button {
+  width: 25px;
+  height: 100%;
+}
+
+.norm {
+  width: 100px;
+  height: 100%;
+}
+
+.center {
+  text-align: center;
+}
