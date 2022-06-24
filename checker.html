@@ -4,7 +4,7 @@
 <head>
 	<meta charset='utf-8'>
 	<title>J-Ono JSON Record Checker</title>
-        <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/ObakeConstructs/J-Ono-Search/main/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/ObakeConstructs/J-Ono-Search/main/favicon.ico">
 	<link rel='stylesheet' href='./global.css'>
 </head>
 
@@ -24,38 +24,33 @@
       const response = await fetch(content_json + "index.json");
       const idx = await response.json();
       
-  
-      Object.entries(idx).forEach(([key, value]) => {
-        value.forEach((v) => {
-	  //console.log(key, value);
-          results(key, v);
-        });
-      })
-    } 
-	  
-    async function results(letter, word) {
-      const response = await fetch(content_json + letter + "/" + word + ".json");
-      const details = await response.json();
-      /*
-      try {
-        const response = await fetch(content_json + letter + "/" + word + ".json");
-        const details = await response.json();
-      }
-      catch(err) {
-        console.log("####### Error Fetching Details: " + word);
-        console.log(err.message);
-      }
-      */
+      for (let i in idx) {
+        let response = await fetch(content_json + idx[i].substring(0,1) + "/" + idx[i] + ".json");
+        let details = await response.json();    
+        
+        /*
+        try {
+        let response = await fetch(content_json + idx[i].substring(0,1) + "/" + idx[i] + ".json");
+        let details = await response.json();    
+        }
+        catch(err) {
+          console.log("####### Error Fetching Details: " + word);
+          console.log(err.message);
+        }
+        */
       
-      out.innerHTML += word + "<br />";
-      checkDetails(details);
-      out.innerHTML += "<br /><br /><br /><br /><br /><br /><br /><br />";
-    }
+        out.innerHTML += idx[i] + "<br />";
+        checkDetails(details);
+        out.innerHTML += "<br /><br /><br /><br /><br /><br /><br /><br />";
+      }
+    } 
     
     function checkDetails(details) {
-      details.examples.forEach((itm) => {
-        var path = content_img + (itm.indexOf("/") > -1 ? "" : itm.substring(0, 1) + "/") + itm + (itm.indexOf(".") > -1 ? "" : ".jpg");
-        out.innerHTML += "<img src=\"" + path + "\" width=\"100px\" align=\"left\" />";
+      details.definition.forEach((def) => {
+        def.example.forEach((exam) => {
+          var path = content_img + exam.substring(0, 1) + "/" + exam + ".jpg";
+          out.innerHTML += "<img src=\"" + path + "\" width=\"100px\" align=\"left\" />";
+        });
       });
     }
 	  
