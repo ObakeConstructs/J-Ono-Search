@@ -1,8 +1,3 @@
-body {
-  background-color: #303030;
-  color: #d1d1d1;
-}
-
 .wrapper {
   display: grid;
   grid-template-columns: auto 300px 900px auto;
@@ -19,7 +14,7 @@ body {
 
 .picker_block {
   display: grid;
-  background-color: #505050;
+  background-color: #252525;
   grid-template-columns: 50% 50%;
   border-style: solid; 
   border-width: 1px;
@@ -38,10 +33,6 @@ body {
   align-items: center; 
   text-align: center;
   font-size: 20px;  
-}
-
-a.pick {
-  text-decoration: none;
 }
 
 .title {  
@@ -70,40 +61,6 @@ a.pick {
   height: 350px;
   text-align: left;
 }
-
-h1, h3, p {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;  
-}
-
-input[type=text] {
-  background-color: #000000;
-  border: 1px solid #5c5c5c;
-  border-radius: 5px;
-  padding: 5px 5px;
-  color: #d1d1d1;
-}
-
-input[type=button] {
-  background-color: #046dbb;
-  color: white;
-  padding: 4px 8px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-input[type=button]:active {            
-  transform: translate(2px, 1px);
-}
-  
-input[type=radio], input[type=checkbox], label {
-  cursor: pointer;
-}
   
 input.right {
   float: right;
@@ -115,64 +72,6 @@ input.transparent {
   padding: 4px 4px;
   border: none;
   cursor: pointer;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%; 
-  background-color: #202020;
-  margin-bottom: 10px;
-}
-
-table.inner {
-  border-collapse: collapse;
-  width: 100%; 
-  height: 100%;
-  background-color: #202020;
-  margin: 0px;
-}
-
-th, td { 
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  border: 1px solid;
-  background-color: #000000;
-  padding: 10px;
-}
-
-td.inner_b { 
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  background-color: #000000;
-  border: none;
-  border-right: 1px solid;
-  border-bottom: 1px solid #333333;
-  padding: 10px;
-  height: 100%;
-}
-
-td.inner { 
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  background-color: #000000;
-  border: none;
-  border-bottom: 1px solid #333333;
-  padding: 10px;
-  height: 100%;
-}
-
-td.input { 
-  border: 1px solid;
-  padding: 2px;
-  word-break: normal;
-}
-
-.center {
-  text-align: center;
-}
-
-a {
-  color: #ffffff;
 }
 
 .blackOverlay {
