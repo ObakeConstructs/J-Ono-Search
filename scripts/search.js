@@ -8,6 +8,8 @@ var typ = 0; //(full)
 
 const content_json = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/json/";
 const content_img = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/img/";
+  
+var idx;
 
 //------------------------------------------------------------------------------------------------------------------------
 
@@ -63,9 +65,6 @@ async function searcher() {
   if (document.getElementById("any").checked) typ = 2; //(any)
 
   document.getElementById("output_body").innerHTML = "";
-  
-  const response = await fetch(content_json + "index.json");
-  const idx = await response.json();
   
   for (let i in idx) {
     let response = await fetch(content_json + idx[i].substring(0,1) + "/" + idx[i] + ".json");
@@ -253,8 +252,6 @@ async function display_stats() {
   var kana_cnt = 0;
   var def_cnt = 0;
   var img_cnt = 0;
-  const idxFetch = await fetch(content_json + "index.json");
-  const idx = await idxFetch.json();
   lit_cnt = idx.length;
   
   for (let i in idx) {
@@ -280,4 +277,12 @@ async function display_stats() {
 function copier() {
   var srch = document.getElementById("search_input");
   navigator.clipboard.writeText(srch.value);
+}
+
+//------------------------------------------------------------------------------------------------------------------------------
+
+async function opener() {
+  const response = await fetch(content_json + "index.json");
+  idx = await response.json();
+  //display_stats();
 }
