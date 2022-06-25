@@ -87,10 +87,12 @@ td.input {
 
 a:link {
   color: darkgray;
+  text-decoration: none;
 }
 
 a:visited {
   color: darkgray;
+  text-decoration: none;
 }
 
 a:hover {
