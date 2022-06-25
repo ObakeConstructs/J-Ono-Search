@@ -158,7 +158,6 @@ function delRow_exam(num) {
     grid_exam.lastChild.outerHTML = "";
     grid_exam.lastChild.outerHTML = "";
   }
-  //console.log(grid_exam.children.length);
 }
 //======================================================================================================
 
@@ -243,7 +242,6 @@ async function opener(lit) {
   newRecord();
   let response = await fetch(content_json + lit.substring(0,1) + "/" + lit + ".json");
   let details = await response.json();
-  //console.log(details);
   
   var lit_rows = document.getElementsByClassName("grid_lit");
   lit_rows[1].children[0].value = details.literal;
@@ -295,7 +293,6 @@ function getJSON() {
     else return null;
     
   const def = [];
-  //console.log(def_rows);
   for (var i=1; i<def_rows.children.length - 1; i++) {
     if (def_rows.children[i].children[0].value)
       var eq = def_rows.children[i].children[0].value;

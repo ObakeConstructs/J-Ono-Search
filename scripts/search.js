@@ -9,9 +9,9 @@ var typ = 0; //(full)
 const content_json = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/json/";
 const content_img = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/img/";
   
-var idx;
+const deets = [];
 
-//------------------------------------------------------------------------------------------------------------------------
+//=================================================================================
 
 document.getElementById("search_input").addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
@@ -20,40 +20,27 @@ document.getElementById("search_input").addEventListener("keypress", function(ev
   }
 });
 
-//------------------------------------------------------------------------------------------------------------------------
-
-document.getElementById('blackOverlay').addEventListener("click", function(event) {
-  if (event.target.closest(".popup")) return;
-  closePopup();
-});
-
-//------------------------------------------------------------------------------------------------------------------------
+//=================================================================================
 
 document.getElementById('kata').addEventListener('change', function() {
   refresh_picker()
 });
 
-//------------------------------------------------------------------------------------------------------------------------
+//=================================================================================
 
 document.getElementById('hira').addEventListener('change', function() {
   refresh_picker()
 });
 
-//------------------------------------------------------------------------------------------------------------------------
-
-document.addEventListener("keyup", (e) => {
-  if (e.key === "Escape" && document.getElementById('popup').style.display === "block") closePopup();
-});
-
-//------------------------------------------------------------------------------------------------------------------------
+//=================================================================================
 
 function clearer() {
   document.getElementById("search_input").value = "";
 }
 
-//------------------------------------------------------------------------------------------------------------------------
+//=================================================================================
 
-async function searcher() {
+function searcher() {
   srch = document.getElementById("search_input").value;
   if (srch.length == 0) return;
   jap = document.getElementById("japanese").checked;
@@ -66,74 +53,58 @@ async function searcher() {
 
   document.getElementById("output_body").innerHTML = "";
   
-  for (let i in idx) {
-    let response = await fetch(content_json + idx[i].substring(0,1) + "/" + idx[i] + ".json");
-    let details = await response.json();    
-    addRow(details);
-  }
-}
+  deets.forEach((details) => {
+    var isMatch = false;    
+    //----------------------
+    var txt = "";
+    details.katakana.forEach((itm) => {
+      txt += (txt.length>0 ? ", " : "") + itm;
+      if(checkForMatch(itm) && jap) isMatch = true;
+    });    
+    var cell0 = txt + "; <br />";
 
-//------------------------------------------------------------------------------------------------------------------------
-
-function addRow(details) {
-  var isMatch = false;
-  
-  //----------------------
-
-  var txt = "";
-  details.katakana.forEach((itm) => {
-    txt += (txt.length>0 ? ", " : "") + itm;
-    if(checkForMatch(itm) && jap) isMatch = true;
-  });    
-  var cell0 = txt + "; <br />";
-
-  txt = "";
-  details.hiragana.forEach((itm) => {
-    txt += (txt.length>0 ? ", " : "") + itm;
-    if(checkForMatch(itm) && jap) isMatch = true;
-  });
-  cell0 += txt;
-  
-  //----------------------
-
-  var cell1 = details.literal;
-  if(checkForMatch(details.literal) && lit) isMatch = true;
-
-  //----------------------
-  
-  var cell2 = "<table class=\"inner\" frame=\"void\" >";
-  details.definition.forEach((itm) => {
-    if(checkForMatch(itm.equivalent) && equ) isMatch = true;
-    if(checkForMatch(itm.meaning) && com) isMatch = true;
-    cell2 += "<tr width=\"100%\">";
-    cell2 += "<td class=\"inner_b\" width=\"226px\" style=\"\">" + itm.equivalent + "</td>";
-    cell2 += "<td class=\"inner_b\" width=\"224px\">" + itm.meaning + "</td>";
-    cell2 += "<td class=\"inner\">";
-    itm.example.forEach((ex) => {
-      var path = content_img + ex.substring(0, 1) + "/" + ex + ".jpg";
-      cell2 += "<a href=\"#!\" onclick=\"showPopup('" + path + "');\">img</a> ";
+    txt = "";
+    details.hiragana.forEach((itm) => {
+      txt += (txt.length>0 ? ", " : "") + itm;
+      if(checkForMatch(itm) && jap) isMatch = true;
     });
-    cell2 += "</td></tr>";
+    cell0 += txt;    
+    //----------------------
+    var cell1 = details.literal;
+    if(checkForMatch(details.literal) && lit) isMatch = true;
+    //----------------------    
+    var cell2 = "<table class=\"inner\" frame=\"void\" >";
+    details.definition.forEach((itm) => {
+      if(checkForMatch(itm.equivalent) && equ) isMatch = true;
+      if(checkForMatch(itm.meaning) && com) isMatch = true;
+      cell2 += "<tr width=\"100%\">";
+      cell2 += "<td class=\"inner_b\" width=\"226px\" style=\"\">" + itm.equivalent + "</td>";
+      cell2 += "<td class=\"inner_b\" width=\"224px\">" + itm.meaning + "</td>";
+      cell2 += "<td class=\"inner\">";
+      itm.example.forEach((ex) => {
+        var path = content_img + ex.substring(0, 1) + "/" + ex + ".jpg";
+        cell2 += "<a href=\"#!\" onclick=\"showPopup('" + path + "');\">img</a> ";
+      });
+      cell2 += "</td></tr>";
+    });
+    cell2 += "</table>";    
+    //----------------------
+    if (isMatch) {
+      tbl = document.getElementById("output_body");
+      var r = tbl.insertRow(-1);
+      var c0 = r.insertCell(0);
+      var c1 = r.insertCell(1);
+      var c2 = r.insertCell(2);
+      c2.colSpan = 3;
+      c2.style.padding=0;
+      c0.innerHTML = cell0;
+      c1.innerHTML = cell1;
+      c2.innerHTML = cell2;
+    }
   });
-  cell2 += "</table>";
-  
-  //----------------------
-
-  if (isMatch) {
-    tbl = document.getElementById("output_body");
-    var r = tbl.insertRow(-1);
-    var c0 = r.insertCell(0);
-    var c1 = r.insertCell(1);
-    var c2 = r.insertCell(2);
-    c2.colSpan = 3;
-    c2.style.padding=0;
-    c0.innerHTML = cell0;
-    c1.innerHTML = cell1;
-    c2.innerHTML = cell2;
-  }
 }
 
-//------------------------------------------------------------------------------------------------------------------------
+//=================================================================================
 
 function checkForMatch(str1) {
   switch (typ) {
@@ -149,22 +120,7 @@ function checkForMatch(str1) {
   return false;
 }
 
-//------------------------------------------------------------------------------------------------------------------------
-
-function showPopup(img_path) {
-  document.getElementById('blackOverlay').style.display = 'block';
-  document.getElementById('popup').style.display = 'block';
-  document.getElementById('popup_img').src = img_path;
-}
-
-//------------------------------------------------------------------------------------------------------------------------
-
-function closePopup() {
-  document.getElementById('blackOverlay').style.display = 'none';
-  document.getElementById('popup').style.display = 'none';
-}
-
-//------------------------------------------------------------------------------------------------------------------------
+//=================================================================================
 
 function show_picker() {
   if (document.getElementById('pick_place').style.display === "grid") {
@@ -179,7 +135,7 @@ function show_picker() {
   refresh_picker();
 }
 
-//------------------------------------------------------------------------------------------------------------------------
+//=================================================================================
   
 function hide_picker() {
   document.getElementById('pick_place').style.display = "none";
@@ -187,7 +143,7 @@ function hide_picker() {
   document.getElementById('pick_button').value = "⏬";
 }
 
-//------------------------------------------------------------------------------------------------------------------------
+//=================================================================================
 
 function refresh_picker() {
   place = document.getElementById('pick_place');
@@ -212,12 +168,11 @@ function refresh_picker() {
       tmp += div2 + get_kana(picker_cnt++) + div_close;
       tmp += div_close;
     }
-    //console.log(tmp);
     place.innerHTML += tmp;
   }
 }
 
-//------------------------------------------------------------------------------------------------------------------------
+//=================================================================================
 
 function get_kana(pos) {      
   const kata = "アァ  イィ  ウゥヴ エェ  オォ  カ ガ キ ギ ク グ ケ ゲ コ ゴ サ ザ シ ジ ス ズ セ ゼ ソ ゾ タ ダ チ ヂ ツッヅ テ デ ト ド ナ   ニ   ヌ   ネ   ノ   ハ バパヒ ビピフ ブプヘ ベペホ ボポマ   ミ   ム   メ   モ   ヤャ      ユュ      ヨョ  ラ   リ   ル   レ   ロ   ワヮヷ ヰ ヸ     ヱ ヹ ヲ ヺ ン   ー               ";
@@ -238,51 +193,56 @@ function get_kana(pos) {
   return retVal;
 }
 
-//------------------------------------------------------------------------------------------------------------------------
+//=================================================================================
 
 function pickMe(picked) {
   document.getElementById('search_input').value += picked;
 }
 
-//------------------------------------------------------------------------------------------------------------------------------
+//=================================================================================
 
-async function display_stats() {
-  if (1==1) return; //comment out this line to view stats
+function display_stats() {
   var lit_cnt = 0;
   var kana_cnt = 0;
   var def_cnt = 0;
   var img_cnt = 0;
-  lit_cnt = idx.length;
   
-  for (let i in idx) {
-    let response = await fetch(content_json + idx[i].substring(0,1) + "/" + idx[i] + ".json");
-    let details = await response.json();
-    kana_cnt += details.katakana.length;
-    kana_cnt += details.hiragana.length;
-    def_cnt += details.definition.length;
-    for (let def in details.definition) {
-      img_cnt += details.definition[def].example.length;
-      }
-  }
-  var foot = document.getElementById('output_footer');
+  deets.forEach((d) => {
+    kana_cnt += d.katakana.length;
+    kana_cnt += d.hiragana.length;
+    def_cnt += d.definition.length;
+    for (let def in d.definition) {
+      img_cnt += d.definition[def].example.length;
+    }
+  });
+  
+  var foot = document.getElementById("output_footer");
   foot.innerHTML = "<br /><br /><br />";
-  foot.innerHTML += "Base Words: " + lit_cnt + "<br />";
+  foot.innerHTML += "Literals: " + deets.length + "<br />";
   foot.innerHTML += "Japanese FXs: " + kana_cnt + "<br />";
   foot.innerHTML += "Meanings: " + def_cnt + "<br />";
   foot.innerHTML += "Images: " + img_cnt + "<br />";
 }
 
-//------------------------------------------------------------------------------------------------------------------------------
+//=================================================================================
 
 function copier() {
   var srch = document.getElementById("search_input");
   navigator.clipboard.writeText(srch.value);
 }
 
-//------------------------------------------------------------------------------------------------------------------------------
+//=================================================================================
 
 async function opener() {
+  //Pre-fetch all records, store all in global arrray called 'deets' - modern browsers should cache these
+  document.getElementById("note").innerHTML = "Loading records from JSON (this may take a few seconds)...";
   const response = await fetch(content_json + "index.json");
   idx = await response.json();
+  for (let i in idx) {
+    let response = await fetch(content_json + idx[i].substring(0,1) + "/" + idx[i] + ".json");
+    let details = await response.json();
+    deets.push(details);
+  }
+  document.getElementById("note").innerHTML = "";
   //display_stats();
 }
