@@ -55,52 +55,19 @@ function searcher() {
   
   deets.forEach((details) => {
     var isMatch = false;    
-    //----------------------
-    var txt = "";
     details.katakana.forEach((itm) => {
-      txt += (txt.length>0 ? ", " : "") + itm;
       if(checkForMatch(itm) && jap) isMatch = true;
     });    
-    var cell0 = txt + "; <br />";
-
-    txt = "";
     details.hiragana.forEach((itm) => {
-      txt += (txt.length>0 ? ", " : "") + itm;
       if(checkForMatch(itm) && jap) isMatch = true;
     });
-    cell0 += txt;    
-    //----------------------
-    var cell1 = details.literal;
     if(checkForMatch(details.literal) && lit) isMatch = true;
-    //----------------------    
-    var cell2 = "<table class=\"inner\" frame=\"void\" >";
     details.definition.forEach((itm) => {
       if(checkForMatch(itm.equivalent) && equ) isMatch = true;
       if(checkForMatch(itm.meaning) && com) isMatch = true;
-      cell2 += "<tr width=\"100%\">";
-      cell2 += "<td class=\"inner_b\" width=\"226px\" style=\"\">" + itm.equivalent + "</td>";
-      cell2 += "<td class=\"inner_b\" width=\"224px\">" + itm.meaning + "</td>";
-      cell2 += "<td class=\"inner\">";
-      itm.example.forEach((ex) => {
-        var path = content_img + ex.substring(0, 1) + "/" + ex + ".jpg";
-        cell2 += "<a href=\"#!\" onclick=\"showPopup('" + path + "');\">img</a> ";
-      });
-      cell2 += "</td></tr>";
     });
-    cell2 += "</table>";    
-    //----------------------
-    if (isMatch) {
-      tbl = document.getElementById("output_body");
-      var r = tbl.insertRow(-1);
-      var c0 = r.insertCell(0);
-      var c1 = r.insertCell(1);
-      var c2 = r.insertCell(2);
-      c2.colSpan = 3;
-      c2.style.padding=0;
-      c0.innerHTML = cell0;
-      c1.innerHTML = cell1;
-      c2.innerHTML = cell2;
-    }
+    
+    if (isMatch) shower(details);
   });
 }
 
@@ -118,6 +85,53 @@ function checkForMatch(str1) {
       if(str1.includes(srch)) { return true; }
   }
   return false;
+}
+
+//=================================================================================
+
+function shower(details) { 
+  
+  var txt = "";
+  details.katakana.forEach((itm) => {
+    txt += (txt.length>0 ? ", " : "") + itm;
+  });    
+  var cell0 = txt + "; <br />";
+  
+  txt = "";
+  details.hiragana.forEach((itm) => {
+    txt += (txt.length>0 ? ", " : "") + itm;
+  });
+  cell0 += txt;
+  
+  //----------------------
+  
+  var cell2 = "<table class=\"inner\" frame=\"void\" >";
+  details.definition.forEach((itm) => {
+    cell2 += "<tr width=\"100%\">";
+    cell2 += "<td class=\"inner_b\" width=\"226px\" style=\"\">" + itm.equivalent + "</td>";
+    cell2 += "<td class=\"inner_b\" width=\"224px\">" + itm.meaning + "</td>";
+    cell2 += "<td class=\"inner\">";
+    itm.example.forEach((ex) => {
+      var path = content_img + ex.substring(0, 1) + "/" + ex + ".jpg";
+      cell2 += "<a href=\"#!\" onclick=\"showPopup('" + path + "');\">img</a> ";
+    });
+    cell2 += "</td></tr>";
+  });
+  cell2 += "</table>";    
+  
+  //----------------------
+  
+  tbl = document.getElementById("output_body");
+  var r = tbl.insertRow(-1);
+  var c0 = r.insertCell(0);
+  var c1 = r.insertCell(1);
+  var c2 = r.insertCell(2);
+  c2.colSpan = 3;
+  c2.style.padding=0;
+  c0.innerHTML = cell0;
+  c1.innerHTML = details.literal;
+  c2.innerHTML = cell2;
+  
 }
 
 //=================================================================================
@@ -233,7 +247,30 @@ function copier() {
 
 //=================================================================================
 
-async function opener() {
+function opener() {
+  //check for search parameters
+  const url = window.location.search;
+  const params = new URLSearchParams(url);
+  let srch = params.get('search');
+  document.getElementById("search_input").value = srch;
+  srch = srch.replace("%20", "_");
+  srch = srch.replace(" ", "_");
+  quickLoad(srch);
+  
+  prefetch();
+}
+
+//=================================================================================
+
+async function quickLoad(srch) {
+  let response = await fetch(content_json + srch.substring(0,1) + "/" + srch + ".json");
+  let details = await response.json();
+  shower(details);
+}
+
+//=================================================================================
+
+async function prefetch() {
   //Pre-fetch all records, store all in global arrray called 'deets' - modern browsers should cache these
   document.getElementById("note").innerHTML = "Loading records from JSON (this may take a few seconds)...";
   const response = await fetch(content_json + "index.json");
@@ -244,5 +281,7 @@ async function opener() {
     deets.push(details);
   }
   document.getElementById("note").innerHTML = "";
+  
   //display_stats();
 }
+
