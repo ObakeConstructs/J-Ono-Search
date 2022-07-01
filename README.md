@@ -6,6 +6,7 @@ A simple, open-source tool for searching against the J-Ono collection of Japanes
 * "Kana Picker" added to search page
 * Additional definitions are being added daily, but we're only adding those for which we have good representative sample images
 * JSON Record structure updated to better handle multiple definitions
+* Added URL searching parameters and redirecting index files to help with Google searches (I think).
 
 ### J-Ono Search Tool:
 > https://obakeconstructs.github.io/J-Ono-Search/
