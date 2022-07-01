@@ -10,7 +10,7 @@
 </head>
 
 <body onload="opener()">
-  <div class="wrapper">
+  <div class="grid_wrapper">
     <div></div>
     <div class="title">
       <h1>J-Ono Search</h1>
@@ -26,9 +26,9 @@
         <input type="button" onclick="searcher()" value="Search"><br />
         <input type="button" id="copy_button" onclick="copier()" value="copy" class="right"><br />
         <input type="button" id="pick_button" onclick="show_picker()" value="⏬" class="transparent"><label onclick="show_picker()" >Kana Picker</label><br />
-        <div class="picker_row" id="pick_place">
+        <div class="grid_picker_wrapper" id="pick_place">
         </div>
-        <div class="picker_row" id = "pick_flip">
+        <div class="grid_picker_wrapper" id = "pick_flip">
           <input type="radio" id="kata" name="kana_type" value="Katakana" checked="checked">
           <label for="kata">Katakana</label><br />
           <input type="radio" id="hira" name="kana_type" value="Hiragana">
@@ -81,9 +81,9 @@
         </tbody>
       </table>
     </div>
-    <div class="junk"></div>
     <div></div>
     <div class="footer" id="output_footer"></div>
+    <div></div>
   </div>
 
   <div id="blackOverlay" class="blackOverlay"></div>
