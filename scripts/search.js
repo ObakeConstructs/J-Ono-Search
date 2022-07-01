@@ -9,7 +9,7 @@ var typ = 0; //(full)
 const content_json = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/json/";
 const content_img = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/img/";
   
-const deets = [];
+let deets = [];
 
 //=================================================================================
 
@@ -247,19 +247,17 @@ function copier() {
 
 //=================================================================================
 
-function opener() {
-  //check for search parameters
+async function opener() {
+  await prefetch();
+  
   const url = window.location.search;
   if (url) {
     const params = new URLSearchParams(url);
     let srch = params.get('search');
     document.getElementById("search_input").value = srch;
-    srch = srch.replace("%20", "_");
-    srch = srch.replace(" ", "_");
-    quickLoad(srch);
+    document.getElementById("match").checked = true;
+    searcher();
   }
-  
-  prefetch();
 }
 
 //=================================================================================
@@ -274,15 +272,8 @@ async function quickLoad(srch) {
 
 async function prefetch() {
   //Pre-fetch all records, storing in global arrray called 'deets'
-  const response = await fetch(content_json + "index.json");
-  idx = await response.json();
-  document.getElementById("note").innerHTML = "Fetching " + idx.length + " JSON records. This may take a few seconds if they're not already cached...";
-  for (let i in idx) {
-    let response = await fetch(content_json + idx[i].substring(0,1) + "/" + idx[i] + ".json");
-    let details = await response.json();
-    deets.push(details);
-  }
-  document.getElementById("note").innerHTML = "";
+  const response = await fetch(content_json + "all.json");
+  deets = await response.json();
   
   //display_stats();
 }
