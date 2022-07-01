@@ -284,6 +284,6 @@ async function prefetch() {
   }
   document.getElementById("note").innerHTML = "";
   
-  display_stats();
+  //display_stats();
 }
 
