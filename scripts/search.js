@@ -250,12 +250,14 @@ function copier() {
 function opener() {
   //check for search parameters
   const url = window.location.search;
-  const params = new URLSearchParams(url);
-  let srch = params.get('search');
-  document.getElementById("search_input").value = srch;
-  srch = srch.replace("%20", "_");
-  srch = srch.replace(" ", "_");
-  quickLoad(srch);
+  if (url) {
+    const params = new URLSearchParams(url);
+    let srch = params.get('search');
+    document.getElementById("search_input").value = srch;
+    srch = srch.replace("%20", "_");
+    srch = srch.replace(" ", "_");
+    quickLoad(srch);
+  }
   
   prefetch();
 }
@@ -282,6 +284,6 @@ async function prefetch() {
   }
   document.getElementById("note").innerHTML = "";
   
-  //display_stats();
+  display_stats();
 }
 
