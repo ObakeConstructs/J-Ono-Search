@@ -161,8 +161,8 @@ function hide_picker() {
 
 function refresh_picker() {
   place = document.getElementById('pick_place');
-  const div1 = "<div class=\"picker_block\">";
-  const div2 = "<div class=\"picker_pick\">";
+  const div1 = "<div class=\"grid_picker_block\">";
+  const div2 = "<div class=\"grid_picker_kana\">";
   const div_close = "</div>";
   
   place.innerHTML = "";
@@ -171,7 +171,7 @@ function refresh_picker() {
   for (var i=0; i<52; i++) {
     var tmp = "";
     if(i == 36 || i == 38 || i == 47) {
-      tmp = "<div class=\"picker_block_gray\"></div>";
+      tmp = "<div class=\"grid_picker_block_gray\"></div>";
       picker_cnt += 4;
     }
     else {
@@ -202,7 +202,7 @@ function get_kana(pos) {
   if (retVal === " ") 
     retVal = "";
   else 
-    retVal = "<a href=\"#!\" onclick=\"pickMe('" + retVal + "');\" class=\"pick\">" + retVal + "</a>"
+    retVal = "<a href=\"#!\" onclick=\"pickMe('" + retVal + "');\" class=\"grid_picker_kana\">" + retVal + "</a>"
   
   return retVal;
 }
@@ -233,7 +233,7 @@ function display_stats() {
   var foot = document.getElementById("output_footer");
   foot.innerHTML = "<br /><br /><br />";
   foot.innerHTML += "Literals: " + deets.length + "<br />";
-  foot.innerHTML += "Japanese FXs: " + kana_cnt + "<br />";
+  foot.innerHTML += "Japanese Words: " + kana_cnt + "<br />";
   foot.innerHTML += "Meanings: " + def_cnt + "<br />";
   foot.innerHTML += "Images: " + img_cnt + "<br />";
 }

@@ -1,38 +1,39 @@
-.wrapper {
+.grid_wrapper {
   display: grid;
-  grid-template-columns: auto 300px 900px auto;
+  grid-template-columns: auto 310px 900px auto;
   padding: 5px;
-  align-items: center; 
-  align-content: top;
+  align-items: start; 
   column-gap: 10px;
 }
 
-.picker_row {
+.grid_picker_wrapper {
   display: none;
-  grid-template-columns: 50px 50px 50px 50px 50px;
+  grid-template-columns: 60px 60px 60px 60px 60px;
+  /*border: 1px dashed red;*/
 }
 
-.picker_block {
+.grid_picker_block {
   display: grid;
   background-color: #252525;
   grid-template-columns: 50% 50%;
   border-style: solid; 
   border-width: 1px;
-  border-color: #303030;  
+  border-color: #303030;
 }
 
-.picker_block_gray {
+.grid_picker_block_gray {
   display: grid;
   background-color: #303030;
   height: 50px;
 }
 
-.picker_pick {
+
+.grid_picker_kana {
   display: grid;
-  height: 25px;
+  height: 30px;
   align-items: center; 
   text-align: center;
-  font-size: 16px;  
+  font-size: 18px;
 }
 
 .title {  
@@ -45,20 +46,17 @@
   padding: 2 px;
   text-align: left;
   grid-column: 2 / span 2;
-  font-size: 9px;  
+  font-size: 9px;
 }
 
 .sidebar {  
   background-color: #303030;*
   padding: 10px;
-  height: 350px;
   text-align: left;
-  
 }
 .main { 
   background-color: #303030;
   padding: 10px;
-  height: 350px;
   text-align: left;
 }
   
