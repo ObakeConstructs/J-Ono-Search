@@ -9,4 +9,4 @@ A simple, open-source tool for searching against the J-Ono collection of Japanes
 * Added URL searching parameters and redirecting index files to help with Google searches (I think).
 
 ### J-Ono Search Tool:
-> https://obakeconstructs.com/
+> https://j-ono.com/
