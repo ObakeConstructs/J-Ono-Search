@@ -14,43 +14,23 @@
   </div>
   
   <script type="text/javascript">
-    
-    const content_json = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/json/";
-    const content_img = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/img/";
-	  
-    var out = document.getElementById("da_div");
   
     async function checker() {
-      const response = await fetch(content_json + "index.json");
-      const idx = await response.json();
+      const content_json = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/json/";
+      const content_img = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/img/";
+      const response = await fetch(content_json + "all.json");
+      var out = document.getElementById("da_div");
       
-      for (let i in idx) {
-        let response = await fetch(content_json + idx[i].substring(0,1) + "/" + idx[i] + ".json");
-        let details = await response.json();    
-        
-        /*
-        try {
-        let response = await fetch(content_json + idx[i].substring(0,1) + "/" + idx[i] + ".json");
-        let details = await response.json();    
-        }
-        catch(err) {
-          console.log("####### Error Fetching Details: " + word);
-          console.log(err.message);
-        }
-        */
-      
-        out.innerHTML += idx[i] + "<br />";
-        checkDetails(details);
-        out.innerHTML += "<br /><br /><br /><br /><br /><br /><br /><br />";
-      }
-    } 
-    
-    function checkDetails(details) {
-      details.definition.forEach((def) => {
-        def.example.forEach((exam) => {
-          var path = content_img + exam.substring(0, 1) + "/" + exam + ".jpg";
-          out.innerHTML += "<img src=\"" + path + "\" width=\"100px\" align=\"left\" />";
+      let deets = await response.json();
+      deets.forEach((details) => {
+        out.innerHTML += details.literal + "<br />";
+        details.definition.forEach((def) => {
+          def.example.forEach((exam) => {
+            var path = content_img + exam.substring(0, 1) + "/" + exam + ".jpg";
+            out.innerHTML += "<img src=\"" + path + "\" width=\"100px\" align=\"left\" />";
+          });
         });
+        out.innerHTML += "<br /><br /><br /><br /><br /><br /><br /><br />";
       });
     }
 	  
