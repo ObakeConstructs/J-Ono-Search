@@ -9,7 +9,6 @@
 .grid_picker_wrapper {
   display: none;
   grid-template-columns: 60px 60px 60px 60px 60px;
-  /*border: 1px dashed red;*/
 }
 
 .grid_picker_block {

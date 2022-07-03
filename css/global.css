@@ -7,6 +7,7 @@ body {
 
 h1, h3, p, input {
   font-family: 'Lato', sans-serif;
+  font-size: 14px;
 }
 
 input[type=text] {
