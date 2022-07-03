@@ -243,6 +243,8 @@ async function opener() {
 function open_details(id) {
   var details = deets[id];
   
+  newRecord();
+  
   var lit_rows = document.getElementsByClassName("grid_lit");
   lit_rows[1].children[0].value = details.literal;
   //--------------------------------------
