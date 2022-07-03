@@ -6,8 +6,7 @@ var equ = false;
 var com = false;
 var typ = 0; //(full)
 
-const content_json = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/json/";
-const content_img = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/img/";
+const content = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/";
   
 let deets = [];
 
@@ -112,7 +111,7 @@ function shower(details) {
     cell2 += "<td class=\"inner_b\" width=\"224px\">" + itm.meaning + "</td>";
     cell2 += "<td class=\"inner\">";
     itm.example.forEach((ex) => {
-      var path = content_img + ex.substring(0, 1) + "/" + ex + ".jpg";
+      var path = content + "img/" + ex.substring(0, 1) + "/" + ex + ".jpg";
       cell2 += "<a href=\"#!\" onclick=\"showPopup('" + path + "');\">img</a> ";
     });
     cell2 += "</td></tr>";
@@ -263,7 +262,7 @@ async function opener() {
 //=================================================================================
 
 async function quickLoad(srch) {
-  let response = await fetch(content_json + srch.substring(0,1) + "/" + srch + ".json");
+  let response = await fetch(content + srch.substring(0,1) + "/" + srch + ".json");
   let details = await response.json();
   shower(details);
 }
@@ -272,7 +271,7 @@ async function quickLoad(srch) {
 
 async function prefetch() {
   //Pre-fetch all records, storing in global arrray called 'deets'
-  const response = await fetch(content_json + "all.json");
+  const response = await fetch(content + "j-ono-data.json");
   deets = await response.json();
   
   //display_stats();

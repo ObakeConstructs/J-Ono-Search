@@ -16,9 +16,8 @@
   <script type="text/javascript">
   
     async function checker() {
-      const content_json = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/json/";
-      const content_img = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/img/";
-      const response = await fetch(content_json + "all.json");
+      const content = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/";
+      const response = await fetch(content + "j-ono-data.json");
       var out = document.getElementById("da_div");
       
       let deets = await response.json();
@@ -26,7 +25,7 @@
         out.innerHTML += details.literal + "<br />";
         details.definition.forEach((def) => {
           def.example.forEach((exam) => {
-            var path = content_img + exam.substring(0, 1) + "/" + exam + ".jpg";
+            var path = content + "img/" + exam.substring(0, 1) + "/" + exam + ".jpg";
             out.innerHTML += "<img src=\"" + path + "\" width=\"100px\" align=\"left\" />";
           });
         });
