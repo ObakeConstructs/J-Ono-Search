@@ -1,4 +1,7 @@
-const content_json = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/json/";
+const content = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/";
+let deets = [];
+  
+//======================================================================================================
   
 function newRecord() {
   var col = document.getElementById("column_lit");
@@ -216,32 +219,29 @@ function saver() {
     document.body.removeChild(element);
   } else alert("Missing data elements");
 }
-  
+
 //======================================================================================================
 
-async function loadExisting() {
+async function opener() {
+  let response = await fetch(content + "j-ono-data.json");
+  deets = await response.json();
   newRecord();
-  const response = await fetch(content_json + "index.json");
-  const idx = await response.json();
+  
   var picker = document.getElementById("picker");
   
-  for (let i in idx) {
-    let response = await fetch(content_json + idx[i].substring(0,1) + "/" + idx[i] + ".json");
-    let details = await response.json();    
+  for (var i=0; i<deets.length; i++) {
     var anc = document.createElement("a");
     anc.setAttribute("href", "#!");
-    anc.setAttribute("onclick", "javascript: opener('" + idx[i] + "');");
-    anc.innerHTML = details.literal;
+    anc.setAttribute("onclick", "javascript: open_details('" + i + "');");
+    anc.innerHTML = deets[i].literal;
     picker.appendChild(anc);
   }
 }
   
 //======================================================================================================
 
-async function opener(lit) {
-  newRecord();
-  let response = await fetch(content_json + lit.substring(0,1) + "/" + lit + ".json");
-  let details = await response.json();
+function open_details(id) {
+  var details = deets[id];
   
   var lit_rows = document.getElementsByClassName("grid_lit");
   lit_rows[1].children[0].value = details.literal;
@@ -323,4 +323,5 @@ function getJSON() {
   };
   
   return JSON.stringify(json_obj, null, 2)
+  
 }
