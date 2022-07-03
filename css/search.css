@@ -1,6 +1,6 @@
 .grid_wrapper {
   display: grid;
-  grid-template-columns: auto 310px 900px auto;
+  grid-template-columns: auto 320px 900px auto;
   padding: 5px;
   align-items: start; 
   column-gap: 10px;
@@ -61,7 +61,7 @@
   
 input.right {
   float: right;
-  margin-right: 65px
+  margin-right: 90px
 }
 
 input.transparent {
