@@ -98,6 +98,7 @@ function addRow_def() {
   var btn_add = document.createElement("input");
   btn_add.setAttribute("type", "button");
   btn_add.setAttribute("onClick", "javascript: addRow_exam(" + (document.getElementsByClassName("grid_def").length) + ");" );
+  btn_add.setAttribute("tabindex", "-1");
   btn_add.value = "+";
   btn_add.className = "little_button";
   div_blank.appendChild(btn_add);
@@ -105,6 +106,7 @@ function addRow_def() {
   var btn_rem = document.createElement("input");
   btn_rem.setAttribute("type", "button");
   btn_rem.setAttribute("onClick", "javascript: delRow_exam(" + (document.getElementsByClassName("grid_def").length) + ");" );
+  btn_rem.setAttribute("tabindex", "-1");
   btn_rem.value = "-";
   btn_rem.className = "little_button";
   div_blank.appendChild(btn_rem);
@@ -170,6 +172,7 @@ function getButtons(section) {
   var newInput = document.createElement("input");
   newInput.setAttribute("type", "button");
   newInput.setAttribute("onClick", "javascript: addRow_" + section + "();" );
+  newInput.setAttribute("tabindex", "-1");
   newInput.value = "+";
   newInput.className = "little_button";
   tmpDiv.appendChild(newInput);
@@ -177,6 +180,7 @@ function getButtons(section) {
   newInput = document.createElement("input");
   newInput.setAttribute("type", "button");
   newInput.setAttribute("onClick", "javascript: delRow_" + section + "();" );
+  newInput.setAttribute("tabindex", "-1");
   newInput.value = "-";
   newInput.className = "little_button";
   tmpDiv.appendChild(newInput);
@@ -233,6 +237,7 @@ async function opener() {
     var anc = document.createElement("a");
     anc.setAttribute("href", "#!");
     anc.setAttribute("onclick", "javascript: open_details('" + i + "');");
+    anc.setAttribute("tabindex", "-1");
     anc.innerHTML = deets[i].literal;
     picker.appendChild(anc);
   }
