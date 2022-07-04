@@ -152,3 +152,10 @@ img {
 .index {
   color: #303030;
 }
+
+/* override Chrome's input resizing */
+*, *:before, *:after {
+  -moz-box-sizing: border-box; 
+  -webkit-box-sizing: border-box; 
+  box-sizing: border-box;
+}
