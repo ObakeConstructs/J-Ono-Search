@@ -229,17 +229,28 @@ function saver() {
 async function opener() {
   let response = await fetch(content + "j-ono-data.json");
   deets = await response.json();
+  create_picker_list();
   newRecord();
+}
   
+//======================================================================================================
+
+function create_picker_list() {
   var picker = document.getElementById("picker");
   
+  var currLet = "";
   for (var i=0; i<deets.length; i++) {
-    var anc = document.createElement("a");
-    anc.setAttribute("href", "#!");
-    anc.setAttribute("onclick", "javascript: open_details('" + i + "');");
-    anc.setAttribute("tabindex", "-1");
-    anc.innerHTML = deets[i].literal;
-    picker.appendChild(anc);
+    if (deets[i].literal.substring(0, 1) !== currLet) {
+      currLet = deets[i].literal.substring(0, 1);
+      picker.innerHTML += "<br />" + currLet.toUpperCase() + ": ";
+    }
+    //var anc = document.createElement("a");
+    //anc.setAttribute("href", "#!");
+    //anc.setAttribute("onclick", "javascript: open_details('" + i + "');");
+    //anc.setAttribute("tabindex", "-1");
+    //anc.innerHTML = deets[i].literal;
+    //picker.appendChild(anc);
+    picker.innerHTML += "<a href='#!', onclick=\"javascript: open_details('" + i + "');\" tabindex='-1'>" + deets[i].literal.replace(" ", "&nbsp;") + "</a>, ";
   }
 }
   

@@ -4,7 +4,6 @@
   padding: 5px;
   align-items: center;
   column-gap: 10px;
-  /*border: 1px dashed white;*/
 }
 
 .grid_title {  
@@ -18,13 +17,11 @@
   grid-template-columns: 175px 400px auto;
   align-content: start;
   padding: 5px;
-  /*border: 1px dashed white;*/
 }
 
-.grid_picker {
-  display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+.picker {
   align-content: start;
+  font-family: "Inconsolata", monospace;
   font-size: 12px;
   padding: 5px;
   border: 1px solid black;
@@ -33,33 +30,26 @@
 .column {
   display: grid;
   align-content: start;
-  /*border: 1px dashed red;*/
 }
 
 .grid_lit {
   display: grid;
-  /*align-items: center;*/
-  /*border: 1px dashed green;*/
 }
 
 .grid_kana {
   display: grid;
   grid-template-columns: 50% 50%;
-  /*align-items: center;*/
-  /*border: 1px dashed green;*/
 }
 
 .grid_def {
   display: grid;
   grid-template-columns: 385px 385px auto;
-  /*order: 1px dashed green;*/
 }
 
 .grid_exam {
   grid-template-columns: 180px auto;
   display: grid;
   align-content: start;
-  /*border: 1px dashed green;*/
 }
 
 .grid_header {
