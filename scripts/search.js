@@ -40,7 +40,8 @@ function clearer() {
 //=================================================================================
 
 function searcher() {
-  srch = document.getElementById("search_input").value;
+  srch = document.getElementById("search_input").value.toLowerCase();
+  console.log(srch);
   if (srch.length == 0) return;
   jap = document.getElementById("japanese").checked;
   lit = document.getElementById("literal").checked;
