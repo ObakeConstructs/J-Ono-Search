@@ -215,7 +215,7 @@ function pickMe(picked) {
 
 //=================================================================================
 
-function display_stats() {
+function get_stats() {
   var lit_cnt = 0;
   var kana_cnt = 0;
   var def_cnt = 0;
@@ -230,12 +230,10 @@ function display_stats() {
     }
   });
   
-  var foot = document.getElementById("output_footer");
-  foot.innerHTML = "<br /><br /><br />";
-  foot.innerHTML += "Literals: " + deets.length + "<br />";
-  foot.innerHTML += "Japanese Words: " + kana_cnt + "<br />";
-  foot.innerHTML += "Meanings: " + def_cnt + "<br />";
-  foot.innerHTML += "Images: " + img_cnt + "<br />";
+  console.log("Literals: " + deets.length);
+  console.log("Kanas: " + kana_cnt);
+  console.log("Meanings: " + def_cnt);
+  console.log("Images: " + img_cnt);
 }
 
 //=================================================================================
@@ -275,6 +273,6 @@ async function prefetch() {
   const response = await fetch(content + "j-ono-data.json");
   deets = await response.json();
   
-  //display_stats();
+  get_stats();
 }
 
