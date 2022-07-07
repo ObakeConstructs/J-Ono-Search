@@ -8,7 +8,7 @@
 
 .grid_picker_wrapper {
   display: none;
-  grid-template-columns: 60px 60px 60px 60px 60px;
+  grid-template-columns: 40px 40px 40px 40px 40px;
 }
 
 .grid_picker_block {
@@ -23,16 +23,16 @@
 .grid_picker_block_gray {
   display: grid;
   background-color: #303030;
-  height: 50px;
+  height: 40px;
 }
 
 
 .grid_picker_kana {
   display: grid;
-  height: 30px;
+  height: 20px;
   align-items: center; 
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .title {  
