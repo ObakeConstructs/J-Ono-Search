@@ -1,9 +1,26 @@
 const content = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/";
 let deets = [];
-  
+var bUpdated = false;
+var textElements = document.querySelectorAll('.input_field');
+
+//=================================================================================
+
+document.addEventListener("keyup", function() {
+  if (event.key.length == 1) {
+    bUpdated = true;
+    document.getElementById("modified_label").style.display = "block";
+  }
+});
+
 //======================================================================================================
   
 function newRecord() {
+  if (bUpdated) {
+    showOverlay();
+    bUpdated = false;
+    document.getElementById("modified_label").style.display = "none";
+    return;
+  }
   var col = document.getElementById("column_lit");
   col.innerHTML = "<div class='grid_lit'><div class='grid_header'>Literal</div></div>";
   addRow_literal();
@@ -23,6 +40,7 @@ function addRow_literal() {
   var newInput = document.createElement("input");
   newInput.setAttribute("type", "text");
   newInput.setAttribute("name", "lit");
+  newInput.setAttribute("class", "input_field");
   newInput.setAttribute("placeholder", "literal value");
   
   var newDiv = document.createElement("div");
@@ -47,12 +65,14 @@ function addRow_kana() {
   var newInput = document.createElement("input");
   newInput.setAttribute("type", "text");
   newInput.setAttribute("name", "kata");
+  newInput.setAttribute("class", "input_field");
   newInput.setAttribute("placeholder", "katakana value");
   newDiv.appendChild(newInput);
   
   newInput = document.createElement("input");
   newInput.setAttribute("type", "text");
   newInput.setAttribute("name", "hira");
+  newInput.setAttribute("class", "input_field");
   newInput.setAttribute("placeholder", "hiragana value");
   newDiv.appendChild(newInput);
   
@@ -75,18 +95,21 @@ function addRow_def() {
   var eq_text = document.createElement("input");
   eq_text.setAttribute("type", "text");
   eq_text.setAttribute("name", "equi");
+  eq_text.setAttribute("class", "input_field");
   eq_text.setAttribute("placeholder", "equivalent values");
   div_def.appendChild(eq_text);
   
   var me_text = document.createElement("input");
   me_text.setAttribute("type", "text");
   me_text.setAttribute("name", "mean");
+  me_text.setAttribute("class", "input_field");
   me_text.setAttribute("placeholder", "meaning");
   div_def.appendChild(me_text);
   
   var ex_text = document.createElement("input");
   ex_text.setAttribute("type", "text");
   ex_text.setAttribute("name", "exam");
+  ex_text.setAttribute("class", "input_field");
   ex_text.setAttribute("placeholder", "filename value");
   
   var div_exam = document.createElement("div");
@@ -199,10 +222,12 @@ function getButtons(section) {
 
 function copier() {
   j = getJSON();
-  if(j)
+  if(j) {
     navigator.clipboard.writeText(j);
-  else
-    alert("Missing data elements");
+    bUpdated = false;
+    document.getElementById("modified_label").style.display = "none";
+  }
+  else alert("Missing data elements");
 }
   
 //======================================================================================================
@@ -221,6 +246,8 @@ function saver() {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+    bUpdated = false;
+    document.getElementById("modified_label").style.display = "none";
   } else alert("Missing data elements");
 }
 
@@ -230,6 +257,8 @@ async function opener() {
   let response = await fetch(content + "j-ono-data.json");
   deets = await response.json();
   create_picker_list();
+  bUpdated = false;
+  document.getElementById("modified_label").style.display = "none";
   newRecord();
 }
   
@@ -244,12 +273,6 @@ function create_picker_list() {
       currLet = deets[i].literal.substring(0, 1);
       picker.innerHTML += "<br />" + currLet.toUpperCase() + ": ";
     }
-    //var anc = document.createElement("a");
-    //anc.setAttribute("href", "#!");
-    //anc.setAttribute("onclick", "javascript: open_details('" + i + "');");
-    //anc.setAttribute("tabindex", "-1");
-    //anc.innerHTML = deets[i].literal;
-    //picker.appendChild(anc);
     picker.innerHTML += "<a href='#!', onclick=\"javascript: open_details('" + i + "');\" tabindex='-1'>" + deets[i].literal.replace(" ", "&nbsp;") + "</a>, ";
   }
 }
@@ -257,6 +280,15 @@ function create_picker_list() {
 //======================================================================================================
 
 function open_details(id) {
+
+  if (bUpdated) {
+    showOverlay();
+    bUpdated = false;
+    document.getElementById("modified_label").style.display = "none";
+    console.log("open_details(id)");
+    return;
+  }
+
   var details = deets[id];
   
   newRecord();
@@ -284,7 +316,6 @@ function open_details(id) {
     addRow_def();
   }
   delRow_def();
-  
 }
   
 //======================================================================================================

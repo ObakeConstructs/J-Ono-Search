@@ -26,17 +26,25 @@
         <div class="column" id="column_def"></div>
       </div>
       <br />
+      <div class="modified_label" id="modified_label">Modified</div>
       <input type="button" onclick="newRecord()" value="New" class="norm" tabindex="-1" />
       <input type="button" onclick="saver()" value="Save" class="norm" tabindex="-1" />
       <input type="button" onclick="copier()" value="Copy" class="norm" tabindex="-1" />
       <br /><br /><br />
-      Load from Existing Record...
+      Edit Existing Record...
       <div class="picker" id="picker"></div>
     </div>
     <div></div>
   </div>
   </form>
+
+  <div id="blackOverlay" class="blackOverlay">
+    <dialog open id="dialog">
+      <p>Changes neither saved nor copied.  Click again to continue.</p>
+    </dialog>
+  </div>
   
+  <script src="../scripts/global.js" charset="utf-8"></script>
   <script src="../scripts/editor.js" charset="utf-8"></script>
   
 </body>

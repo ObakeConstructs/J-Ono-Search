@@ -13,7 +13,7 @@ document.getElementById('blackOverlay').addEventListener("click", function(event
 //=================================================================================
 
 function showPopup(img_path) {
-  document.getElementById('blackOverlay').style.display = 'block';
+  showOverlay();
   document.getElementById('popup').style.display = 'block';
   document.getElementById('popup_img').src = img_path;
 }
@@ -21,6 +21,18 @@ function showPopup(img_path) {
 //=================================================================================
 
 function closePopup() {
-  document.getElementById('blackOverlay').style.display = 'none';
+  hideOverlay();
   document.getElementById('popup').style.display = 'none';
+}
+
+//=================================================================================
+
+function showOverlay() {
+  document.getElementById('blackOverlay').style.display = 'block';
+}
+
+//=================================================================================
+
+function hideOverlay() {
+  document.getElementById('blackOverlay').style.display = 'none';
 }
