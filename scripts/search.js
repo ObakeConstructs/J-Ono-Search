@@ -113,7 +113,12 @@ function shower(details) {
     cell2 += "<td class=\"inner\">";
     itm.example.forEach((ex) => {
       var path = content + "img/" + ex.substring(0, 1) + "/" + ex + ".jpg";
-      cell2 += "<a href=\"#!\" onclick=\"showPopup('" + path + "');\">img</a> ";
+      var title = "";
+      var dash = ex.search("-");
+      if (dash > -1)
+        var title = ex.substring(dash + 1);
+      title = title.replace("_", "&nbsp;&nbsp;");
+      cell2 += "<a href=\"#!\" onclick=\"showPopup('" + path + "', '" + title + "');\">img</a> ";
     });
     cell2 += "</td></tr>";
   });

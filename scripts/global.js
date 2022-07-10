@@ -12,9 +12,10 @@ document.getElementById('blackOverlay').addEventListener("click", function(event
 
 //=================================================================================
 
-function showPopup(img_path) {
+function showPopup(img_path, title) {
   showOverlay();
   document.getElementById('popup').style.display = 'block';
+  document.getElementById('imgTitle').innerHTML = title;
   document.getElementById('popup_img').src = img_path;
 }
 

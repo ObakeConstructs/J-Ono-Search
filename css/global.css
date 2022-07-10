@@ -131,18 +131,17 @@ a:active {
   top:10%;
   left:50%;
   width:420px;
-  height:420px;
-  margin-left:-200px;
+  height:440px;
+  /*margin-left:-50%;*/
   z-index:10;
   border:10px solid #808080;
   font-size: 18px;  
 }
 
-.closePopup {
-  float:right;
+.popupTitle {
+  text-align: center;
   font-weight:bold;
-  color:#ff0000;
-  cursor:pointer;
+  color:#0000ff;
 }
 
 img {
@@ -151,10 +150,6 @@ img {
   max-height:100%;
   margin-left: auto;
   margin-right: auto;
-}
-
-.index {
-  color: #303030;
 }
 
 /* override Chrome's input resizing */
