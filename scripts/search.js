@@ -117,7 +117,7 @@ function shower(details) {
       var dash = ex.search("-");
       if (dash > -1)
         var title = ex.substring(dash + 1);
-      title = title.replace("_", " ");
+      title = title.replace("_", "&nbsp;&nbsp;");
       cell2 += "<a href=\"#!\" onclick=\"showPopup('" + path + "', '" + title + "');\">img</a> ";
     });
     cell2 += "</td></tr>";
