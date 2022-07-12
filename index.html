@@ -13,13 +13,13 @@
 <body onload="opener()">
   <div class="grid_wrapper">
     <div></div>
-    <div class="title">
+    <div class="grid_title">
       <h1>J-Ono Search</h1>
       <h3>An open-source, searchable collection of translated Japanese sound effects, onomatopoeia and mimetic sound words from manga.</h3>
     </div>
     <div></div>
     <div></div>
-    <div class="sidebar">
+    <div class="grid_sidebar">
       <p><b>Search:</b></p>
       <form>
         <input type="button" onclick="clearer()" value="X">
@@ -71,24 +71,21 @@
       <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Help support this project on Ko-fi', '#29abe0', 'Y8Y27PQ71');kofiwidget2.draw();</script> 
     </div>
 
-    <div class="main">
+    <div class="grid_main_wrapper">
       <p><b>Results</b></p>
-      <table id="output_table">
-        <thead>
-          <tr>
-            <th style="width:225px">Japanese</th>
-            <th style="width:90px">Literal Translation</th>
-            <th style="width:270px">English Equivalent</th>
-            <th style="width:270px">Meaning</th>
-            <th>Example</th>
-          </tr>
-        </thead>
-        <tbody id="output_body">
-        </tbody>
-      </table>
+      <div class="grid_main">
+        <div class="grid_main_header_block"><b>Japanese</b></div>
+        <div class="grid_main_header_block"><b>Literal</b></div>
+        <div class="grid_defs">
+          <div class="grid_main_header_block"><b>English Equivalent</b></div>
+          <div class="grid_main_header_block"><b>Meaning</b></div>
+          <div class="grid_main_header_block"><b>Example</b></div>
+        </div>
+      </div>
+      <div class="grid_main" id="grid_body"></div>
     </div>
     <div></div>
-    <div class="footer" id="output_footer">
+    <div class="grid_footer" id="output_footer">
     </div>
     <div></div>
   </div>

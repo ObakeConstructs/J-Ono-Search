@@ -35,29 +35,57 @@
   font-size: 16px;
 }
 
-.title {  
+.grid_title {  
   padding: 10px;
   text-align: left;
   grid-column: 2 / span 2;
 }
 
-.footer {  
+.grid_footer {  
   padding: 2 px;
   text-align: left;
   grid-column: 2 / span 2;
   font-size: 9px;
 }
 
-.sidebar {  
+.grid_sidebar {  
   background-color: #303030;*
   padding: 10px;
   text-align: left;
 }
-.main { 
+
+.grid_main_wrapper { 
   background-color: #303030;
   padding: 10px;
   text-align: left;
 }
+
+.grid_main { 
+  display: grid;
+  grid-template-columns: 210px 80px auto; /* japanese - literal - definitions */
+  background-color: #303030;
+  align-items: stretch;
+  word-break: keep-all;
+}
+
+.grid_defs {
+  display: grid;
+  grid-template-columns: 260px 260px auto; /* equivalent - meaning - examples */
+  background-color: #303030;
+} 
+
+.grid_main_header_block { 
+  background-color: #000000;
+  padding: 10px;
+  outline: 1px solid gray;
+}
+
+.grid_main_block { 
+  background-color: #000000;
+  padding: 10px;
+  outline: 1px solid gray;
+}
+
   
 input.right {
   float: right;
