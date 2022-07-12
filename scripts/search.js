@@ -41,7 +41,6 @@ function clearer() {
 
 function searcher() {
   srch = document.getElementById("search_input").value.toLowerCase();
-  console.log(srch);
   if (srch.length == 0) return;
   jap = document.getElementById("japanese").checked;
   lit = document.getElementById("literal").checked;
@@ -51,7 +50,7 @@ function searcher() {
   if (document.getElementById("lead").checked) typ = 1; //(lead)
   if (document.getElementById("any").checked) typ = 2; //(any)
 
-  document.getElementById("output_body").innerHTML = "";
+  document.getElementById("grid_body").innerHTML = "";
   
   deets.forEach((details) => {
     var isMatch = false;    
@@ -67,7 +66,9 @@ function searcher() {
       if(checkForMatch(itm.meaning) && com) isMatch = true;
     });
     
-    if (isMatch) shower(details);
+    if (isMatch) {
+      shower_results(details)
+    }
   });
 }
 
@@ -89,52 +90,47 @@ function checkForMatch(str1) {
 
 //=================================================================================
 
-function shower(details) { 
+function shower_results(details) { 
   
   var txt = "";
   details.katakana.forEach((itm) => {
     txt += (txt.length>0 ? ", " : "") + itm;
   });    
-  var cell0 = txt + "; <br />";
+  var grid0 = "<div class='grid_main_block'>" + txt + "; <br />";
   
   txt = "";
   details.hiragana.forEach((itm) => {
     txt += (txt.length>0 ? ", " : "") + itm;
   });
-  cell0 += txt;
+  grid0 += txt + "</div>";
   
   //----------------------
   
-  var cell2 = "<table class=\"inner\" frame=\"void\" >";
+  var grid1 = "<div class='grid_main_block'>" + details.literal + "</div>";
+  
+  //----------------------
+  
+  var grid2 = "<div class='grid_defs'>";
   details.definition.forEach((itm) => {
-    cell2 += "<tr width=\"100%\">";
-    cell2 += "<td class=\"inner_b\" width=\"226px\" style=\"\">" + itm.equivalent + "</td>";
-    cell2 += "<td class=\"inner_b\" width=\"224px\">" + itm.meaning + "</td>";
-    cell2 += "<td class=\"inner\">";
+    grid2 += "<div class='grid_main_block'>" + itm.equivalent + "</div>";
+    grid2 += "<div class='grid_main_block'>" + itm.meaning + "</div>";
+    grid2 += "<div class='grid_main_block'>";
     itm.example.forEach((ex) => {
       var path = content + "img/" + ex.substring(0, 1) + "/" + ex + ".jpg";
       var title = "";
       const parts = ex.split("~");
       title = parts[2];
       title = title.replace("_", "&nbsp;&nbsp;");
-      cell2 += "<a href=\"#!\" onclick=\"showPopup('" + path + "', '" + title + "');\">img</a> ";
+      grid2 += "<a href=\"#!\" onclick=\"showPopup('" + path + "', '" + title + "');\">img</a> ";
     });
-    cell2 += "</td></tr>";
+    grid2 += "</div>";
   });
-  cell2 += "</table>";    
+  grid2 += "</div>";    
   
   //----------------------
   
-  tbl = document.getElementById("output_body");
-  var r = tbl.insertRow(-1);
-  var c0 = r.insertCell(0);
-  var c1 = r.insertCell(1);
-  var c2 = r.insertCell(2);
-  c2.colSpan = 3;
-  c2.style.padding=0;
-  c0.innerHTML = cell0;
-  c1.innerHTML = details.literal;
-  c2.innerHTML = cell2;
+  body = document.getElementById("grid_body");
+  body.innerHTML += grid0 + grid1 + grid2;
   
 }
 
