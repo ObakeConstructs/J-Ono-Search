@@ -1,17 +1,12 @@
-
-var srch = ""
-var jap = false;
-var lit = false;
-var equ = false;
-var com = false;
-var typ = 0; //(full)
-
+//location of json data and images...
 const content = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/";
-  
+
+//global array to hold all definition data
 let deets = [];
 
 //=================================================================================
 
+// event listeners
 document.getElementById("search_input").addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -19,13 +14,9 @@ document.getElementById("search_input").addEventListener("keypress", function(ev
   }
 });
 
-//=================================================================================
-
 document.getElementById('kata').addEventListener('change', function() {
   refresh_picker()
 });
-
-//=================================================================================
 
 document.getElementById('hira').addEventListener('change', function() {
   refresh_picker()
@@ -40,30 +31,31 @@ function clearer() {
 //=================================================================================
 
 function searcher() {
-  srch = document.getElementById("search_input").value.toLowerCase();
-  if (srch.length == 0) return;
-  jap = document.getElementById("japanese").checked;
-  lit = document.getElementById("literal").checked;
-  equ = document.getElementById("equivalent").checked;
-  com = document.getElementById("comment").checked;
-  if (document.getElementById("match").checked) typ = 0; //(match)
-  if (document.getElementById("lead").checked) typ = 1; //(lead)
-  if (document.getElementById("any").checked) typ = 2; //(any)
+  if (document.getElementById("search_input").value.length == 0) return;
+  
+  var jap = document.getElementById("japanese").checked;
+  var lit = document.getElementById("literal").checked;
+  var equ = document.getElementById("equivalent").checked;
+  var com = document.getElementById("comment").checked;
+  var typ = -1;
+  if (document.getElementById("match").checked) typ = 0; //exact match
+  if (document.getElementById("lead").checked) typ = 1; //from start
+  if (document.getElementById("any").checked) typ = 2; //anywhere
 
   document.getElementById("grid_body").innerHTML = "";
   
   deets.forEach((details) => {
     var isMatch = false;    
     details.katakana.forEach((itm) => {
-      if(checkForMatch(itm) && jap) isMatch = true;
+      if(checkForMatch(itm, typ) && jap) isMatch = true;
     });    
     details.hiragana.forEach((itm) => {
-      if(checkForMatch(itm) && jap) isMatch = true;
+      if(checkForMatch(itm, typ) && jap) isMatch = true;
     });
-    if(checkForMatch(details.literal) && lit) isMatch = true;
+    if(checkForMatch(details.literal, typ) && lit) isMatch = true;
     details.definition.forEach((itm) => {
-      if(checkForMatch(itm.equivalent) && equ) isMatch = true;
-      if(checkForMatch(itm.meaning) && com) isMatch = true;
+      if(checkForMatch(itm.equivalent, typ) && equ) isMatch = true;
+      if(checkForMatch(itm.meaning, typ) && com) isMatch = true;
     });
     
     if (isMatch) {
@@ -74,16 +66,20 @@ function searcher() {
 
 //=================================================================================
 
-function checkForMatch(str1) {
+function checkForMatch(str1, typ) {
+  //remove all spaces and ensure lowercase before comparisons...
+  var srch = document.getElementById("search_input").value.toLowerCase().split(" ").join("");
+  str = str1.toLowerCase().split(" ").join("");
+  
   switch (typ) {
-    case 0:
-      if(str1 === srch) { return true; }
+    case 0: //exact match
+      if(str === srch) { return true; }
       break;
-    case 1:
-      if(str1.substring(0, srch.length) === srch) { return true; }
+    case 1: //match from beginning
+      if(str.substring(0, srch.length) === srch) { return true; }
       break;
-    case 2:
-      if(str1.includes(srch)) { return true; }
+    case 2: //match anything
+      if(str.includes(srch)) { return true; }
   }
   return false;
 }
