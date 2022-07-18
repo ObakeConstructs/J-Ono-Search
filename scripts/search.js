@@ -1,8 +1,9 @@
 //location of json data and images...
 const content = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/";
 
-//global array to hold all definition data
+//global arrays to hold definition and source data
 let deets = [];
+let sources = [];
 
 //=================================================================================
 
@@ -53,11 +54,12 @@ function searcher() {
       if(checkForMatch(itm, typ) && jap) isMatch = true;
     });
     if(checkForMatch(details.literal, typ) && lit) isMatch = true;
+    /*
     details.definition.forEach((itm) => {
       if(checkForMatch(itm.equivalent, typ) && equ) isMatch = true;
       if(checkForMatch(itm.meaning, typ) && com) isMatch = true;
     });
-    
+    */
     if (isMatch) {
       shower_results(details)
     }
@@ -108,17 +110,21 @@ function shower_results(details) {
   
   var grid2 = "<div class='grid_defs'>";
   details.definition.forEach((itm) => {
-    grid2 += "<div class='grid_main_block'>" + itm.equivalent + "</div>";
+    grid2 += "<div class='grid_main_block'>";
+    itm.equivalent.sort();
+    itm.equivalent.forEach((eq, key, itm) => {
+      grid2 += eq + (itm.length - 1 == key ? "" : ", ");
+    });
+    grid2 += "</div>";
     grid2 += "<div class='grid_main_block'>" + itm.meaning + "</div>";
     grid2 += "<div class='grid_main_block'>";
+    
     itm.example.forEach((ex) => {
-      var path = content + "img/" + ex.substring(0, 1) + "/" + ex + ".jpg";
-      var title = "";
-      const parts = ex.split("~");
-      title = parts[2];
-      title = title.replace("_", "&nbsp;&nbsp;");
-      grid2 += "<a href=\"#!\" onclick=\"showPopup('" + path + "', '" + title + "');\">img</a> ";
+      var path = content + "img/" + ex.source + "/" + ex.file + ".jpg";
+      grid2 += "<a href=\"#!\" onclick=\"showPopup('" + path + "', '" + ex.display + "', '" + ex.source + "', '" + ex.contributor + "');\">img</a> ";
     });
+    
+    
     grid2 += "</div>";
   });
   grid2 += "</div>";    
@@ -128,6 +134,27 @@ function shower_results(details) {
   body = document.getElementById("grid_body");
   body.innerHTML += grid0 + grid1 + grid2;
   
+}
+
+//=================================================================================
+
+function showPopup(img_path, title, src, contributor) {
+  showOverlay();
+  document.getElementById('popup').style.display = 'block';
+  document.getElementById('popup_img').src = img_path;
+  document.getElementById('imgTitle').innerHTML = title;
+  var pub = "Image used for education/instructional purposes only."
+  var cont = "";
+  sources.forEach((source) => {
+    if (source.id === src) {
+      pub += "<br />Source: " + source.manga;
+      pub += "<br />© " + source.publisher;
+      if (contributor.length > 0) cont = "Contributor: " + contributor;
+    }
+    
+  });
+  document.getElementById('imgAttrib').innerHTML = pub;  
+  document.getElementById('imgContrib').innerHTML = cont;
 }
 
 //=================================================================================
@@ -266,8 +293,11 @@ async function quickLoad(srch) {
 
 async function prefetch() {
   //Pre-fetch all records, storing in global arrray called 'deets'
-  const response = await fetch(content + "j-ono-data.json");
-  deets = await response.json();
+  const data = await fetch(content + "json/j-ono-data.json");
+  deets = await data.json();
+  
+  const src = await fetch(content + "json/j-ono-source.json");
+  sources = await src.json();
   
   get_stats();
 }
