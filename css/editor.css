@@ -9,14 +9,14 @@
 .grid_title {  
   padding: 10px;
   text-align: left;
-  /*border: 1px dashed violet;*/
 }
 
 .grid_editor {
   display: grid;
-  grid-template-columns: 175px 400px auto;
+  grid-template-columns: 150px 250px auto; /* literal, kana, definition */
   align-content: start;
   padding: 5px;
+  /*outline: 1px dashed gray;*/
 }
 
 .picker {
@@ -27,29 +27,34 @@
   border: 1px solid black;
 }
 
-.column {
-  display: grid;
-  align-content: start;
-}
-
 .grid_lit {
   display: grid;
+  grid-template-columns: 96%; /* literal only */
 }
 
 .grid_kana {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 49% 49%; /* hiragana, katakana */
 }
 
 .grid_def {
   display: grid;
-  grid-template-columns: 385px 385px auto;
+  grid-template-columns: 320px 180px auto; /* meaning, equivalents, examples */
+  /*border: 1px solid red;*/
+}
+
+.grid_equi {
+  grid-template-columns: 125px 150px; /* equivalent text, plus/minus*/
+  display: grid;
+  align-content: start;
+  /*border: 1px solid red;*/
 }
 
 .grid_exam {
-  grid-template-columns: 180px auto;
+  grid-template-columns: 150px 28px 150px 180px 120px auto; /* source, dropdown, filename, display, contributor, plus/minus*/
   display: grid;
   align-content: start;
+  /*border: 1px solid green;*/
 }
 
 .grid_header {
@@ -63,7 +68,7 @@
 
 .little_button {
   width: 25px;
-  height: 100%;
+  height: 25px;
 }
 
 .norm {
@@ -73,6 +78,21 @@
 
 .center {
   text-align: center;
+}
+
+.dropdownContent {
+  display: none;
+  position: fixed;
+  background-color: #222222;
+  min-width: 160px;
+  z-index: 1;
+  margin: 8px;
+  border: 4px solid black;
+}
+
+.dropdownContent a {
+  display: block;
+  padding: 2px 8px;
 }
 
 .modified_label {
