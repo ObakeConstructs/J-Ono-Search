@@ -46,20 +46,25 @@ function searcher() {
   document.getElementById("grid_body").innerHTML = "";
   
   deets.forEach((details) => {
-    var isMatch = false;    
+    var isMatch = false;
+    
+    if(checkForMatch(details.literal, typ) && lit) isMatch = true;
+    
     details.katakana.forEach((itm) => {
       if(checkForMatch(itm, typ) && jap) isMatch = true;
     });    
+    
     details.hiragana.forEach((itm) => {
       if(checkForMatch(itm, typ) && jap) isMatch = true;
     });
-    if(checkForMatch(details.literal, typ) && lit) isMatch = true;
-    /*
+    
     details.definition.forEach((itm) => {
-      if(checkForMatch(itm.equivalent, typ) && equ) isMatch = true;
       if(checkForMatch(itm.meaning, typ) && com) isMatch = true;
+      itm.equivalent.forEach((equ) => {
+        if(checkForMatch(equ, typ) && equ) isMatch = true;
+      });
     });
-    */
+    
     if (isMatch) {
       shower_results(details)
     }
