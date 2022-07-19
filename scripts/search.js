@@ -60,8 +60,8 @@ function searcher() {
     
     details.definition.forEach((itm) => {
       if(checkForMatch(itm.meaning, typ) && com) isMatch = true;
-      itm.equivalent.forEach((equ) => {
-        if(checkForMatch(equ, typ) && equ) isMatch = true;
+      itm.equivalent.forEach((eq) => {
+        if(checkForMatch(eq, typ) && equ) isMatch = true;
       });
     });
     
