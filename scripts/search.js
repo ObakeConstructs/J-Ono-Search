@@ -272,7 +272,7 @@ function get_stats() {
         });
       });
     });
-    if (cnt > 0) console.log(s.id + "|" + s.publisher + "|" + cnt + "|";
+    if (cnt > 0) console.log(s.id + "|" + s.publisher + "|" + cnt + "|");
   });
 }
 
