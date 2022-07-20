@@ -253,15 +253,27 @@ function get_stats() {
     kana_cnt += d.katakana.length;
     kana_cnt += d.hiragana.length;
     def_cnt += d.definition.length;
-    for (let def in d.definition) {
-      img_cnt += d.definition[def].example.length;
-    }
+    d.definition.forEach((def) => {
+      img_cnt += def.example.length;
+    });
   });
   
   console.log("Literals: " + deets.length);
   console.log("Kanas: " + kana_cnt);
   console.log("Meanings: " + def_cnt);
   console.log("Images: " + img_cnt);
+  
+  sources.forEach((s) => {
+    var cnt = 0;
+    deets.forEach((d) => {
+      d.definition.forEach((def) => {
+        def.example.forEach((exa) => {
+          if (exa.source === s.id) cnt++;
+        });
+      });
+    });
+    if (cnt > 0) console.log(s.manga + "|" + s.publisher + "|" + cnt);
+  });
 }
 
 //=================================================================================
