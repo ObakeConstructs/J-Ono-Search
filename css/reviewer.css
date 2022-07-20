@@ -1,0 +1,22 @@
+.grid_wrapper {
+  display: grid;
+  grid-template-columns: auto 1600px auto;
+  padding: 5px;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.grid_title {  
+  padding: 10px;
+  text-align: left;
+}
+
+* {
+  text-align: center;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
