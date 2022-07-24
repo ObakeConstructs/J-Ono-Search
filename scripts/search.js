@@ -95,49 +95,70 @@ function checkForMatch(str1, typ) {
 
 function shower_results(details) { 
   
-  var txt = "";
+  var kata = document.createElement("div");
+  kata.setAttribute("class", "grid_kana");
   details.katakana.forEach((itm) => {
-    txt += (txt.length>0 ? ", " : "") + itm;
-  });    
-  var grid0 = "<div class='grid_main_block'>" + txt + "; <br />";
+    if (kata.innerHTML.length>0) kata.innerHTML += ", ";
+    kata.innerHTML += itm;
+  });
   
-  txt = "";
+  var hira = document.createElement("div");
+  hira.setAttribute("class", "grid_kana");
   details.hiragana.forEach((itm) => {
-    txt += (txt.length>0 ? ", " : "") + itm;
+    if (hira.innerHTML.length > 0) hira.innerHTML += ", ";
+    hira.innerHTML += itm;
   });
-  grid0 += txt + "</div>";
+  
+  var kana = document.createElement("div");
+  kana.setAttribute("class", "grid_main_block");
+  kana.appendChild(kata);
+  kana.appendChild(hira);
   
   //----------------------
   
-  var grid1 = "<div class='grid_main_block'>" + details.literal + "</div>";
+  var lit = document.createElement("div");
+  lit.setAttribute("class", "grid_main_block");
+  lit.innerHTML = details.literal;
   
   //----------------------
   
-  var grid2 = "<div class='grid_defs'>";
-  details.definition.forEach((itm) => {
-    grid2 += "<div class='grid_main_block'>";
-    itm.equivalent.sort();
-    itm.equivalent.forEach((eq, key, itm) => {
-      grid2 += eq + (itm.length - 1 == key ? "" : ", ");
+  var defs = document.createElement("div");
+  defs.setAttribute("class", "grid_defs");  
+  details.definition.forEach((itm) => {  
+  
+    var equi = document.createElement("div");
+    equi.setAttribute("class", "grid_main_block");
+    itm.equivalent.forEach((eq_itm) => {
+      if (equi.innerHTML.length > 0) equi.innerHTML += ", ";
+      equi.innerHTML += eq_itm;
     });
-    grid2 += "</div>";
-    grid2 += "<div class='grid_main_block'>" + itm.meaning + "</div>";
-    grid2 += "<div class='grid_main_block'>";
+    defs.appendChild(equi);
     
-    itm.example.forEach((ex) => {
-      var path = content + "img/" + ex.source + "/" + ex.file + ".jpg";
-      grid2 += "<a href=\"#!\" onclick=\"showPopup('" + path + "', '" + ex.display + "', '" + ex.source + "', '" + ex.contributor + "');\">img</a> ";
+    var mean = document.createElement("div");
+    mean.setAttribute("class", "grid_main_block");
+    mean.innerHTML = itm.meaning;
+    defs.appendChild(mean);
+    
+    var exam = document.createElement("div");
+    exam.setAttribute("class", "grid_main_block");
+    itm.example.forEach((ex_itm) => {
+      var path = content + "img/" + ex_itm.source + "/" + ex_itm.file + ".jpg";
+      var link = document.createElement("a");
+      link.setAttribute("href", "#!");
+      link.setAttribute("onclick", "showPopup('" + path + "', '" + ex_itm.display + "', '" + ex_itm.source + "', '" + ex_itm.contributor + "');");
+      link.innerHTML = "img ";
+      exam.appendChild(link);
+      
     });
-    
-    
-    grid2 += "</div>";
+    defs.appendChild(exam);
   });
-  grid2 += "</div>";    
   
   //----------------------
   
-  body = document.getElementById("grid_body");
-  body.innerHTML += grid0 + grid1 + grid2;
+  var body = document.getElementById("grid_body");
+  grid_body.appendChild(kana);
+  grid_body.appendChild(lit);
+  grid_body.appendChild(defs);
   
 }
 

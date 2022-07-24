@@ -63,7 +63,7 @@
 .grid_main { 
   display: grid;
   grid-template-columns: 210px 80px auto; /* japanese - literal - definitions */
-  background-color: #303030;
+  background-color: #000000;
   align-items: stretch;
   word-break: keep-all;
 }
@@ -71,17 +71,24 @@
 .grid_defs {
   display: grid;
   grid-template-columns: 260px 260px auto; /* equivalent - meaning - examples */
-  background-color: #303030;
 } 
 
+.grid_kana {
+  padding-bottom: 5px;
+}
+
+.grid_kana:last-child {
+  padding-top: 5px;
+  padding-bottom: 0px;
+  border-top: 1px dashed #303030;
+}
+
 .grid_main_header_block { 
-  background-color: #000000;
   padding: 10px;
   outline: 1px solid gray;
 }
 
 .grid_main_block { 
-  background-color: #000000;
   padding: 10px;
   outline: 1px solid gray;
 }
