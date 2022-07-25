@@ -11,8 +11,10 @@
   text-align: left;
 }
 
-* {
-  text-align: center;
+.block_text {
+  padding: 5px;
+  display: block;
+  border: 1px dashed yellow;
 }
 
 .row::after {
