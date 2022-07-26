@@ -284,6 +284,19 @@ function get_stats() {
   console.log("Meanings: " + def_cnt);
   console.log("Images: " + img_cnt);
   
+  var pubs = [];
+  sources.forEach((s) => {
+    var fDupe = false;
+    pubs.forEach((p) => {
+      if(s.publisher === p.publisher) fDupe = true;
+    });
+    if (!fDupe) {
+      var pubObj = {publisher: s.publisher, count: 0};
+      pubs.push(pubObj);
+    }
+  });
+  
+  var pubCounts = [];
   sources.forEach((s) => {
     var cnt = 0;
     deets.forEach((d) => {
@@ -293,8 +306,18 @@ function get_stats() {
         });
       });
     });
-    if (cnt > 0) console.log(s.id + "|" + s.publisher + "|" + cnt + "|");
+    var cntObj = {publisher: s.publisher, count: cnt};
+    pubCounts.push(cntObj);
   });
+  
+  console.log("Counts by Publisher:");
+  pubs.forEach((p) => {
+    pubCounts.forEach((c) => {
+      if (p.publisher === c.publisher) p.count += c.count;
+    });
+    console.log("    " + p.publisher + ": " + p.count);
+  });
+  
 }
 
 //=================================================================================
