@@ -310,7 +310,14 @@ function get_stats() {
     pubCounts.push(cntObj);
   });
   
-  console.log("Counts by Publisher:");
+  console.log("Examples by Publisher:");
+  pubs.sort((a, b) => {
+    let sa = a.publisher.toLowerCase();
+    let sb = b.publisher.toLowerCase();
+    if (sa < sb) return -1;
+    if (sa > sb) return 1;
+    return 0;
+  });
   pubs.forEach((p) => {
     pubCounts.forEach((c) => {
       if (p.publisher === c.publisher) p.count += c.count;
