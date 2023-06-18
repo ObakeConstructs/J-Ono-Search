@@ -9,6 +9,7 @@
 .grid_picker_wrapper {
   display: none;
   grid-template-columns: 40px 40px 40px 40px 40px;
+  padding: 5px 0px
 }
 
 .grid_picker_block {

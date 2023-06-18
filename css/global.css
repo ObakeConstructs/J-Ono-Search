@@ -159,12 +159,12 @@ a:active {
 
 .popupContrib {
   position: absolute;
-  bottom: 7px;
+  top: 7px;
   width: 100%;
-  padding-left: 8px;
+  padding-right: 8px;
   box-sizing: border-box;
   font-size: 10px;
-  text-align: left;
+  text-align: right;
   color:#0000ff50;
 }
 

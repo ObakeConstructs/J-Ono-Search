@@ -1,6 +1,6 @@
 const content = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/";
 let deets = [];
-let sources = [];
+let pubs = [];
 
 var bUpdated = false;
 var textElements = document.querySelectorAll('.input_field');
@@ -454,13 +454,12 @@ function saver() {
 //======================================================================================================
 
 async function opener() {
-  let response = await fetch(content + "json/j-ono-data.json");
-  deets = await response.json();
+  const data = await fetch(content + "json/j-ono-data.json");
+  deets = await data.json();
   
   const src = await fetch(content + "json/j-ono-source.json");
-  sources = await src.json();
-  sources = sources.sort((a, b) => a.id < b.id ? -1 : 1);
-  
+  pubs = await src.json();
+  pubs.sort(function(a, b){return a.publisher_name > b.publisher_name});
   
   create_picker_list();
   create_source_list();
@@ -470,10 +469,12 @@ async function opener() {
   
 //======================================================================================================
 
-function create_source_list() {
-  for (var i=0; i<sources.length; i++) {
-    document.getElementById("sourceDropdown").innerHTML += "<a href='#!', onclick=\"pickSource('" + sources[i].id + "')\">" + sources[i].id + "</a>";
-  }
+function create_source_list() {   
+  pubs.forEach((pub) => {
+    pub.sources.forEach((source) => {
+      document.getElementById("sourceDropdown").innerHTML += "<a href='#!', onclick=\"pickSource('" + source.id + "')\">" + source.id + "</a>";
+    });    
+  });
 }
   
 //======================================================================================================

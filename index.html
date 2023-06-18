@@ -22,43 +22,43 @@
     <div class="grid_sidebar">
       <p><b>Search:</b></p>
       <form>
-        <input type="button" onclick="clearer()" value="X">
-        <input type="text" id="search_input" class="text" name="src" size="29" placeholder="search text here">
-        <input type="button" onclick="searcher()" value="Search"><br />
-        <input type="button" id="copy_button" onclick="copier()" value="copy" class="right"><br />
-        <input type="button" id="pick_button" onclick="show_picker()" value="⏬" class="transparent"><label onclick="show_picker()" >Kana Picker</label><br />
+        <input type="button" title="Clear search text" onclick="clearer()" value="X" />
+        <input type="text" id="search_input" class="text" name="src" size="29" placeholder="search text here" />
+        <input type="button" onclick="searcher()" value="Search >" /><br />
+        <input type="button" title="Toggle between katakana to hiragana in search text" id="flip_button" onclick="flipper()" value="カ↔ひ" class="right" />
+        <input type="button" title="Copy search text to clipboard" id="copy_button" onclick="copier()" value="  " class="right" style="background: url(img/copy_icon.png);" /><br /><br />
+        <input type="button" id="pick_button" onclick="show_picker()" value="⏬" class="transparent"><label id=pick_button_label onclick="show_picker()">Expand Kana Picker</label><br />
+        <div class="grid_picker_wrapper" id = "pick_flip">
+          <input type="radio" id="kata" name="kana_type" value="Katakana" checked="checked" />
+          <label for="kata">Katakana</label><br />
+          <input type="radio" id="hira" name="kana_type" value="Hiragana" />
+          <label for="hira">Hiragana</label>
+        </div>
         <div class="grid_picker_wrapper" id="pick_place">
         </div>
-        <div class="grid_picker_wrapper" id = "pick_flip">
-          <input type="radio" id="kata" name="kana_type" value="Katakana" checked="checked">
-          <label for="kata">Katakana</label><br />
-          <input type="radio" id="hira" name="kana_type" value="Hiragana">
-          <label for="hira">Hiragana</label><br />
-        </div>
       </form>
-      <br />
       <table>
         <tr>
           <td>
             Search Method:<br />
-            <input type="radio" id="match" name="search_type" value="MATCH">
+            <input type="radio" id="match" name="search_type" value="MATCH" />
             <label for="match">Exact Match</label><br />
-            <input type="radio" id="lead" name="search_type" value="LEAD">
+            <input type="radio" id="lead" name="search_type" value="LEAD" />
             <label for="lead">Match Beginning Characters</label><br />
-            <input type="radio" id="any" name="search_type" value="ANY" checked="checked">
+            <input type="radio" id="any" name="search_type" value="ANY" checked="checked" />
             <label for="any">Match Any Characters</label><br />
           </td>
         </tr>
         <tr>
           <td>
             Search For:<br />
-            <input type="checkbox" id="japanese" name="search_for" value="Japanese" checked="checked">
+            <input type="checkbox" id="japanese" name="search_for" value="Japanese" checked="checked" />
             <label for="japanese">Japanese</label><br />
-            <input type="checkbox" id="literal" name="search_for" value="Literal" checked="checked">
+            <input type="checkbox" id="literal" name="search_for" value="Literal" checked="checked" />
             <label for="literal">Literal Translations</label><br />
-            <input type="checkbox" id="equivalent" name="search_for" value="Equivalent">
+            <input type="checkbox" id="equivalent" name="search_for" value="Equivalent" />
             <label for="equivalent">Equivalent English</label><br />
-            <input type="checkbox" id="comment" name="search_for" value="Meaning">
+            <input type="checkbox" id="comment" name="search_for" value="Meaning" />
             <label for="comment">Meaning</label>
           </td>
         </tr>

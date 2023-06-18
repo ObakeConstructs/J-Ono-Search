@@ -1,9 +1,9 @@
 //location of json data and images...
 const content = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/";
 
-//global arrays to hold definition and source data
+//global arrays to hold definition and publisher data
 let deets = [];
-let sources = [];
+let pubs = [];
 
 //=================================================================================
 
@@ -169,17 +169,21 @@ function showPopup(img_path, title, src, contributor) {
   document.getElementById('popup').style.display = 'block';
   document.getElementById('popup_img').src = img_path;
   document.getElementById('imgTitle').innerHTML = title;
-  var pub = "Image used for education/instructional purposes only."
-  var cont = "";
-  sources.forEach((source) => {
-    if (source.id === src) {
-      pub += "<br />Source: " + source.manga;
-      pub += "<br />© " + source.publisher;
-      if (contributor.length > 0) cont = "Contributor: " + contributor;
-    }
-    
+  var attribution = "Image used for education/instructional purposes only."
+  var cont = "";  
+  pubs.forEach((pub) => {
+    pub.sources.forEach((source) => {
+      if (source.id === src) {
+        attribution += "<br />Source: " + source.manga;
+        attribution += "<br />© " + pub.publisher_name;
+        if (contributor.length > 0) 
+          cont = "Contributor:<br />" + contributor;
+        else
+          cont = "Contributor:<br /> NightBug"        
+      }
+    });    
   });
-  document.getElementById('imgAttrib').innerHTML = pub;  
+  document.getElementById('imgAttrib').innerHTML = attribution;  
   document.getElementById('imgContrib').innerHTML = cont;
 }
 
@@ -194,7 +198,7 @@ function show_picker() {
   document.getElementById('pick_place').style.display = "grid";
   document.getElementById('pick_flip').style.display = "grid"
   document.getElementById('pick_button').value = "⏫";
-  
+  document.getElementById('pick_button_label').innerHTML = "Collapse Kana Picker";
   refresh_picker();
 }
 
@@ -204,6 +208,7 @@ function hide_picker() {
   document.getElementById('pick_place').style.display = "none";
   document.getElementById('pick_flip').style.display = "none"
   document.getElementById('pick_button').value = "⏬";
+  document.getElementById('pick_button_label').innerHTML = "Expand Kana Picker";
 }
 
 //=================================================================================
@@ -279,52 +284,27 @@ function get_stats() {
     });
   });
   
-  console.log("Literals: " + deets.length);
-  console.log("Kanas: " + kana_cnt);
+  console.log("----------------------------------------");
+  console.log("Records: " + deets.length);
   console.log("Meanings: " + def_cnt);
-  console.log("Images: " + img_cnt);
-  
-  var pubs = [];
-  sources.forEach((s) => {
-    var fDupe = false;
-    pubs.forEach((p) => {
-      if(s.publisher === p.publisher) fDupe = true;
-    });
-    if (!fDupe) {
-      var pubObj = {publisher: s.publisher, count: 0};
-      pubs.push(pubObj);
-    }
-  });
+  console.log("Recognized Kanas: " + kana_cnt);
+  console.log("Examples: " + img_cnt);
   
   var pubCounts = [];
-  sources.forEach((s) => {
+  pubs.forEach((pub) => {
     var cnt = 0;
-    deets.forEach((d) => {
-      d.definition.forEach((def) => {
-        def.example.forEach((exa) => {
-          if (exa.source === s.id) cnt++;
+    pub.sources.forEach((source) => {
+      deets.forEach((d) => {
+        d.definition.forEach((def) => {
+          def.example.forEach((exa) => {
+            if (exa.source === source.id) cnt++;
+          });
         });
       });
     });
-    var cntObj = {publisher: s.publisher, count: cnt};
-    pubCounts.push(cntObj);
+    console.log("  -- " + pub.publisher_name + ": " + cnt);
   });
-  
-  console.log("Examples by Publisher:");
-  pubs.sort((a, b) => {
-    let sa = a.publisher.toLowerCase();
-    let sb = b.publisher.toLowerCase();
-    if (sa < sb) return -1;
-    if (sa > sb) return 1;
-    return 0;
-  });
-  pubs.forEach((p) => {
-    pubCounts.forEach((c) => {
-      if (p.publisher === c.publisher) p.count += c.count;
-    });
-    console.log("    " + p.publisher + ": " + p.count);
-  });
-  
+  console.log("----------------------------------------");
 }
 
 //=================================================================================
@@ -332,6 +312,31 @@ function get_stats() {
 function copier() {
   var srch = document.getElementById("search_input");
   navigator.clipboard.writeText(srch.value);
+}
+
+//=================================================================================
+
+function flipper() {
+  var srch = document.getElementById("search_input");
+  const kata = "アァイィウゥヴエェオォカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツッヅテデトドナニヌネノハバパヒビピフブプホボポマミムメモヤャユュヨョラリルレロワヮヰヱヲン"
+  const hira = "あぁいぃうぅゔえぇおぉかがきぎくぐけげこごさざしじすずせぜそぞただちぢつっづてでとどなにぬねのはばぱひびぴふぶぷほぼぽまみむめもやゃゆゅよょらりるれろわゎゐゑをん"
+
+  var newVal = "";
+  for (i=0; i<srch.value.length; i++) {
+    k_index = kata.indexOf(srch.value.substr(i, 1));
+    h_index = hira.indexOf(srch.value.substr(i, 1));
+    if (k_index > -1) {
+      newVal += hira.substr(k_index, 1);
+    }
+    else if (h_index > -1) {
+      newVal += kata.substr(h_index, 1);
+    }
+    else {
+      newVal += srch.value.substr(i, 1);
+    }
+  }
+  srch.value = newVal;
+
 }
 
 //=================================================================================
@@ -360,12 +365,13 @@ async function quickLoad(srch) {
 //=================================================================================
 
 async function prefetch() {
-  //Pre-fetch all records, storing in global arrray called 'deets'
+  //Pre-fetch all records and publishers
   const data = await fetch(content + "json/j-ono-data.json");
   deets = await data.json();
   
   const src = await fetch(content + "json/j-ono-source.json");
-  sources = await src.json();
+  pubs = await src.json();  
+  pubs.sort(function(a, b){return a.publisher_name > b.publisher_name});
   
   get_stats();
 }
