@@ -290,19 +290,20 @@ function get_stats() {
   console.log("Recognized Kanas: " + kana_cnt);
   console.log("Examples: " + img_cnt);
   
-  var pubCounts = [];
   pubs.forEach((pub) => {
-    var cnt = 0;
+    var pubcnt = 0;
+    var sercnt = 0;
     pub.sources.forEach((source) => {
+      sercnt++;
       deets.forEach((d) => {
         d.definition.forEach((def) => {
           def.example.forEach((exa) => {
-            if (exa.source === source.id) cnt++;
+            if (exa.source === source.id) pubcnt++;
           });
         });
       });
     });
-    console.log("  -- " + pub.publisher_name + ": " + cnt);
+    console.log("  -- " + pub.publisher_name + ": " + pubcnt + " (" + sercnt + " series)");
   });
   console.log("----------------------------------------");
 }
