@@ -459,7 +459,6 @@ async function opener() {
   
   const src = await fetch(content + "json/j-ono-source.json");
   pubs = await src.json();
-  pubs.sort(function(a, b){return a.publisher_name > b.publisher_name});
   
   create_picker_list();
   create_source_list();
@@ -470,11 +469,18 @@ async function opener() {
 //======================================================================================================
 
 function create_source_list() {   
+  var ids = [];
+  
   pubs.forEach((pub) => {
     pub.sources.forEach((source) => {
-      document.getElementById("sourceDropdown").innerHTML += "<a href='#!', onclick=\"pickSource('" + source.id + "')\">" + source.id + "</a>";
+      ids.push(source.id);
     });    
   });
+  ids.sort();
+  
+  for (var i=0; i<ids.length; i++) {
+    document.getElementById("sourceDropdown").innerHTML += "<a href='#!', onclick=\"pickSource('" + ids[i] + "')\">" + ids[i] + "</a>";
+  }
 }
   
 //======================================================================================================
