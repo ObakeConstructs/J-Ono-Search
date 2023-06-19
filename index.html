@@ -27,7 +27,7 @@
         <input type="button" onclick="searcher()" value="Search >" /><br />
         <input type="button" title="Toggle between katakana to hiragana in search text" id="flip_button" onclick="flipper()" value="カ↔ひ" class="right" />
         <input type="button" title="Copy search text to clipboard" id="copy_button" onclick="copier()" value="  " class="right" style="background: url(img/copy_icon.png);" /><br /><br />
-        <input type="button" id="pick_button" onclick="show_picker()" value="⏬" class="transparent"><label id=pick_button_label onclick="show_picker()">Expand Kana Picker</label><br />
+        <input type="button" id="pick_button" onclick="show_picker()" value="⏫" class="transparent"><label id=pick_button_label onclick="show_picker()">Collapse Kana Picker</label><br />
         <div class="grid_picker_wrapper" id = "pick_flip">
           <input type="radio" id="kata" name="kana_type" value="Katakana" checked="checked" />
           <label for="kata">Katakana</label><br />
@@ -43,9 +43,9 @@
             Search Method:<br />
             <input type="radio" id="match" name="search_type" value="MATCH" />
             <label for="match">Exact Match</label><br />
-            <input type="radio" id="lead" name="search_type" value="LEAD" />
+            <input type="radio" id="lead" name="search_type" value="LEAD" checked="checked" />
             <label for="lead">Match Beginning Characters</label><br />
-            <input type="radio" id="any" name="search_type" value="ANY" checked="checked" />
+            <input type="radio" id="any" name="search_type" value="ANY" />
             <label for="any">Match Any Characters</label><br />
           </td>
         </tr>

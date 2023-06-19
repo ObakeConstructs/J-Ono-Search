@@ -344,6 +344,7 @@ function flipper() {
 
 async function opener() {
   await prefetch();
+  show_picker();
   
   const url = window.location.search;
   if (url) {
