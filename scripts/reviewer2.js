@@ -19,17 +19,15 @@ async function opener() {
 function shower() {
   var main = document.getElementById("main");
   deets.forEach((deet) => {
-    
-    main.innerHTML += "<br>" + deet.literal + "<br>";
-    
+        
     deet.definition.forEach((def) => {
-      main.innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;" + def.meaning + " (";
+      main.innerHTML += deet.literal + ": " + def.meaning + " (";
       var txt = "";
       def.equivalent.forEach((equ) => {
         if (txt.length > 0) txt += ", ";
         txt += equ;
       });
-      main.innerHTML += txt + ")<br>";
+      main.innerHTML += txt + ")<br />";
     });
   });
 }
