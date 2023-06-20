@@ -1,6 +1,6 @@
 .grid_wrapper {
   display: grid;
-  grid-template-columns: auto 320px 900px auto;
+  grid-template-columns: auto 320px 980px auto;
   padding: 5px;
   align-items: start; 
   column-gap: 10px;
@@ -15,10 +15,8 @@
 .grid_picker_block {
   display: grid;
   background-color: #252525;
-  grid-template-columns: 50% 50%;
-  border-style: solid; 
-  border-width: 1px;
-  border-color: #303030;
+  grid-template-columns: 50% 50%;  
+  border: 1px solid #303030;
 }
 
 .grid_picker_block_gray {
@@ -94,6 +92,13 @@
   outline: 1px solid gray;
 }
 
+.grid_examples {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  padding: 5px;
+  row-gap: 5px;
+  outline: 1px solid gray;
+}
   
 input.right {
   float: right;
@@ -106,4 +111,3 @@ input.transparent {
   border: none;
   cursor: pointer;
 }
-

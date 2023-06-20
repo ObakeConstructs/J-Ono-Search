@@ -140,15 +140,24 @@ function shower_results(details) {
     defs.appendChild(mean);
     
     var exam = document.createElement("div");
-    exam.setAttribute("class", "grid_main_block");
+    exam.setAttribute("class", "grid_examples");
     itm.example.forEach((ex_itm) => {
+      var image_div = document.createElement("div");
       var path = content + "img/" + ex_itm.source + "/" + ex_itm.file + ".jpg";
+      
       var link = document.createElement("a");
       link.setAttribute("href", "#!");
+      link.setAttribute("class", "example");
       link.setAttribute("onclick", "showPopup('" + path + "', '" + ex_itm.display + "', '" + ex_itm.source + "', '" + ex_itm.contributor + "');");
-      link.innerHTML = "img ";
-      exam.appendChild(link);
       
+      var example_image = document.createElement("img");
+      example_image.setAttribute("src", path);
+      example_image.setAttribute("alt", path);
+      example_image.setAttribute("width", 30);
+      example_image.setAttribute("height", 30);
+      link.appendChild(example_image);
+      image_div.appendChild(link);
+      exam.appendChild(image_div);
     });
     defs.appendChild(exam);
   });
