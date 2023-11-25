@@ -479,7 +479,7 @@ function create_source_list() {
   ids.sort();
   
   for (var i=0; i<ids.length; i++) {
-    document.getElementById("sourceDropdown").innerHTML += "<a href='#!', onclick=\"pickSource('" + ids[i] + "')\">" + ids[i] + "</a>";
+    document.getElementById("sourceDropdown").innerHTML += "<a href='#!' class='pick_link' onclick=\"pickSource('" + ids[i] + "')\">" + ids[i] + "</a>";
   }
 }
   

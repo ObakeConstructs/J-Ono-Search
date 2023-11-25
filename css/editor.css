@@ -95,6 +95,10 @@
   padding: 2px 8px;
 }
 
+.pick_link {
+  font-size: 10px;
+}
+
 .modified_label {
   display:none;
 }
