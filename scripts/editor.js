@@ -7,7 +7,7 @@ var textElements = document.querySelectorAll('.input_field');
 
 //=================================================================================
 
-document.addEventListener("keyup", function() {
+document.addEventListener("keyup", function(event) {
   if (event.key.length == 1) {
     bUpdated = true;
     document.getElementById("modified_label").style.display = "block";
