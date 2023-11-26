@@ -3,7 +3,7 @@
   grid-template-columns: auto 320px 980px auto;
   padding: 5px;
   align-items: start; 
-  column-gap: 10px;
+  column-gap: 10px; 
 }
 
 .grid_picker_wrapper {
@@ -48,7 +48,7 @@
 }
 
 .grid_sidebar {  
-  background-color: #303030;*
+  background-color: #303030;
   padding: 10px;
   text-align: left;
 }
