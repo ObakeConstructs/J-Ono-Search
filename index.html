@@ -23,11 +23,14 @@
     <div class="grid_sidebar">
       <p><b>Search:</b></p>
       <form>
-        <input type="button" title="Clear search text" onclick="clearer()" value="X" />
-        <input type="text" id="search_input" class="text" name="src" size="29" placeholder="search text here" />
-        <input type="button" onclick="searcher()" value="Search >" /><br />
-        <input type="button" title="Toggle between katakana to hiragana in search text" id="flip_button" onclick="flipper()" value="カ↔ひ" class="right" />
-        <input type="button" title="Copy search text to clipboard" id="copy_button" onclick="copier()" value="  " class="right" style="background: url(img/copy_icon.png);" /><br /><br />
+        <!--input type="button" title="Clear search text" onclick="clearer()" value="X" /-->
+        <div class="input_container">
+          <input type="text" id="search_input" class="text" name="src" placeholder="search text here" />
+          <span class="clear-button" onclick="clearer()">X</span>
+          <input type="button" onclick="searcher()" value="&#x1F50D; Search" />
+        </div>
+        <input type="button" title="Toggle between katakana to hiragana in search text" id="flip_button" onclick="flipper()" value="カ↔ひ"/>
+        <input type="button" title="Copy search text to clipboard" id="copy_button" onclick="copier()" value="    " class="right" style="background: url(img/copy_icon.png);" /><br /><br />
         <input type="button" id="pick_button" onclick="show_picker()" value="⏫" class="transparent"><label id=pick_button_label onclick="show_picker()">Collapse Kana Picker</label><br />
         <div class="grid_picker_wrapper" id = "pick_flip">
           <input type="radio" id="kata" name="kana_type" value="Katakana" checked="checked" />
@@ -61,6 +64,11 @@
             <label for="equivalent">Equivalent English</label><br />
             <input type="checkbox" id="comment" name="search_for" value="Meaning" />
             <label for="comment">Meaning</label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="button" onclick="searcher()" value="&#x1F50D; Search" />
           </td>
         </tr>
       </table>

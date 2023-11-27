@@ -9,7 +9,7 @@
 .grid_picker_wrapper {
   display: none;
   grid-template-columns: 40px 40px 40px 40px 40px;
-  padding: 5px 0px
+  padding: 5px 0px;
 }
 
 .grid_picker_block {
@@ -47,7 +47,8 @@
   font-size: 9px;
 }
 
-.grid_sidebar {  
+.grid_sidebar {
+  position: relative;
   background-color: #303030;
   padding: 10px;
   text-align: left;
@@ -99,10 +100,25 @@
   row-gap: 5px;
   outline: 1px solid gray;
 }
+
+.input-container {
+  position: relative;
+}
   
 input.right {
   float: right;
   margin-right: 75px
+
+}#search_input {
+  width: 220px;
+  padding-right: 25px; /* Space for the clear button */
+}
+
+.clear-button {
+  position: absolute;
+  right: 100px;
+  top: 58px;
+  cursor: pointer;
 }
 
 input.transparent {
