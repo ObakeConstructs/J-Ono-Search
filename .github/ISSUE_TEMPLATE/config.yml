@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Content Issue
+  - name: Content Problem
     url: https://github.com/ObakeConstructs/j-ono-data/issues
     about: Issues with J-Ono content (e.g. translations, images, etc) should be reported here.
