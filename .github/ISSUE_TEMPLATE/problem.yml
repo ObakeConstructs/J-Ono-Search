@@ -29,4 +29,4 @@ body:
     attributes:
       label: Notes
     validations:
-      required: true
+      required: false
