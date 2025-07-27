@@ -501,7 +501,7 @@ function create_picker_list() {
     } else {
       if (groupLetter !== "a" && groupLetter !== "e" && groupLetter !== "i" && groupLetter !== "o" && groupLetter !== "u") {
         if (subGroupLetter !== currentLetter2) {
-          picker.innerHTML += "<br /> \t"
+          picker.innerHTML += "<br />\t\t"
           subGroupLetter = currentLetter2;
         }
       }
