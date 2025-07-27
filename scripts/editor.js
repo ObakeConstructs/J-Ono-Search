@@ -503,6 +503,7 @@ function create_picker_list() {
         console.log(subGroupLetter + "::" + currentLetter2);
         if (subGroupLetter !== currentLetter2) {
           picker.innerHTML += "<br />"
+          subGroupLetter = currentLetter2;
         }
       }
     }
