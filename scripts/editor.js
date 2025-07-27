@@ -500,7 +500,7 @@ function create_picker_list() {
       groupLetter = currentLetter1
       subGroupLetter = currentLetter2
     } else {
-      if (groupLetter !== "a" && groupLetter !== "e" && groupLetter !== "i" && groupLetter !== "o" && groupLetter !== "u") {
+      if (groupLetter !== "a" && groupLetter !== "e" && groupLetter !== "i" && groupLetter !== "o" && groupLetter !== "u" && groupLetter !== "n") {
         if (subGroupLetter !== currentLetter2) {
           picker.innerHTML += "<br />&nbsp;&nbsp;\t"
           subGroupLetter = currentLetter2;
