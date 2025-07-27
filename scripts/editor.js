@@ -490,20 +490,18 @@ function create_picker_list() {
   
   var groupLetter = "a";
   var subGroupLetter = "";
-  picker.innerHTML += "A:"
+  picker.innerHTML += "A:\t"
   
   for (var i=0; i<deets.length; i++) {
     currentLetter1 = deets[i].literal.substring(0, 1);
     currentLetter2 = deets[i].literal.substring(1, 2);
-    console.log(deets[i].literal + ": " + currentLetter1 + ", " + currentLetter2);
     if (currentLetter1 !== groupLetter) {
       groupLetter = currentLetter1
-      picker.innerHTML += "<br />" + groupLetter.toUpperCase() + ": ";
+      picker.innerHTML += "<br />" + groupLetter.toUpperCase() + ":\t";
     } else {
       if (groupLetter !== "a" && groupLetter !== "e" && groupLetter !== "i" && groupLetter !== "o" && groupLetter !== "u") {
-        console.log(subGroupLetter + "::" + currentLetter2);
         if (subGroupLetter !== currentLetter2) {
-          picker.innerHTML += "<br />"
+          picker.innerHTML += "<br />\t"
           subGroupLetter = currentLetter2;
         }
       }
