@@ -496,12 +496,13 @@ function create_picker_list() {
     currentLetter1 = deets[i].literal.substring(0, 1);
     currentLetter2 = deets[i].literal.substring(1, 2);
     if (currentLetter1 !== groupLetter) {
-      groupLetter = currentLetter1
       picker.innerHTML += "<br />" + groupLetter.toUpperCase() + ":\t";
+      groupLetter = currentLetter1
+      subGroupLetter = currentLetter2
     } else {
       if (groupLetter !== "a" && groupLetter !== "e" && groupLetter !== "i" && groupLetter !== "o" && groupLetter !== "u") {
         if (subGroupLetter !== currentLetter2) {
-          picker.innerHTML += "<br />&nbsp\t"
+          picker.innerHTML += "<br />&nbsp\t\t"
           subGroupLetter = currentLetter2;
         }
       }
