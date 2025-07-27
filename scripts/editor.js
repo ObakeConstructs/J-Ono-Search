@@ -496,7 +496,7 @@ function create_picker_list() {
     currentLetter1 = deets[i].literal.substring(0, 1);
     currentLetter2 = deets[i].literal.substring(1, 2);
     if (currentLetter1 !== groupLetter) {
-      picker.innerHTML += "<br />" + groupLetter.toUpperCase() + ":\t";
+      picker.innerHTML += "<br />" + currentLetter1.toUpperCase() + ":\t";
       groupLetter = currentLetter1
       subGroupLetter = currentLetter2
     } else {
