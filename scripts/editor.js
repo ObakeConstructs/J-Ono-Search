@@ -488,7 +488,7 @@ function create_source_list() {
 function create_picker_list() {
   var picker = document.getElementById("picker");
   
-  var currLet = "";
+  var currLet = "a";
   for (var i=0; i<deets.length; i++) {
     if (deets[i].literal.substring(0, 1) !== currLet) {
       currLet = deets[i].literal.substring(0, 1);
