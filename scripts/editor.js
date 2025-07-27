@@ -500,7 +500,7 @@ function create_picker_list() {
       picker.innerHTML += "<br />" + groupLetter.toUpperCase() + ": ";
     } else {
       if (groupLetter !== "a" && groupLetter !== "e" && groupLetter !== "i" && groupLetter !== "o" && groupLetter !== "u") {
-        console.log(subGroupLetter + "::" + groupLetter2);
+        console.log(subGroupLetter + "::" + currentLetter2);
         if (subGroupLetter !== currentLetter2) {
           picker.innerHTML += "<br />"
         }
