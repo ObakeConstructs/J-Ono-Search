@@ -488,11 +488,23 @@ function create_source_list() {
 function create_picker_list() {
   var picker = document.getElementById("picker");
   
-  var currLet = "a";
+  var groupLetter = "a";
+  var subGroupLetter = "";
+  picker.innerHTML += "A:"
+  
   for (var i=0; i<deets.length; i++) {
-    if (deets[i].literal.substring(0, 1) !== currLet) {
-      currLet = deets[i].literal.substring(0, 1);
-      picker.innerHTML += "<br />" + currLet.toUpperCase() + ": ";
+    currentLetter1 = deets[i].literal.substring(0, 1);
+    currentLetter2 = deets[i].literal.substring(1, 1);
+    if (currentLetter1 !== groupLetter) {
+      groupLetter = currentLetter1
+      picker.innerHTML += "<br />" + groupLetter.toUpperCase() + ": ";
+    } else {
+      if (groupLetter !== "a" && groupLetter !== "e" && groupLetter !== "i" && groupLetter !== "o" && groupLetter !== "u") {
+        console.log(subGroupLetter + "::" + groupLetter2);
+        if (subGroupLetter !== currentLetter2) {
+          picker.innerHTML += "<br />"
+        }
+      }
     }
     picker.innerHTML += "<a href='#!', onclick=\"javascript: open_details('" + i + "');\" tabindex='-1'>" + deets[i].literal.replace(" ", "&nbsp;") + "</a>, ";
   }
