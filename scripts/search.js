@@ -292,17 +292,19 @@ function get_stats() {
     });
   });
   
-  console.log("----------------------------------------");
+  console.log();
   console.log("Records: " + deets.length);
   console.log("Meanings: " + def_cnt);
   console.log("Recognized Kanas: " + kana_cnt);
-  console.log("Examples: " + img_cnt);
+  console.log("Example Images: " + img_cnt);
+  console.log();
   
+  /*
   pubs.forEach((pub) => {
     var pubcnt = 0;
-    var sercnt = 0;
+    //var sercnt = 0;
     pub.sources.forEach((source) => {
-      sercnt++;
+      //sercnt++;
       deets.forEach((d) => {
         d.definition.forEach((def) => {
           def.example.forEach((exa) => {
@@ -311,9 +313,23 @@ function get_stats() {
         });
       });
     });
-    console.log("  -- " + pub.publisher_name + ": " + pubcnt + " (" + sercnt + " series)");
-  });
-  console.log("----------------------------------------");
+    console.log("  -- " + pub.publisher_name + ": " + pubcnt); // + " (" + sercnt + " series)");
+    pub.sources.forEach((source) => {
+      var sercnt = 0;
+      deets.forEach((d) => {
+        d.definition.forEach((def) => {
+          def.example.forEach((exa) => {
+            if (exa.source === source.id) sercnt++;
+          });
+        });
+      });
+      console.log("        " + source.id + ": " + sercnt);
+    });
+    
+  });  
+  */
+  
+  
 }
 
 //=================================================================================
