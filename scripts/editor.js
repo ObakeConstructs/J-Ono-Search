@@ -419,55 +419,6 @@ function getButtons(section) {
   
 //======================================================================================================
 
-function copier() {
-  j = getJSON();
-  
-  if(j) {
-    navigator.clipboard.writeText(j);
-    bUpdated = false;
-    document.getElementById("modified_label").style.display = "none";
-  }
-  else alert("Missing data elements");
-}
-  
-//======================================================================================================
-  
-function saver() {
-  var text = getJSON();
-  if(text) {
-    var fname = document.getElementsByName("lit")[0].value;
-    fname = fname.replace(" ", "_");
-    
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', fname);
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-    bUpdated = false;
-    document.getElementById("modified_label").style.display = "none";
-  } else alert("Missing data elements");
-}
-
-//======================================================================================================
-
-async function opener() {
-  const data = await fetch(content + "json/j-ono-data.json");
-  deets = await data.json();
-  
-  const src = await fetch(content + "json/j-ono-source.json");
-  pubs = await src.json();
-  
-  create_picker_list();
-  create_source_list();
-  
-  newRecord();
-}
-  
-//======================================================================================================
-
 function create_source_list() {   
   var ids = [];
   
@@ -691,5 +642,54 @@ function get_stats() {
   });  
   */
   
+}
   
+//======================================================================================================
+
+function copier() {
+  j = getJSON();
+  
+  if(j) {
+    navigator.clipboard.writeText(j);
+    bUpdated = false;
+    document.getElementById("modified_label").style.display = "none";
+  }
+  else alert("Missing data elements");
+}
+  
+//======================================================================================================
+  
+function saver() {
+  var text = getJSON();
+  if(text) {
+    var fname = document.getElementsByName("lit")[0].value;
+    fname = fname.replace(" ", "_");
+    
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', fname);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+    bUpdated = false;
+    document.getElementById("modified_label").style.display = "none";
+  } else alert("Missing data elements");
+}
+
+//======================================================================================================
+
+async function opener() {
+  const data = await fetch(content + "json/j-ono-data.json");
+  deets = await data.json();
+  
+  const src = await fetch(content + "json/j-ono-source.json");
+  pubs = await src.json();
+  
+  create_picker_list();
+  create_source_list();
+  get_stats();
+  
+  newRecord();
 }
