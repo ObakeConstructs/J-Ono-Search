@@ -636,3 +636,60 @@ function getJSON() {
   
   return JSON.stringify(json_obj, null, 2)
 }
+
+//=================================================================================
+
+function get_stats() {
+  var lit_cnt = 0;
+  var kana_cnt = 0;
+  var def_cnt = 0;
+  var img_cnt = 0;
+  
+  deets.forEach((d) => {
+    kana_cnt += d.katakana.length;
+    kana_cnt += d.hiragana.length;
+    def_cnt += d.definition.length;
+    d.definition.forEach((def) => {
+      img_cnt += def.example.length;
+    });
+  });
+  
+  console.log();
+  console.log("Records: " + deets.length);
+  console.log("Meanings: " + def_cnt);
+  console.log("Recognized Kanas: " + kana_cnt);
+  console.log("Example Images: " + img_cnt);
+  console.log();
+  
+  /*
+  pubs.forEach((pub) => {
+    var pubcnt = 0;
+    //var sercnt = 0;
+    pub.sources.forEach((source) => {
+      //sercnt++;
+      deets.forEach((d) => {
+        d.definition.forEach((def) => {
+          def.example.forEach((exa) => {
+            if (exa.source === source.id) pubcnt++;
+          });
+        });
+      });
+    });
+    console.log("  -- " + pub.publisher_name + ": " + pubcnt); // + " (" + sercnt + " series)");
+    pub.sources.forEach((source) => {
+      var sercnt = 0;
+      deets.forEach((d) => {
+        d.definition.forEach((def) => {
+          def.example.forEach((exa) => {
+            if (exa.source === source.id) sercnt++;
+          });
+        });
+      });
+      console.log("        " + source.id + ": " + sercnt);
+    });
+    
+  });  
+  */
+  
+  
+}
