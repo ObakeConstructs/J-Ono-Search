@@ -612,7 +612,6 @@ function get_stats() {
   console.log("Example Images: " + img_cnt);
   console.log();
   
-  /*
   pubs.forEach((pub) => {
     var pubcnt = 0;
     //var sercnt = 0;
@@ -639,8 +638,7 @@ function get_stats() {
       console.log("        " + source.id + ": " + sercnt);
     });
     
-  });  
-  */
+  });
   
 }
   
