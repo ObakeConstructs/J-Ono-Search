@@ -610,9 +610,9 @@ function get_stats() {
   console.log("Meanings: " + def_cnt);
   console.log("Recognized Kanas: " + kana_cnt);
   console.log("Example Images: " + img_cnt);
-  console.log();
   
   pubs.forEach((pub) => {
+    console.log();
     var pubcnt = 0;
     //var sercnt = 0;
     pub.sources.forEach((source) => {
