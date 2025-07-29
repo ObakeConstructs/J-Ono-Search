@@ -625,7 +625,7 @@ function get_stats() {
         });
       });
     });
-    console.log("  -- " + pub.publisher_name + ": " + pubcnt); // + " (" + sercnt + " series)");
+    console.log("-- " + pub.publisher_name + ": " + pubcnt); // + " (" + sercnt + " series)");
     pub.sources.forEach((source) => {
       var sercnt = 0;
       deets.forEach((d) => {
@@ -635,7 +635,7 @@ function get_stats() {
           });
         });
       });
-      console.log("        " + source.id + " (" + source.manga + "): " + sercnt);
+      console.log("     " + source.manga + " (" + source.id + "): " + sercnt);
     });
     
   });
@@ -684,6 +684,8 @@ async function opener() {
   
   const src = await fetch(content + "json/j-ono-source.json");
   pubs = await src.json();
+  
+  pubs.sort((a, b) => a.publisher_name.localeCompare(b.publisher_name));
   
   create_picker_list();
   create_source_list();
