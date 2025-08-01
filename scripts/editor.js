@@ -625,7 +625,7 @@ function get_stats() {
         });
       });
     });
-    console.log("-- " + pub.publisher_name + " (" + pub.site + "): " + pubcnt);
+    console.log("-- " + pub.publisher_name + " " +  pubcnt + " --> " + pub.site);
     pub.sources.forEach((source) => {
       var sercnt = 0;
       deets.forEach((d) => {
