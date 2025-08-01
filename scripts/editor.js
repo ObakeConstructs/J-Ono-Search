@@ -635,7 +635,7 @@ function get_stats() {
           });
         });
       });
-      console.log("     " + source.manga + " (" + source.id + "): " + sercnt);
+      console.log("     " + source.manga + " ( " + source.id + " ): " + sercnt);
     });
     
   });
