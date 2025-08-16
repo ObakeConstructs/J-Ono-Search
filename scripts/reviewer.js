@@ -8,6 +8,7 @@ var col_size = 100;
 async function opener() {
   let response = await fetch(content + "json/j-ono-data.json");
   deets = await response.json();
+  deets = await deets.sort((a, b) => a.source < b.source ? -1 : 1);
   
   const src = await fetch(content + "json/j-ono-source.json");
   sources = await src.json();
