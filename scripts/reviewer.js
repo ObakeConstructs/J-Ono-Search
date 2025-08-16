@@ -24,7 +24,7 @@ function shower () {
   var w = document.documentElement.clientWidth;
   var across = (w/300).toFixed();
   var col_size = 100/across;
-  console.log(across, col_size);
+  //console.log(across, col_size);
   var cnt = 0;
   
   var row = document.createElement("div");
