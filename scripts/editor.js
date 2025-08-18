@@ -503,16 +503,17 @@ function open_details(id) {
   
   for (var detNum = 0; detNum<details.definition.length; detNum++) {
     def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].meaning;
+    def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].id;
     for (var equNum = 0; equNum<details.definition[detNum].equivalent.length; equNum++) {
-      def_rows[def_rows.length - 2].children[1].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
+      def_rows[def_rows.length - 2].children[2].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
       if (equNum < details.definition[detNum].equivalent.length - 1) addRow_equi(detNum);
     }
-    //console.log(def_rows[def_rows.length - 2].children[2]);
+    //console.log(def_rows[def_rows.length - 2].children[3]);
     for (var exaNum = 0; exaNum<details.definition[detNum].example.length; exaNum++) {
-      def_rows[def_rows.length - 2].children[2].children[exaNum*6].value = details.definition[detNum].example[exaNum].source;
-      def_rows[def_rows.length - 2].children[2].children[exaNum*6 + 2].value = details.definition[detNum].example[exaNum].file;
-      def_rows[def_rows.length - 2].children[2].children[exaNum*6 + 3].value = details.definition[detNum].example[exaNum].display;
-      def_rows[def_rows.length - 2].children[2].children[exaNum*6 + 4].value = details.definition[detNum].example[exaNum].contributor;
+      def_rows[def_rows.length - 2].children[3].children[exaNum*6].value = details.definition[detNum].example[exaNum].source;
+      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 2].value = details.definition[detNum].example[exaNum].file;
+      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 3].value = details.definition[detNum].example[exaNum].display;
+      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 4].value = details.definition[detNum].example[exaNum].contributor;
       if(exaNum < details.definition[detNum].example.length - 1) addRow_exam(detNum);
     }
     if(detNum < details.definition.length - 1) addRow_def();
@@ -556,9 +557,13 @@ function getJSON() {
     if (!def_rows.children[defNum].children[0].value) return null;
     var me = def_rows.children[defNum].children[0].value;
     
+    // meaning ID
+    if (!def_rows.children[defNum].children[1].value) return null;
+    var me_id = def_rows.children[defNum].children[1].value;
+    
     // equivalents
     const equi = [];    
-    var equivs = def_rows.children[defNum].children[1];
+    var equivs = def_rows.children[defNum].children[2];
     for (var equNum=0; equNum<equivs.children.length; equNum+=2) {
       if (!equivs.children[equNum].value) return null;
       equi.push(equivs.children[equNum].value);
@@ -566,7 +571,7 @@ function getJSON() {
     
     // examples
     const exam = [];
-    var examps = def_rows.children[defNum].children[2];
+    var examps = def_rows.children[defNum].children[3];
     for (var exaNum=0; exaNum<examps.children.length; exaNum+=6) {
       if (!examps.children[exaNum].value) return null;
       if (!examps.children[exaNum + 2].value) return null;
@@ -582,6 +587,7 @@ function getJSON() {
     
     var de = {
       meaning: me,
+      me_id,
       equivalent: equi,
       example: exam
     };
@@ -698,9 +704,9 @@ async function opener() {
   
   pubs.sort((a, b) => a.publisher_name.localeCompare(b.publisher_name));
   
-  //create_picker_list();
+  create_picker_list();
   create_source_list();
-  //get_stats();
+  get_stats();
   
   newRecord();
 }
