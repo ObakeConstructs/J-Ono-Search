@@ -52,7 +52,7 @@
 }
 
 .grid_exam {
-  grid-template-columns: 150px 28px 150px 180px 120px auto; /* source, dropdown, filename, display, contributor, plus/minus*/
+  grid-template-columns: 150px 28px 150px 150px 100px auto; /* source, dropdown, filename, display, contributor, plus/minus*/
   display: grid;
   align-content: start;
   /*border: 1px solid green;*/

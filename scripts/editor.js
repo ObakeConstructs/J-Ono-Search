@@ -269,16 +269,16 @@ function addRow_exam(num) {
   ex_btn_src.value = "v";
   ex_btn_src.className = "little_button"; 
   
-  //--- blank div (in lieu of extra plus/minus buttons)
+  //--- blank input (in lieu of extra plus/minus buttons)
   var ex_blank = document.createElement("input");
   ex_blank.setAttribute("type", "hidden");
   ex_blank.value = "0";
   
-  //--- button group
+  //--- blank button group
   var ex_div_buttons = document.createElement("div");
   ex_div_buttons.appendChild(ex_blank); 
   
-  var grid_exam = document.getElementsByClassName("grid_def")[num].children[2];
+  var grid_exam = document.getElementsByClassName("grid_def")[num].children[3]; // children[0] = meaning, children[1] = ID, children[2] = equivalent group, children[3] = example group
   grid_exam.appendChild(ex_text_source);
   grid_exam.appendChild(ex_btn_src);
   grid_exam.appendChild(ex_text_file);
@@ -294,22 +294,24 @@ function addRow_exam(num) {
 //======================================================================================================
 
 function addRow_equi(defNum) {
-    
+  
+  //--- text input - equivalent values
   var eq_text = document.createElement("input");
   eq_text.setAttribute("type", "text");
   eq_text.setAttribute("name", "equi");
   eq_text.setAttribute("class", "input_field");
   eq_text.setAttribute("placeholder", "equivalent values");
   
+  //--- blank input (in lieu of extra plus/minus buttons)
   var ex_blank = document.createElement("input");
   ex_blank.setAttribute("type", "hidden");
   ex_blank.value = "0";
   
+  //--- blank button group
   var div_blank = document.createElement("div");
   div_blank.appendChild(ex_blank);
   
-  //console.log(defNum, document.getElementsByClassName("grid_def"));
-  var grid_exam = document.getElementsByClassName("grid_def")[defNum].children[1];
+  var grid_exam = document.getElementsByClassName("grid_def")[defNum].children[2]; // children[0] = meaning, children[1] = ID, children[2] = equivalent group, children[3] = example group
   grid_exam.appendChild(eq_text);
   grid_exam.appendChild(div_blank);
   
@@ -341,7 +343,7 @@ function delRow_def() {
 //======================================================================================================
  
 function delRow_exam(num) {
-  var grid_exam = document.getElementsByClassName("grid_def")[num].children[2];
+  var grid_exam = document.getElementsByClassName("grid_def")[num].children[3]; // children[0] = meaning, children[1] = ID, children[2] = equivalent group, children[3] = example group
   if(grid_exam.children.length > 6) { //four input fields + one div for buttons
     grid_exam.lastChild.outerHTML = "";
     grid_exam.lastChild.outerHTML = "";
@@ -358,7 +360,8 @@ function delRow_exam(num) {
 //======================================================================================================
  
 function delRow_equi(num) {
-  var grid_exam = document.getElementsByClassName("grid_def")[num].children[1];
+  
+  var grid_exam = document.getElementsByClassName("grid_def")[num].children[2]; // children[0] = meaning, children[1] = ID, children[2] = equivalent group, children[3] = example group
   if(grid_exam.children.length > 2) {
     grid_exam.lastChild.outerHTML = "";
     grid_exam.lastChild.outerHTML = "";
@@ -695,9 +698,9 @@ async function opener() {
   
   pubs.sort((a, b) => a.publisher_name.localeCompare(b.publisher_name));
   
-  create_picker_list();
+  //create_picker_list();
   create_source_list();
-  get_stats();
+  //get_stats();
   
   newRecord();
 }
