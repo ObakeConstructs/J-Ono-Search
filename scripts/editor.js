@@ -214,7 +214,8 @@ function addRow_def() {
   //--- definition group
   var div_def = document.createElement("div");
   div_def.className = "grid_def";
-  div_def.appendChild(me_text);
+  div_def.appendChild(me_text);  
+  div_def.appendChild(id_text);
   div_def.appendChild(eq_div);
   div_def.appendChild(ex_div);
   
