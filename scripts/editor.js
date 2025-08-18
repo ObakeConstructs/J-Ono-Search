@@ -100,6 +100,13 @@ function addRow_def() {
   me_text.setAttribute("class", "input_field");
   me_text.setAttribute("placeholder", "meaning");
   
+  //--- text input - id
+  var id_text = document.createElement("input");
+  id_text.setAttribute("type", "text");
+  id_text.setAttribute("name", "id");
+  id_text.setAttribute("class", "input_field");
+  id_text.setAttribute("placeholder", "ID");
+  
   //--- text input - equivalent
   var eq_text = document.createElement("input");
   eq_text.setAttribute("type", "text");
