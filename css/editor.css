@@ -39,7 +39,8 @@
 
 .grid_def {
   display: grid;
-  grid-template-columns: 320px 180px auto; /* meaning, equivalents, examples */
+  grid-template-columns: 320px 100px 180px auto; /* meaning, id, equivalents, examples */
+  /*grid-template-columns: 320px 180px auto;*/ /* meaning, equivalents, examples */
   /*border: 1px solid red;*/
 }
 
