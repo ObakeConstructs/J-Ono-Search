@@ -91,6 +91,10 @@ function addRow_def() {
     btn.outerHTML = "";
   }
   
+  var lit_rows = document.getElementsByClassName("grid_lit");
+  var lit_value = lit_rows[0].children[0].value
+  var base_name = lit_value.replace(" ", "_");
+      
   //----------------------------------------------------------------------------------------------------
   
   //--- text input - meaning
@@ -106,6 +110,7 @@ function addRow_def() {
   id_text.setAttribute("name", "id");
   id_text.setAttribute("class", "input_field");
   id_text.setAttribute("placeholder", "ID");
+  id_text.setAttribute("value", base_name + "-" + (document.getElementById("column_def").children.length + 1));
   
   //--- text input - equivalent
   var eq_text = document.createElement("input");
@@ -136,6 +141,7 @@ function addRow_def() {
   ex_text_file.setAttribute("class", "input_field");
   ex_text_file.setAttribute("name", "exam_file");
   ex_text_file.setAttribute("placeholder", "filename");
+  ex_text_file.setAttribute("value", base_name + "-" + (document.getElementById("column_def").children.length + 1) + "a");
   
   //--- text input - contributor
   var ex_text_contrib = document.createElement("input");
@@ -231,6 +237,9 @@ function addRow_def() {
 //======================================================================================================
 
 function addRow_exam(num) {
+  var lit_rows = document.getElementsByClassName("grid_lit");
+  var lit_value = lit_rows[0].children[0].value
+  var base_name = lit_value.replace(" ", "_");
   
   //--- text input - filename
   var ex_text_file = document.createElement("input");
@@ -238,6 +247,7 @@ function addRow_exam(num) {
   ex_text_file.setAttribute("class", "input_field");
   ex_text_file.setAttribute("name", "exam_file");
   ex_text_file.setAttribute("placeholder", "filename");
+  ex_text_file.setAttribute("value", base_name + "-" + (document.getElementById("column_def").children.length - 1) + String.fromCharCode(97 + document.getElementsByClassName("grid_def")[num].children[3].children.length/6));
   
   //--- text input - contributor
   var ex_text_contrib = document.createElement("input");
