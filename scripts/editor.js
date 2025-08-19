@@ -723,4 +723,4 @@ async function opener() {
   get_stats();
   
   newRecord();
-  
+}
