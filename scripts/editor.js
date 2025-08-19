@@ -699,9 +699,9 @@ async function opener() {
   
   pubs.sort((a, b) => a.publisher_name.localeCompare(b.publisher_name));
   
-  //create_picker_list();
-  //create_source_list();
-  //get_stats();
+  create_picker_list();
+  create_source_list();
+  get_stats();
   
   newRecord();
 }
