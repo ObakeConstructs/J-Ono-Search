@@ -14,7 +14,8 @@
 
 .grid_editor {
   display: grid;
-  grid-template-columns: 150px 250px auto; /* literal, kana, definition */
+  grid-template-columns: 120px 250px auto; /* literal, kana, definition */
+  /*grid-template-columns: 150px 250px auto;*/ /* literal, kana, definition */
   align-content: start;
   padding: 5px;
   /*outline: 1px dashed gray;*/
@@ -40,7 +41,8 @@
 
 .grid_def {
   display: grid;
-  grid-template-columns: 320px 180px auto; /* meaning, equivalents, examples */
+  grid-template-columns: 90px 320px 180px auto; /* refer, meaning, equivalents, examples */
+  /*grid-template-columns: 320px 180px auto;*/ /* meaning, equivalents, examples */
   /*border: 1px solid red;*/
 }
 
@@ -52,7 +54,8 @@
 }
 
 .grid_exam {
-  grid-template-columns: 150px 28px 150px 180px 100px auto; /* source, dropdown, filename, display, contributor, plus/minus*/
+  grid-template-columns: 150px 28px 150px 150px 100px 70px; /* source, dropdown, filename, display, contributor, plus/minus*/
+  /*grid-template-columns: 150px 28px 150px 180px 100px auto;*/ /* source, dropdown, filename, display, contributor, plus/minus*/
   display: grid;
   align-content: start;
   /*border: 1px solid green;*/

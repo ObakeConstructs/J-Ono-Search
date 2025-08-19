@@ -15,6 +15,12 @@ document.addEventListener("keyup", function(event) {
 });
 
 //======================================================================================================
+
+function findRecordByLiteral(search_val) {
+  return deets.findIndex(item => item.literal === search_val);  
+}
+
+//======================================================================================================
   
 function newRecord() {
   if (bUpdated) {
@@ -96,6 +102,13 @@ function addRow_def() {
   var base_name = lit_value.replace(" ", "_");
       
   //----------------------------------------------------------------------------------------------------
+  
+  //--- text input - refer
+  var re_text = document.createElement("input");
+  re_text.setAttribute("type", "text");
+  re_text.setAttribute("name", "refer");
+  re_text.setAttribute("class", "input_field");
+  re_text.setAttribute("placeholder", "reference");
   
   //--- text input - meaning
   var me_text = document.createElement("input");
@@ -212,7 +225,8 @@ function addRow_def() {
   //--- definition group
   var div_def = document.createElement("div");
   div_def.className = "grid_def";
-  div_def.appendChild(me_text);  
+  div_def.appendChild(re_text);  
+  div_def.appendChild(me_text);
   div_def.appendChild(eq_div);
   div_def.appendChild(ex_div);
   
@@ -238,7 +252,7 @@ function addRow_exam(num) {
   ex_text_file.setAttribute("class", "input_field");
   ex_text_file.setAttribute("name", "exam_file");
   ex_text_file.setAttribute("placeholder", "filename");
-  ex_text_file.setAttribute("value", base_name + "-" + (document.getElementById("column_def").children.length - 1) + String.fromCharCode(97 + document.getElementsByClassName("grid_def")[num].children[2].children.length/6));
+  ex_text_file.setAttribute("value", base_name + "-" + (document.getElementById("column_def").children.length - 1) + String.fromCharCode(97 + document.getElementsByClassName("grid_def")[num].children[3].children.length/6));
   
   //--- text input - contributor
   var ex_text_contrib = document.createElement("input");
@@ -279,7 +293,7 @@ function addRow_exam(num) {
   var ex_div_buttons = document.createElement("div");
   ex_div_buttons.appendChild(ex_blank); 
   
-  var grid_exam = document.getElementsByClassName("grid_def")[num].children[2]; // children[0] = meaning, children[1] = equivalent group, children[2] = example group
+  var grid_exam = document.getElementsByClassName("grid_def")[num].children[3]; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
   grid_exam.appendChild(ex_text_source);
   grid_exam.appendChild(ex_btn_src);
   grid_exam.appendChild(ex_text_file);
@@ -312,9 +326,9 @@ function addRow_equi(defNum) {
   var div_blank = document.createElement("div");
   div_blank.appendChild(ex_blank);
   
-  var grid_exam = document.getElementsByClassName("grid_def")[defNum].children[1]; // children[0] = meaning, children[1] = equivalent group, children[2] = example group
-  grid_exam.appendChild(eq_text);
-  grid_exam.appendChild(div_blank);
+  var grid_equi = document.getElementsByClassName("grid_def")[defNum].children[2]; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
+  grid_equi.appendChild(eq_text);
+  grid_equi.appendChild(div_blank);
   
   bUpdated = true;
 }
@@ -344,7 +358,7 @@ function delRow_def() {
 //======================================================================================================
  
 function delRow_exam(num) {
-  var grid_exam = document.getElementsByClassName("grid_def")[num].children[2]; // children[0] = meaning, children[1] = equivalent group, children[2] = example group
+  var grid_exam = document.getElementsByClassName("grid_def")[num].children[3]; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
   if(grid_exam.children.length > 6) { //four input fields + one div for buttons
     grid_exam.lastChild.outerHTML = "";
     grid_exam.lastChild.outerHTML = "";
@@ -362,10 +376,10 @@ function delRow_exam(num) {
  
 function delRow_equi(num) {
   
-  var grid_exam = document.getElementsByClassName("grid_def")[num].children[1]; // children[0] = meaning, children[1] = equivalent group, children[2] = example group
-  if(grid_exam.children.length > 2) {
-    grid_exam.lastChild.outerHTML = "";
-    grid_exam.lastChild.outerHTML = "";
+  var grid_equi = document.getElementsByClassName("grid_def")[num].children[2]; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
+  if(grid_equi.children.length > 2) {
+    grid_equi.lastChild.outerHTML = "";
+    grid_equi.lastChild.outerHTML = "";
   }
   
   bUpdated = true;
@@ -503,17 +517,18 @@ function open_details(id) {
   var def_rows = document.getElementsByClassName("grid_def");
   
   for (var detNum = 0; detNum<details.definition.length; detNum++) {
-    def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].meaning;
+    def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
+    def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].meaning;
     for (var equNum = 0; equNum<details.definition[detNum].equivalent.length; equNum++) {
-      def_rows[def_rows.length - 2].children[1].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
+      def_rows[def_rows.length - 2].children[2].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
       if (equNum < details.definition[detNum].equivalent.length - 1) addRow_equi(detNum);
     }
-    //console.log(def_rows[def_rows.length - 2].children[2]);
+    //console.log(def_rows[def_rows.length - 2].children[3]);
     for (var exaNum = 0; exaNum<details.definition[detNum].example.length; exaNum++) {
-      def_rows[def_rows.length - 2].children[2].children[exaNum*6].value = details.definition[detNum].example[exaNum].source;
-      def_rows[def_rows.length - 2].children[2].children[exaNum*6 + 2].value = details.definition[detNum].example[exaNum].file;
-      def_rows[def_rows.length - 2].children[2].children[exaNum*6 + 3].value = details.definition[detNum].example[exaNum].display;
-      def_rows[def_rows.length - 2].children[2].children[exaNum*6 + 4].value = details.definition[detNum].example[exaNum].contributor;
+      def_rows[def_rows.length - 2].children[3].children[exaNum*6].value = details.definition[detNum].example[exaNum].source;
+      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 2].value = details.definition[detNum].example[exaNum].file;
+      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 3].value = details.definition[detNum].example[exaNum].display;
+      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 4].value = details.definition[detNum].example[exaNum].contributor;
       if(exaNum < details.definition[detNum].example.length - 1) addRow_exam(detNum);
     }
     if(detNum < details.definition.length - 1) addRow_def();
@@ -553,13 +568,16 @@ function getJSON() {
   const def = [];  
   for (var defNum=0; defNum<def_rows.children.length - 1; defNum++) {
   
+    // reference
+    var re = def_rows.children[defNum].children[0].value; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
+  
     // meaning
-    if (!def_rows.children[defNum].children[0].value) return null;
-    var me = def_rows.children[defNum].children[0].value;
+    if (!def_rows.children[defNum].children[1].value) return null;
+    var me = def_rows.children[defNum].children[1].value;
     
     // equivalents
     const equi = [];    
-    var equivs = def_rows.children[defNum].children[1];
+    var equivs = def_rows.children[defNum].children[2];
     for (var equNum=0; equNum<equivs.children.length; equNum+=2) {
       if (!equivs.children[equNum].value) return null;
       equi.push(equivs.children[equNum].value);
@@ -567,7 +585,7 @@ function getJSON() {
     
     // examples
     const exam = [];
-    var examps = def_rows.children[defNum].children[2];
+    var examps = def_rows.children[defNum].children[3];
     for (var exaNum=0; exaNum<examps.children.length; exaNum+=6) {
       if (!examps.children[exaNum].value) return null;
       if (!examps.children[exaNum + 2].value) return null;
@@ -582,6 +600,7 @@ function getJSON() {
     }
     
     var de = {
+      refer: re,
       meaning: me,
       equivalent: equi,
       example: exam
@@ -704,4 +723,4 @@ async function opener() {
   get_stats();
   
   newRecord();
-}
+  
