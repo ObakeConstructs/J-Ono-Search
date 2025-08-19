@@ -134,9 +134,9 @@ function shower_results(details, deet_num) {
     });
     defs.appendChild(equi);
     
-    var mean = document.createElement("div");
     mean.setAttribute("class", "grid_main_block");
-    mean.setAttribute("title", '[' + deet_num + ']["definition"][' + idx + ']');
+    var mean = document.createElement("div");
+    //mean.setAttribute("title", '[' + deet_num + ']["definition"][' + idx + ']');
     mean.innerHTML = itm.meaning;
     defs.appendChild(mean);
     
