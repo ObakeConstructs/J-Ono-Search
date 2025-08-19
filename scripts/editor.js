@@ -597,7 +597,7 @@ function getJSON() {
     
     var de = {
       meaning: me,
-      me_id,
+      id: me_id,
       equivalent: equi,
       example: exam
     };
