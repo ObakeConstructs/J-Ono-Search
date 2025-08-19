@@ -45,7 +45,7 @@ function searcher() {
 
   document.getElementById("grid_body").innerHTML = "";
   
-  deets.forEach((details) => {
+  deets.forEach((details, idx) => {
     var isMatch = false;
     
     if(checkForMatch(details.literal, typ) && lit) isMatch = true;
@@ -66,7 +66,7 @@ function searcher() {
     });
     
     if (isMatch) {
-      shower_results(details)
+      shower_results(details, idx)
     }
   });
 }
@@ -93,7 +93,7 @@ function checkForMatch(str1, typ) {
 
 //=================================================================================
 
-function shower_results(details) { 
+function shower_results(details, deet_num) { 
   
   var kata = document.createElement("div");
   kata.setAttribute("class", "grid_kana");
@@ -124,7 +124,7 @@ function shower_results(details) {
   
   var defs = document.createElement("div");
   defs.setAttribute("class", "grid_defs");  
-  details.definition.forEach((itm) => {  
+  details.definition.forEach((itm, idx) => {  
   
     var equi = document.createElement("div");
     equi.setAttribute("class", "grid_main_block");
@@ -136,6 +136,7 @@ function shower_results(details) {
     
     var mean = document.createElement("div");
     mean.setAttribute("class", "grid_main_block");
+    mean.setAttribute("title", '[' + deet_num + ']["definition"][' + idx + ']');
     mean.innerHTML = itm.meaning;
     defs.appendChild(mean);
     
@@ -252,8 +253,8 @@ function refresh_picker() {
 //=================================================================================
 
 function get_kana(pos) {
-  const kata = "アァ  イィ  ウゥヴ エェ  オォ  カ ガ キ ギ ク グ ケ ゲ コ ゴ サ ザ シ ジ ス ズ セ ゼ ソ ゾ タ ダ チ ヂ ツッヅ テ デ ト ド ナ   ニ   ヌ   ネ   ノ   ハ バパヒ ビピフ ブプヘ ベペホ ボポマ   ミ   ム   メ   モ   ヤャ      ユュ      ヨョ  ラ   リ   ル   レ   ロ   ワヮヷ ヰ ヸ     ヱ ヹ ヲ ヺ ン   ー〜              ";
-  const hira = "あぁ  いぃ  うぅゔ えぇ  おぉ  か が き ぎ く ぐ け げ こ ご さ ざ し じ す ず せ ぜ そ ぞ た だ ち ぢ つっづ て で と ど な   に   ぬ   ね   の   は ばぱひ びぴふ ぶぷへ べぺほ ぼぽま   み   む   め   も   やゃ      ゆゅ      よょ  ら   り   る   れ   ろ   わゎ  ゐ       ゑ   を   ん   ー〜              ";
+  const kata = "アァ  イィ  ウゥヴ エェ  オォ  カ ガ キ ギ ク グ ケ ゲ コ ゴ サ ザ シ ジ ス ズ セ ゼ ソ ゾ タ ダ チ ヂ ツッヅ テ デ ト ド ナ   ニ   ヌ   ネ   ノ   ハ バパヒ ビピフ ブプヘ ベペホ ボポマ   ミ   ム   メ   モ   ヤャ      ユュ      ヨョ  ラ   リ   ル   レ   ロ   ワヮヷ ヰ ヸ     ヱ ヹ ヲ ヺ ン   ー               ";
+  const hira = "あぁ  いぃ  うぅゔ えぇ  おぉ  か が き ぎ く ぐ け げ こ ご さ ざ し じ す ず せ ぜ そ ぞ た だ ち ぢ つっづ て で と ど な   に   ぬ   ね   の   は ばぱひ びぴふ ぶぷへ べぺほ ぼぽま   み   む   め   も   やゃ      ゆゅ      よょ  ら   り   る   れ   ろ   わゎ  ゐ       ゑ   を   ん   ー               ";
 
 
   var retVal = "";
@@ -298,38 +299,6 @@ function get_stats() {
   console.log("Recognized Kanas: " + kana_cnt);
   console.log("Example Images: " + img_cnt);
   console.log();
-  
-  /*
-  pubs.forEach((pub) => {
-    var pubcnt = 0;
-    //var sercnt = 0;
-    pub.sources.forEach((source) => {
-      //sercnt++;
-      deets.forEach((d) => {
-        d.definition.forEach((def) => {
-          def.example.forEach((exa) => {
-            if (exa.source === source.id) pubcnt++;
-          });
-        });
-      });
-    });
-    console.log("  -- " + pub.publisher_name + ": " + pubcnt); // + " (" + sercnt + " series)");
-    pub.sources.forEach((source) => {
-      var sercnt = 0;
-      deets.forEach((d) => {
-        d.definition.forEach((def) => {
-          def.example.forEach((exa) => {
-            if (exa.source === source.id) sercnt++;
-          });
-        });
-      });
-      console.log("        " + source.id + ": " + sercnt);
-    });
-    
-  });  
-  */
-  
-  
 }
 
 //=================================================================================

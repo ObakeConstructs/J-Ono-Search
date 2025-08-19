@@ -58,6 +58,7 @@
   background-color: #303030;
   padding: 10px;
   text-align: left;
+  /*outline: 1px dashed gray;*/
 }
 
 .grid_main { 
@@ -66,6 +67,7 @@
   background-color: #000000;
   align-items: stretch;
   word-break: keep-all;
+  /*outline: 1px dashed red;*/
 }
 
 .grid_defs {
