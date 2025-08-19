@@ -517,7 +517,7 @@ function open_details(id) {
   var def_rows = document.getElementsByClassName("grid_def");
   
   for (var detNum = 0; detNum<details.definition.length; detNum++) {
-    def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].ref; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
+    def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
     def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].meaning;
     for (var equNum = 0; equNum<details.definition[detNum].equivalent.length; equNum++) {
       def_rows[def_rows.length - 2].children[2].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
