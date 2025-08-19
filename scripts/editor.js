@@ -238,7 +238,7 @@ function addRow_exam(num) {
   ex_text_file.setAttribute("class", "input_field");
   ex_text_file.setAttribute("name", "exam_file");
   ex_text_file.setAttribute("placeholder", "filename");
-  ex_text_file.setAttribute("value", base_name + "-" + (document.getElementById("column_def").children.length - 1) + String.fromCharCode(97 + document.getElementsByClassName("grid_def")[num].children[3].children.length/6));
+  ex_text_file.setAttribute("value", base_name + "-" + (document.getElementById("column_def").children.length - 1) + String.fromCharCode(97 + document.getElementsByClassName("grid_def")[num].children[2].children.length/6));
   
   //--- text input - contributor
   var ex_text_contrib = document.createElement("input");
