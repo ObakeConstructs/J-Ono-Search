@@ -16,7 +16,7 @@ document.addEventListener("keyup", function(event) {
 
 //======================================================================================================
 
-function findRecordByLiteral(search_val) {
+function findRecordIndexByLiteral(search_val) {
   return deets.findIndex(item => item.literal === search_val);  
 }
 
@@ -567,21 +567,25 @@ function getJSON() {
   var def_rows = document.getElementById("column_def");
   const def = [];  
   for (var defNum=0; defNum<def_rows.children.length - 1; defNum++) {
-  
+    
     // reference
     var re = def_rows.children[defNum].children[0].value; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
   
+    
     // meaning
-    if (!def_rows.children[defNum].children[1].value) return null;
+    //if (!def_rows.children[defNum].children[1].value) return null;
     var me = def_rows.children[defNum].children[1].value;
     
     // equivalents
     const equi = [];    
     var equivs = def_rows.children[defNum].children[2];
     for (var equNum=0; equNum<equivs.children.length; equNum+=2) {
-      if (!equivs.children[equNum].value) return null;
+      if (!equivs.children[equNum].value && equNum > 0) return null;
       equi.push(equivs.children[equNum].value);
     }
+    
+    if (equi.length == 0 && re.length == 0) return null;
+    if (me.length == 0 && re.length == 0) return null;
     
     // examples
     const exam = [];
