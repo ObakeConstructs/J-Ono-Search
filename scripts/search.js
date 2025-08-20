@@ -29,6 +29,12 @@ function clearer() {
   document.getElementById("search_input").value = "";
 }
 
+//======================================================================================================
+
+function findRecordIndexByLiteral(search_val) {
+  return deets.findIndex(item => item.literal === search_val);  
+}
+
 //=================================================================================
 
 function searcher() {
@@ -136,8 +142,6 @@ function shower_results(details, deet_num) {
     
     var mean = document.createElement("div");
     mean.setAttribute("class", "grid_main_block");
-    var mean = document.createElement("div");
-    //mean.setAttribute("title", '[' + deet_num + ']["definition"][' + idx + ']');
     mean.innerHTML = itm.meaning;
     defs.appendChild(mean);
     
