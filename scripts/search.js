@@ -37,6 +37,30 @@ function findRecordIndexByLiteral(search_val) {
 
 //=================================================================================
 
+function get_meaning_by_refer(refer) {
+  refer_parts = refer.split(":"); // [0] = literal, [1] = definition index
+  itm = deets.find(item => item.literal === refer_parts[0]); // get the object from deets by searching for the literal
+  return itm.definition[refer_parts[1] - 1].meaning; // return the meaning string using the definition index
+}
+
+//=================================================================================
+
+function get_equivs_by_refer(refer) {
+  refer_parts = refer.split(":"); // [0] = literal, [1] = definition index
+  itm = deets.find(item => item.literal === refer_parts[0]); // get the object from deets by searching for the literal
+  
+  //loop through equivs and build a quick string
+  var retval = "";
+  itm.definition[refer_parts[1] - 1].equivalent.forEach((eq_itm) => {    
+    if (retval.length > 0) retval += ", ";
+    retval += eq_itm;
+  });
+  return retval;
+  
+}
+
+//=================================================================================
+
 function searcher() {
   if (document.getElementById("search_input").value.length == 0) return;
   
@@ -132,19 +156,30 @@ function shower_results(details, deet_num) {
   defs.setAttribute("class", "grid_defs");  
   details.definition.forEach((itm, idx) => {  
   
+    //equivalents
     var equi = document.createElement("div");
     equi.setAttribute("class", "grid_main_block");
-    itm.equivalent.forEach((eq_itm) => {
-      if (equi.innerHTML.length > 0) equi.innerHTML += ", ";
-      equi.innerHTML += eq_itm;
-    });
+    if (itm.refer.length > 0) {
+      equi.innerHTML = get_equivs_by_refer(itm.refer);
+    } else {
+      itm.equivalent.forEach((eq_itm) => {
+        if (equi.innerHTML.length > 0) equi.innerHTML += ", ";
+        equi.innerHTML += eq_itm;
+      });
+    }
     defs.appendChild(equi);
     
+    //meaning
     var mean = document.createElement("div");
     mean.setAttribute("class", "grid_main_block");
-    mean.innerHTML = itm.meaning;
+    if (itm.refer.length > 0) {
+      mean.innerHTML = get_meaning_by_refer(itm.refer);
+    } else {
+      mean.innerHTML = itm.meaning;
+    }
     defs.appendChild(mean);
     
+    //examples
     var exam = document.createElement("div");
     exam.setAttribute("class", "grid_examples");
     itm.example.forEach((ex_itm) => {
