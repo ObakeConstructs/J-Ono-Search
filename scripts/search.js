@@ -74,20 +74,24 @@ function searcher() {
   if (document.getElementById("any").checked) typ = 2; //anywhere
 
   document.getElementById("grid_body").innerHTML = "";
-  
+   
   deets.forEach((details, idx) => {
     var isMatch = false;
     
+    //check for literal match
     if(checkForMatch(details.literal, typ) && lit) isMatch = true;
     
+    //check for katakana match
     details.katakana.forEach((itm) => {
       if(checkForMatch(itm, typ) && jap) isMatch = true;
     });    
     
+    //check for hiragana match
     details.hiragana.forEach((itm) => {
       if(checkForMatch(itm, typ) && jap) isMatch = true;
     });
     
+    //check for definition match
     details.definition.forEach((itm) => {
       if(checkForMatch(itm.meaning, typ) && com) isMatch = true;
       itm.equivalent.forEach((eq) => {
@@ -155,7 +159,7 @@ function shower_results(details, deet_num) {
   var defs = document.createElement("div");
   defs.setAttribute("class", "grid_defs");  
   details.definition.forEach((itm, idx) => {  
-  
+    
     //equivalents
     var equi = document.createElement("div");
     equi.setAttribute("class", "grid_main_block");
