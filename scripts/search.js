@@ -161,19 +161,19 @@ function shower_results(details, deet_num) {
     equi.setAttribute("class", "grid_main_block");
     if (itm.refer.length > 0) {
       equi.innerHTML = get_equivs_by_refer(itm.refer);
-    } else {
-      itm.equivalent.forEach((eq_itm) => {
-        if (equi.innerHTML.length > 0) equi.innerHTML += ", ";
-        equi.innerHTML += eq_itm;
-      });
     }
+    itm.equivalent.forEach((eq_itm) => {
+      if (equi.innerHTML.length > 0) equi.innerHTML += ", ";
+      equi.innerHTML += eq_itm;
+    });
+    
     defs.appendChild(equi);
     
     //meaning
     var mean = document.createElement("div");
     mean.setAttribute("class", "grid_main_block");
     if (itm.refer.length > 0) {
-      mean.innerHTML = get_meaning_by_refer(itm.refer);
+      mean.innerHTML = get_meaning_by_refer(itm.refer) + itm.meaning;
     } else {
       mean.innerHTML = itm.meaning;
     }
