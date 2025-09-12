@@ -540,16 +540,12 @@ function load_details_to_fields(id) {
     def_rows[def_rows.length - 2].children[2].value = details.definition[detNum].meaning;
 
     console.log("------------------------------------------");
-    console.log("def_rows[def_rows.length - 2].children[3].children[0]: " + def_rows[def_rows.length - 2].children[3].children[0]);
-    console.log("def_rows[def_rows.length - 2].children[3].children[1]: " + def_rows[def_rows.length - 2].children[3].children[1]);
-    console.log("def_rows.length: " + def_rows.length);
-    console.log("def_rows[def_rows.length - 2].children[3].children.length: " + def_rows[def_rows.length - 2].children[3].children.length);
+    console.log("details.definition[detNum].equivalent[0]: " + details.definition[detNum].equivalent[0]);
+    console.log("details.definition[detNum].equivalent[0]: " + details.definition[detNum].equivalent[1]);
+    console.log("details.definition[detNum].equivalent[0]: " + details.definition[detNum].equivalent[2]);
     console.log("------------------------------------------");
       
     for (var equNum = 0; equNum<details.definition[detNum].equivalent.length; equNum++) {
-      
-      console.log("equNum*2: " + equNum*2);
-      
       def_rows[def_rows.length - 2].children[3].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
       if (equNum < details.definition[detNum].equivalent.length - 1) addRow_equi(detNum);
     }
