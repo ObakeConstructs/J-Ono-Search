@@ -487,7 +487,8 @@ function create_picker_list() {
   var subGroupLetter = "";
   picker.innerHTML += "A:\t"
   
-  for (var i=0; i<deets.length; i++) {
+  //for (var i=0; i<deets.length; i++) {
+  for (var i=0; i<5; i++) {
     currentLetter1 = deets[i].literal.substring(0, 1);
     currentLetter2 = deets[i].literal.substring(1, 2);
     if (currentLetter1 !== groupLetter) {
@@ -542,9 +543,10 @@ function load_details_to_fields(id) {
     for (var equNum = 0; equNum<details.definition[detNum].equivalent.length; equNum++) {
       console.log("------------------------------------------");
       console.log("equNum: " + equNum);
-      console.log("def_rows[def_rows.length - 2].children[3].children[equNum*2].value: " + def_rows[def_rows.length - 2].children[3].children[equNum*2].value);
+      console.log("def_rows[def_rows.length - 2].children[3].children[equNum].value: " + def_rows[def_rows.length - 2].children[3].children[equNum].value);
       console.log("------------------------------------------");
-      def_rows[def_rows.length - 2].children[3].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
+      //def_rows[def_rows.length - 2].children[3].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
+      def_rows[def_rows.length - 2].children[3].children[equNum].value = details.definition[detNum].equivalent[equNum];
       if (equNum < details.definition[detNum].equivalent.length - 1) addRow_equi(detNum);
     }
     
