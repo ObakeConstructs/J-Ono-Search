@@ -463,7 +463,7 @@ function getButtons(section) {
   
 //======================================================================================================
 
-function create_source_list() {   
+function create_publisher_source_list() {   
   var ids = [];
   
   pubs.forEach((pub) => {
@@ -502,13 +502,13 @@ function create_picker_list() {
         }
       }
     }
-    picker.innerHTML += "<a href='#!', onclick=\"javascript: open_details('" + i + "');\" tabindex='-1'>" + deets[i].literal.replace(" ", "&nbsp;") + "</a>, ";
+    picker.innerHTML += "<a href='#!', onclick=\"javascript: load_details_to_fields('" + i + "');\" tabindex='-1'>" + deets[i].literal.replace(" ", "&nbsp;") + "</a>, ";
   }
 }
   
 //======================================================================================================
 
-function open_details(id) {
+function load_details_to_fields(id) {
 
   if (bUpdated) {
     showOverlay();
@@ -537,17 +537,17 @@ function open_details(id) {
   for (var detNum = 0; detNum<details.definition.length; detNum++) {
     def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
     //def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].type;
-    def_rows[def_rows.length - 2].children[2].value = details.definition[detNum].meaning;
+    def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].meaning;
     for (var equNum = 0; equNum<details.definition[detNum].equivalent.length; equNum++) {
-      def_rows[def_rows.length - 2].children[3].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
+      def_rows[def_rows.length - 2].children[2].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
       if (equNum < details.definition[detNum].equivalent.length - 1) addRow_equi(detNum);
     }
-    //console.log(def_rows[def_rows.length - 2].children[4]);
+    //console.log(def_rows[def_rows.length - 2].children[3]);
     for (var exaNum = 0; exaNum<details.definition[detNum].example.length; exaNum++) {
-      def_rows[def_rows.length - 2].children[4].children[exaNum*6].value = details.definition[detNum].example[exaNum].source;
-      def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 2].value = details.definition[detNum].example[exaNum].file;
-      def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 3].value = details.definition[detNum].example[exaNum].display;
-      def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 4].value = details.definition[detNum].example[exaNum].contributor;
+      def_rows[def_rows.length - 2].children[3].children[exaNum*6].value = details.definition[detNum].example[exaNum].source;
+      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 2].value = details.definition[detNum].example[exaNum].file;
+      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 3].value = details.definition[detNum].example[exaNum].display;
+      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 4].value = details.definition[detNum].example[exaNum].contributor;
       if(exaNum < details.definition[detNum].example.length - 1) addRow_exam(detNum);
     }
     if(detNum < details.definition.length - 1) addRow_def();
@@ -560,7 +560,7 @@ function open_details(id) {
   
 //======================================================================================================
 
-function getJSON() {
+function build_JSON_from_fields() {
 
   // literal
   if (!document.getElementsByName("lit")[0].value) return null;
@@ -593,8 +593,7 @@ function getJSON() {
     // type
     var ty = def_rows.children[defNum].children[1].value;
     
-    // meaning
-    //if (!def_rows.children[defNum].children[2].value) return null;
+    // meaning    
     var me = def_rows.children[defNum].children[2].value;
     
     // equivalents
@@ -647,7 +646,7 @@ function getJSON() {
 
 //=================================================================================
 
-function get_stats() {
+function send_stats_to_console() {
   var lit_cnt = 0;
   var kana_cnt = 0;
   var def_cnt = 0;
@@ -702,7 +701,7 @@ function get_stats() {
 //======================================================================================================
 
 function copier() {
-  j = getJSON();
+  j = build_JSON_from_fields();
   
   if(j) {
     navigator.clipboard.writeText(j);
@@ -715,7 +714,7 @@ function copier() {
 //======================================================================================================
   
 function saver() {
-  var text = getJSON();
+  var text = build_JSON_from_fields();
   if(text) {
     var fname = document.getElementsByName("lit")[0].value;
     fname = fname.replace(" ", "_");
@@ -745,8 +744,8 @@ async function opener() {
   pubs.sort((a, b) => a.publisher_name.localeCompare(b.publisher_name));
   
   create_picker_list();
-  create_source_list();
-  get_stats();
+  create_publisher_source_list();
+  send_stats_to_console();
   
   newRecord();
 }
