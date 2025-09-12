@@ -97,18 +97,18 @@ function addRow_def() {
     btn.outerHTML = "";
   }
   
-  var lit_rows = document.getElementsByClassName("grid_lit");
-  var lit_value = lit_rows[0].children[0].value
-  var base_name = lit_value.replace(" ", "_");
+  var literal_rows = document.getElementsByClassName("grid_lit");
+  var literal_value = literal_rows[0].children[0].value
+  var base_name = literal_value.replace(" ", "_");
       
   //----------------------------------------------------------------------------------------------------
   
   //--- text input - refer
-  var re_text = document.createElement("input");
-  re_text.setAttribute("type", "text");
-  re_text.setAttribute("name", "refer");
-  re_text.setAttribute("class", "input_field");
-  re_text.setAttribute("placeholder", "reference");
+  var reference_text = document.createElement("input");
+  reference_text.setAttribute("type", "text");
+  reference_text.setAttribute("name", "refer");
+  reference_text.setAttribute("class", "input_field");
+  reference_text.setAttribute("placeholder", "reference");
   
   //--- text input - type
   var types = ["imitative", "vocal", "stative", "motive", "emotive"];
@@ -127,131 +127,131 @@ function addRow_def() {
   });
   
   //--- text input - meaning
-  var me_text = document.createElement("input");
-  me_text.setAttribute("type", "text");
-  me_text.setAttribute("name", "mean");
-  me_text.setAttribute("class", "input_field");
-  me_text.setAttribute("placeholder", "meaning");
+  var meaning_text = document.createElement("input");
+  meaning_text.setAttribute("type", "text");
+  meaning_text.setAttribute("name", "mean");
+  meaning_text.setAttribute("class", "input_field");
+  meaning_text.setAttribute("placeholder", "meaning");
   
   //--- text input - equivalent
-  var eq_text = document.createElement("input");
-  eq_text.setAttribute("type", "text");
-  eq_text.setAttribute("name", "equi");
-  eq_text.setAttribute("class", "input_field");
-  eq_text.setAttribute("placeholder", "equivalent values");
+  var equivalent_text = document.createElement("input");
+  equivalent_text.setAttribute("type", "text");
+  equivalent_text.setAttribute("name", "equi");
+  equivalent_text.setAttribute("class", "input_field");
+  equivalent_text.setAttribute("placeholder", "equivalent values");
   
   //--- equivalent plus button
-  var eq_btn_add = document.createElement("input");
-  eq_btn_add.setAttribute("type", "button");
-  eq_btn_add.setAttribute("onClick", "javascript: addRow_equi(" + (document.getElementsByClassName("grid_def").length) + ");" );
-  eq_btn_add.setAttribute("tabindex", "-1");
-  eq_btn_add.value = "+";
-  eq_btn_add.className = "little_button";
+  var equivalent_button_adder = document.createElement("input");
+  equivalent_button_adder.setAttribute("type", "button");
+  equivalent_button_adder.setAttribute("onClick", "javascript: addRow_equi(" + (document.getElementsByClassName("grid_def").length) + ");" );
+  equivalent_button_adder.setAttribute("tabindex", "-1");
+  equivalent_button_adder.value = "+";
+  equivalent_button_adder.className = "little_button";
   
   //--- equivalent minus button
-  var eq_btn_rem = document.createElement("input");
-  eq_btn_rem.setAttribute("type", "button");
-  eq_btn_rem.setAttribute("onClick", "javascript: delRow_equi(" + (document.getElementsByClassName("grid_def").length) + ");" );
-  eq_btn_rem.setAttribute("tabindex", "-1");
-  eq_btn_rem.value = "-";
-  eq_btn_rem.className = "little_button";
+  var equivalent_button_remover = document.createElement("input");
+  equivalent_button_remover.setAttribute("type", "button");
+  equivalent_button_remover.setAttribute("onClick", "javascript: delRow_equi(" + (document.getElementsByClassName("grid_def").length) + ");" );
+  equivalent_button_remover.setAttribute("tabindex", "-1");
+  equivalent_button_remover.value = "-";
+  equivalent_button_remover.className = "little_button";
   
   //--- text input - filename
-  var ex_text_file = document.createElement("input");
-  ex_text_file.setAttribute("type", "text");
-  ex_text_file.setAttribute("class", "input_field");
-  ex_text_file.setAttribute("name", "exam_file");
-  ex_text_file.setAttribute("placeholder", "filename");
-  ex_text_file.setAttribute("value", base_name + "-" + (document.getElementById("column_def").children.length + 1) + "a");
+  var example_filename_text = document.createElement("input");
+  example_filename_text.setAttribute("type", "text");
+  example_filename_text.setAttribute("class", "input_field");
+  example_filename_text.setAttribute("name", "exam_file");
+  example_filename_text.setAttribute("placeholder", "filename");
+  example_filename_text.setAttribute("value", base_name + "-" + (document.getElementById("column_def").children.length + 1) + "a");
   
   //--- text input - contributor
-  var ex_text_contrib = document.createElement("input");
-  ex_text_contrib.setAttribute("type", "text");
-  ex_text_contrib.setAttribute("class", "input_field");
-  ex_text_contrib.setAttribute("name", "exam_contrib");
-  ex_text_contrib.setAttribute("placeholder", "contributor");
+  var example_contributor_text = document.createElement("input");
+  example_contributor_text.setAttribute("type", "text");
+  example_contributor_text.setAttribute("class", "input_field");
+  example_contributor_text.setAttribute("name", "exam_contrib");
+  example_contributor_text.setAttribute("placeholder", "contributor");
   
   //--- text input - display
-  var ex_text_display = document.createElement("input");
-  ex_text_display.setAttribute("type", "text");
-  ex_text_display.setAttribute("class", "input_field");
-  ex_text_display.setAttribute("name", "exam_display");
-  ex_text_display.setAttribute("placeholder", "display");
+  var example_display_text = document.createElement("input");
+  example_display_text.setAttribute("type", "text");
+  example_display_text.setAttribute("class", "input_field");
+  example_display_text.setAttribute("name", "exam_display");
+  example_display_text.setAttribute("placeholder", "display");
   
   //--- text input - source
-  var ex_text_source = document.createElement("input");
-  ex_text_source.setAttribute("type", "text");
-  ex_text_source.setAttribute("class", "input_field");
-  ex_text_source.setAttribute("name", "exam_source");
-  ex_text_source.setAttribute("placeholder", "example source");
+  var example_source_text = document.createElement("input");
+  example_source_text.setAttribute("type", "text");
+  example_source_text.setAttribute("class", "input_field");
+  example_source_text.setAttribute("name", "exam_source");
+  example_source_text.setAttribute("placeholder", "example source");
   
   //--- dropdown button for source
-  var ex_btn_src = document.createElement("input");
-  ex_btn_src.setAttribute("type", "button");
-  ex_btn_src.setAttribute("name", "btn_source");
-  ex_btn_src.setAttribute("onClick", "javascript: source_dropdown(this);" );
-  ex_btn_src.setAttribute("tabindex", "-1");
-  ex_btn_src.value = "v";
-  ex_btn_src.className = "little_button";  
+  var example_publisher_dropdown_button = document.createElement("input");
+  example_publisher_dropdown_button.setAttribute("type", "button");
+  example_publisher_dropdown_button.setAttribute("name", "btn_source");
+  example_publisher_dropdown_button.setAttribute("onClick", "javascript: source_dropdown(this);" );
+  example_publisher_dropdown_button.setAttribute("tabindex", "-1");
+  example_publisher_dropdown_button.value = "v";
+  example_publisher_dropdown_button.className = "little_button";  
   
   //--- example plus button
-  var ex_btn_add = document.createElement("input");
-  ex_btn_add.setAttribute("type", "button");
-  ex_btn_add.setAttribute("onClick", "javascript: addRow_exam(" + (document.getElementsByClassName("grid_def").length) + ");" );
-  ex_btn_add.setAttribute("tabindex", "-1");
-  ex_btn_add.value = "+";
-  ex_btn_add.className = "little_button";  
+  var example_button_adder = document.createElement("input");
+  example_button_adder.setAttribute("type", "button");
+  example_button_adder.setAttribute("onClick", "javascript: addRow_exam(" + (document.getElementsByClassName("grid_def").length) + ");" );
+  example_button_adder.setAttribute("tabindex", "-1");
+  example_button_adder.value = "+";
+  example_button_adder.className = "little_button";  
   
   //--- example minus button
-  var ex_btn_rem = document.createElement("input");
-  ex_btn_rem.setAttribute("type", "button");
-  ex_btn_rem.setAttribute("onClick", "javascript: delRow_exam(" + (document.getElementsByClassName("grid_def").length) + ");" );
-  ex_btn_rem.setAttribute("tabindex", "-1");
-  ex_btn_rem.value = "-";
-  ex_btn_rem.className = "little_button";
+  var example_button_remover = document.createElement("input");
+  example_button_remover.setAttribute("type", "button");
+  example_button_remover.setAttribute("onClick", "javascript: delRow_exam(" + (document.getElementsByClassName("grid_def").length) + ");" );
+  example_button_remover.setAttribute("tabindex", "-1");
+  example_button_remover.value = "-";
+  example_button_remover.className = "little_button";
   
   //----------------------------------------------------------------------------------------------------
   
   //--- equivalent button group (only one button group per meaning)
-  var eq_div_buttons = document.createElement("div");
-  eq_div_buttons.appendChild(eq_btn_add);
-  eq_div_buttons.appendChild(eq_btn_rem);
+  var equivalent_buttons_div = document.createElement("div");
+  equivalent_buttons_div.appendChild(equivalent_button_adder);
+  equivalent_buttons_div.appendChild(equivalent_button_remover);
   
   //--- example button group (only one button group per meaning)
-  var ex_div_buttons = document.createElement("div");
-  ex_div_buttons.appendChild(ex_btn_add);
-  ex_div_buttons.appendChild(ex_btn_rem);
+  var example_buttons_div = document.createElement("div");
+  example_buttons_div.appendChild(example_button_adder);
+  example_buttons_div.appendChild(example_button_remover);
   
   //--- equivalent group
-  var eq_div = document.createElement("div");
-  eq_div.className = "grid_equi";
-  eq_div.appendChild(eq_text);
-  eq_div.appendChild(eq_div_buttons);
+  var equivalent_group_div = document.createElement("div");
+  equivalent_group_div.className = "grid_equi";
+  equivalent_group_div.appendChild(equivalent_text);
+  equivalent_group_div.appendChild(equivalent_buttons_div);
   
   //--- example group
-  var ex_div = document.createElement("div");
-  ex_div.className = "grid_exam";
-  ex_div.appendChild(ex_text_source);
-  ex_div.appendChild(ex_btn_src);
-  ex_div.appendChild(ex_text_file);
-  ex_div.appendChild(ex_text_display);
-  ex_div.appendChild(ex_text_contrib);
-  ex_div.appendChild(ex_div_buttons);
+  var example_group_div = document.createElement("div");
+  example_group_div.className = "grid_exam";
+  example_group_div.appendChild(example_source_text);
+  example_group_div.appendChild(example_publisher_dropdown_button);
+  example_group_div.appendChild(example_filename_text);
+  example_group_div.appendChild(example_display_text);
+  example_group_div.appendChild(example_contributor_text);
+  example_group_div.appendChild(example_buttons_div);
   
   //--- definition group
-  var div_def = document.createElement("div");
-  div_def.className = "grid_def";
-  div_def.appendChild(re_text);
-  div_def.appendChild(typeContainer);
-  //div_def.appendChild(ty_text);
-  div_def.appendChild(me_text);
-  div_def.appendChild(eq_div);
-  div_def.appendChild(ex_div);
+  var definition_group_div = document.createElement("div");
+  definition_group_div.className = "grid_def";
+  definition_group_div.appendChild(reference_text);
+  definition_group_div.appendChild(typeContainer);
+  //definition_group_div.appendChild(ty_text);
+  definition_group_div.appendChild(meaning_text);
+  definition_group_div.appendChild(equivalent_group_div);
+  definition_group_div.appendChild(example_group_div);
   
-  //--- add to doc
-  var col_def = document.getElementById("column_def");
-  col_def.appendChild(div_def);
-  col_def.appendChild(getButtons("def")); 
+  //--- add full definition to doc
+  var definition_column = document.getElementById("column_def");
+  definition_column.appendChild(definition_group_div);
+  definition_column.appendChild(getButtons("def")); 
   
   bUpdated = true;
   document.getElementById("modified_label").style.display = "block";
@@ -260,64 +260,64 @@ function addRow_def() {
 //======================================================================================================
 
 function addRow_exam(num) {
-  var lit_rows = document.getElementsByClassName("grid_lit");
-  var lit_value = lit_rows[0].children[0].value
-  var base_name = lit_value.replace(" ", "_");
+  var literal_rows = document.getElementsByClassName("grid_lit");
+  var literal_value = literal_rows[0].children[0].value
+  var base_name = literal_value.replace(" ", "_");
   
   //--- text input - filename
-  var ex_text_file = document.createElement("input");
-  ex_text_file.setAttribute("type", "text");
-  ex_text_file.setAttribute("class", "input_field");
-  ex_text_file.setAttribute("name", "exam_file");
-  ex_text_file.setAttribute("placeholder", "filename");
-  ex_text_file.setAttribute("value", base_name + "-" + (num + 1) + String.fromCharCode(97 + document.getElementsByClassName("grid_def")[num].children[3].children.length/6));
+  var example_filename_text = document.createElement("input");
+  example_filename_text.setAttribute("type", "text");
+  example_filename_text.setAttribute("class", "input_field");
+  example_filename_text.setAttribute("name", "exam_file");
+  example_filename_text.setAttribute("placeholder", "filename");
+  example_filename_text.setAttribute("value", base_name + "-" + (num + 1) + String.fromCharCode(97 + document.getElementsByClassName("grid_def")[num].children[3].children.length/6));
   
   //--- text input - contributor
-  var ex_text_contrib = document.createElement("input");
-  ex_text_contrib.setAttribute("type", "text");
-  ex_text_contrib.setAttribute("class", "input_field");
-  ex_text_contrib.setAttribute("name", "exam_contrib");
-  ex_text_contrib.setAttribute("placeholder", "contributor");
+  var example_contributor_text = document.createElement("input");
+  example_contributor_text.setAttribute("type", "text");
+  example_contributor_text.setAttribute("class", "input_field");
+  example_contributor_text.setAttribute("name", "exam_contrib");
+  example_contributor_text.setAttribute("placeholder", "contributor");
   
   //--- text input - display
-  var ex_text_display = document.createElement("input");
-  ex_text_display.setAttribute("type", "text");
-  ex_text_display.setAttribute("class", "input_field");
-  ex_text_display.setAttribute("name", "exam_display");
-  ex_text_display.setAttribute("placeholder", "display");
+  var example_display_text = document.createElement("input");
+  example_display_text.setAttribute("type", "text");
+  example_display_text.setAttribute("class", "input_field");
+  example_display_text.setAttribute("name", "exam_display");
+  example_display_text.setAttribute("placeholder", "display");
   
   //--- text input - source
-  var ex_text_source = document.createElement("input");
-  ex_text_source.setAttribute("type", "text");
-  ex_text_source.setAttribute("class", "input_field");
-  ex_text_source.setAttribute("name", "exam_source");
-  ex_text_source.setAttribute("placeholder", "example source");
+  var example_source_text = document.createElement("input");
+  example_source_text.setAttribute("type", "text");
+  example_source_text.setAttribute("class", "input_field");
+  example_source_text.setAttribute("name", "exam_source");
+  example_source_text.setAttribute("placeholder", "example source");
   
   //--- dropdown button for source
-  var ex_btn_src = document.createElement("input");
-  ex_btn_src.setAttribute("type", "button");
-  ex_btn_src.setAttribute("name", "btn_source");
-  ex_btn_src.setAttribute("onClick", "javascript: source_dropdown(this);" );
-  ex_btn_src.setAttribute("tabindex", "-1");
-  ex_btn_src.value = "v";
-  ex_btn_src.className = "little_button"; 
+  var example_publisher_dropdown_button = document.createElement("input");
+  example_publisher_dropdown_button.setAttribute("type", "button");
+  example_publisher_dropdown_button.setAttribute("name", "btn_source");
+  example_publisher_dropdown_button.setAttribute("onClick", "javascript: source_dropdown(this);" );
+  example_publisher_dropdown_button.setAttribute("tabindex", "-1");
+  example_publisher_dropdown_button.value = "v";
+  example_publisher_dropdown_button.className = "little_button"; 
   
-  //--- blank input (in lieu of extra plus/minus buttons)
-  var ex_blank = document.createElement("input");
-  ex_blank.setAttribute("type", "hidden");
-  ex_blank.value = "0";
+  //--- hidden input (in lieu of extra plus/minus buttons)
+  var example_hidden_input = document.createElement("input");
+  example_hidden_input.setAttribute("type", "hidden");
+  example_hidden_input.value = "0";
   
-  //--- blank button group
-  var ex_div_buttons = document.createElement("div");
-  ex_div_buttons.appendChild(ex_blank); 
+  //--- hidden input group
+  var example_hidden_input_group = document.createElement("div");
+  example_hidden_input_group.appendChild(example_hidden_input_div); 
   
   var grid_exam = document.getElementsByClassName("grid_def")[num].children[4]; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
-  grid_exam.appendChild(ex_text_source);
-  grid_exam.appendChild(ex_btn_src);
-  grid_exam.appendChild(ex_text_file);
-  grid_exam.appendChild(ex_text_display);
-  grid_exam.appendChild(ex_text_contrib);
-  grid_exam.appendChild(ex_div_buttons);
+  grid_exam.appendChild(example_source_text);
+  grid_exam.appendChild(example_publisher_dropdown_button);
+  grid_exam.appendChild(example_filename_text);
+  grid_exam.appendChild(example_display_text);
+  grid_exam.appendChild(example_contributor_text);
+  grid_exam.appendChild(example_hidden_input_group);
   
   bUpdated = true;
   document.getElementById("modified_label").style.display = "block";
@@ -329,24 +329,24 @@ function addRow_exam(num) {
 function addRow_equi(defNum) {
   
   //--- text input - equivalent values
-  var eq_text = document.createElement("input");
-  eq_text.setAttribute("type", "text");
-  eq_text.setAttribute("name", "equi");
-  eq_text.setAttribute("class", "input_field");
-  eq_text.setAttribute("placeholder", "equivalent values");
+  var equivalent_text = document.createElement("input");
+  equivalent_text.setAttribute("type", "text");
+  equivalent_text.setAttribute("name", "equi");
+  equivalent_text.setAttribute("class", "input_field");
+  equivalent_text.setAttribute("placeholder", "equivalent values");
   
   //--- blank input (in lieu of extra plus/minus buttons)
-  var ex_blank = document.createElement("input");
-  ex_blank.setAttribute("type", "hidden");
-  ex_blank.value = "0";
+  var example_hidden_input = document.createElement("input");
+  example_hidden_input.setAttribute("type", "hidden");
+  example_bexample_hidden_inputlank.value = "0";
   
   //--- blank button group
-  var div_blank = document.createElement("div");
-  div_blank.appendChild(ex_blank);
+  var example_hidden_input_group = document.createElement("div");
+  example_hidden_input_group.appendChild(example_hidden_input);
   
   var grid_equi = document.getElementsByClassName("grid_def")[defNum].children[2]; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
-  grid_equi.appendChild(eq_text);
-  grid_equi.appendChild(div_blank);
+  grid_equi.appendChild(equivalent_text);
+  grid_equi.appendChild(example_hidden_input_group);
   
   bUpdated = true;
 }
@@ -521,8 +521,8 @@ function load_details_to_fields(id) {
   
   newRecord();
   
-  var lit_rows = document.getElementsByClassName("grid_lit");
-  lit_rows[0].children[0].value = details.literal;
+  var literal_rows = document.getElementsByClassName("grid_lit");
+  literal_rows[0].children[0].value = details.literal;
   //--------------------------------------
   var kana_rows = document.getElementsByClassName("grid_kana");
   for (var i = 0; i<details.katakana.length; i++) {
@@ -537,19 +537,22 @@ function load_details_to_fields(id) {
   for (var detNum = 0; detNum<details.definition.length; detNum++) {
     def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
     //def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].type;
-    def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].meaning;
+    def_rows[def_rows.length - 2].children[2].value = details.definition[detNum].meaning;
+    
     for (var equNum = 0; equNum<details.definition[detNum].equivalent.length; equNum++) {
-      def_rows[def_rows.length - 2].children[2].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
+      def_rows[def_rows.length - 2].children[3].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
       if (equNum < details.definition[detNum].equivalent.length - 1) addRow_equi(detNum);
     }
-    //console.log(def_rows[def_rows.length - 2].children[3]);
+    
+    //console.log(def_rows[def_rows.length - 2].children[4]);
     for (var exaNum = 0; exaNum<details.definition[detNum].example.length; exaNum++) {
-      def_rows[def_rows.length - 2].children[3].children[exaNum*6].value = details.definition[detNum].example[exaNum].source;
-      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 2].value = details.definition[detNum].example[exaNum].file;
-      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 3].value = details.definition[detNum].example[exaNum].display;
-      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 4].value = details.definition[detNum].example[exaNum].contributor;
+      def_rows[def_rows.length - 2].children[4].children[exaNum*6].value = details.definition[detNum].example[exaNum].source;
+      def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 2].value = details.definition[detNum].example[exaNum].file;
+      def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 3].value = details.definition[detNum].example[exaNum].display;
+      def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 4].value = details.definition[detNum].example[exaNum].contributor;
       if(exaNum < details.definition[detNum].example.length - 1) addRow_exam(detNum);
     }
+    
     if(detNum < details.definition.length - 1) addRow_def();
   }
   
