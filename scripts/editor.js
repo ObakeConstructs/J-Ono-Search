@@ -518,43 +518,43 @@ function load_details_to_fields(id) {
     return;
   }
 
-  var details = deets[id];
-  
   newRecord();
-  
+  //--------------------------------------
   var literal_rows = document.getElementsByClassName("grid_lit");
-  literal_rows[0].children[0].value = details.literal;
+  var def_rows = document.getElementsByClassName("grid_def");
+  var details = deets[id];
+  //--------------------------------------
+    literal_rows[0].children[0].value = details.literal;
   //--------------------------------------
   var kana_rows = document.getElementsByClassName("grid_kana");
-  for (var i = 0; i<details.katakana.length; i++) {
+  for (var i = 0; i < details.katakana.length; i++) {
     kana_rows[kana_rows.length - 2].children[0].value = details.katakana[i];
     kana_rows[kana_rows.length - 2].children[1].value = details.hiragana[i];
-    addRow_kana();
+    if (i < details.katakana.length) < addRow_kana();
   }
-  delRow_kana();
   //--------------------------------------
-  var def_rows = document.getElementsByClassName("grid_def");
-  
-  for (var detNum = 0; detNum<details.definition.length; detNum++) {
+  for (var detNum = 0; detNum < details.definition.length; detNum++) {
     def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
+    //--------------------------------------
     //def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].type;
+    console.log(def_rows[def_rows.length - 2].children[1].length);
+    //--------------------------------------
     def_rows[def_rows.length - 2].children[2].value = details.definition[detNum].meaning;
-      
+    //--------------------------------------
     for (var equNum = 0; equNum<details.definition[detNum].equivalent.length; equNum++) {
       def_rows[def_rows.length - 2].children[3].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
       if (equNum < details.definition[detNum].equivalent.length - 1) addRow_equi(detNum);
     }
-    
-    //console.log(def_rows[def_rows.length - 2].children[4]);
-    for (var exaNum = 0; exaNum<details.definition[detNum].example.length; exaNum++) {
+    //--------------------------------------
+    for (var exaNum = 0; exaNum < details.definition[detNum].example.length; exaNum++) {
       def_rows[def_rows.length - 2].children[4].children[exaNum*6].value = details.definition[detNum].example[exaNum].source;
       def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 2].value = details.definition[detNum].example[exaNum].file;
       def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 3].value = details.definition[detNum].example[exaNum].display;
       def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 4].value = details.definition[detNum].example[exaNum].contributor;
-      if(exaNum < details.definition[detNum].example.length - 1) addRow_exam(detNum);
+      if (exaNum < details.definition[detNum].example.length - 1) addRow_exam(detNum);
     }
-    
-    if(detNum < details.definition.length - 1) addRow_def();
+    //--------------------------------------
+    if (detNum < details.definition.length - 1) addRow_def();
   }
   
   bUpdated = false;
