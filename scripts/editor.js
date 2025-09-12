@@ -112,6 +112,7 @@ function addRow_def() {
   
   //--- text input - type
   var types = ["imitative", "vocal", "stative", "motive", "emotive"];
+  var defnum = document.getElementById("column_def").children.length
   var typeContainer = document.createElement("div");
   typeContainer.setAttribute("class", "type-group");
   types.forEach(function(type, index) {
@@ -119,7 +120,7 @@ function addRow_def() {
     label.setAttribute("class", "type-option");
     var radio = document.createElement("input");
     radio.setAttribute("type", "radio");
-    radio.setAttribute("name", "type");
+    radio.setAttribute("name", "type-"+defnum);
     radio.setAttribute("value", type);
     label.appendChild(radio);
     label.appendChild(document.createTextNode(" " + type));
