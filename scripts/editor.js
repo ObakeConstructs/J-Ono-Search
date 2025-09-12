@@ -309,7 +309,7 @@ function addRow_exam(num) {
   
   //--- hidden input group
   var example_hidden_input_group = document.createElement("div");
-  example_hidden_input_group.appendChild(example_hidden_input_div); 
+  example_hidden_input_group.appendChild(example_hidden_input); 
   
   var grid_exam = document.getElementsByClassName("grid_def")[num].children[4]; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
   grid_exam.appendChild(example_source_text);
