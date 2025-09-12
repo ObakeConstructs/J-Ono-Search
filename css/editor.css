@@ -41,7 +41,7 @@
 
 .grid_def {
   display: grid;
-  grid-template-columns: 90px 320px 180px auto; /* refer, meaning, equivalents, examples */
+  grid-template-columns: 90px 70px 250px 180px auto; /* refer, type, meaning, equivalents, examples */
   /*grid-template-columns: 320px 180px auto;*/ /* meaning, equivalents, examples */
   /*border: 1px solid red;*/
 }
@@ -68,6 +68,19 @@
   font-weight: bold;
   text-align: center;
   height: 16px;
+}
+
+.type-group {
+  display: flex;
+  flex-direction: column;
+  background-color: #000000;
+  border: 1px solid #505050;
+}
+
+.type-option {
+  display: block;
+  cursor: pointer;
+  font-size: 10px;
 }
 
 .little_button {

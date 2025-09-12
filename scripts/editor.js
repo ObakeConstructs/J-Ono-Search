@@ -110,6 +110,22 @@ function addRow_def() {
   re_text.setAttribute("class", "input_field");
   re_text.setAttribute("placeholder", "reference");
   
+  //--- text input - type
+  var types = ["imitative", "vocal", "stative", "motive", "emotive"];
+  var typeContainer = document.createElement("div");
+  typeContainer.setAttribute("class", "type-group");
+  types.forEach(function(type, index) {
+    var label = document.createElement("label");
+    label.setAttribute("class", "type-option");
+    var radio = document.createElement("input");
+    radio.setAttribute("type", "radio");
+    radio.setAttribute("name", "type");
+    radio.setAttribute("value", type);
+    label.appendChild(radio);
+    label.appendChild(document.createTextNode(" " + type));
+    typeContainer.appendChild(label);
+  });
+  
   //--- text input - meaning
   var me_text = document.createElement("input");
   me_text.setAttribute("type", "text");
@@ -225,7 +241,9 @@ function addRow_def() {
   //--- definition group
   var div_def = document.createElement("div");
   div_def.className = "grid_def";
-  div_def.appendChild(re_text);  
+  div_def.appendChild(re_text);
+  div_def.appendChild(typeContainer);
+  //div_def.appendChild(ty_text);
   div_def.appendChild(me_text);
   div_def.appendChild(eq_div);
   div_def.appendChild(ex_div);
@@ -293,7 +311,7 @@ function addRow_exam(num) {
   var ex_div_buttons = document.createElement("div");
   ex_div_buttons.appendChild(ex_blank); 
   
-  var grid_exam = document.getElementsByClassName("grid_def")[num].children[3]; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
+  var grid_exam = document.getElementsByClassName("grid_def")[num].children[4]; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
   grid_exam.appendChild(ex_text_source);
   grid_exam.appendChild(ex_btn_src);
   grid_exam.appendChild(ex_text_file);
@@ -358,7 +376,7 @@ function delRow_def() {
 //======================================================================================================
  
 function delRow_exam(num) {
-  var grid_exam = document.getElementsByClassName("grid_def")[num].children[3]; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
+  var grid_exam = document.getElementsByClassName("grid_def")[num].children[4]; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
   if(grid_exam.children.length > 6) { //four input fields + one div for buttons
     grid_exam.lastChild.outerHTML = "";
     grid_exam.lastChild.outerHTML = "";
@@ -517,18 +535,19 @@ function open_details(id) {
   var def_rows = document.getElementsByClassName("grid_def");
   
   for (var detNum = 0; detNum<details.definition.length; detNum++) {
-    def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
-    def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].meaning;
+    def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
+    //def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].type;
+    def_rows[def_rows.length - 2].children[2].value = details.definition[detNum].meaning;
     for (var equNum = 0; equNum<details.definition[detNum].equivalent.length; equNum++) {
-      def_rows[def_rows.length - 2].children[2].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
+      def_rows[def_rows.length - 2].children[3].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
       if (equNum < details.definition[detNum].equivalent.length - 1) addRow_equi(detNum);
     }
-    //console.log(def_rows[def_rows.length - 2].children[3]);
+    //console.log(def_rows[def_rows.length - 2].children[4]);
     for (var exaNum = 0; exaNum<details.definition[detNum].example.length; exaNum++) {
-      def_rows[def_rows.length - 2].children[3].children[exaNum*6].value = details.definition[detNum].example[exaNum].source;
-      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 2].value = details.definition[detNum].example[exaNum].file;
-      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 3].value = details.definition[detNum].example[exaNum].display;
-      def_rows[def_rows.length - 2].children[3].children[exaNum*6 + 4].value = details.definition[detNum].example[exaNum].contributor;
+      def_rows[def_rows.length - 2].children[4].children[exaNum*6].value = details.definition[detNum].example[exaNum].source;
+      def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 2].value = details.definition[detNum].example[exaNum].file;
+      def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 3].value = details.definition[detNum].example[exaNum].display;
+      def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 4].value = details.definition[detNum].example[exaNum].contributor;
       if(exaNum < details.definition[detNum].example.length - 1) addRow_exam(detNum);
     }
     if(detNum < details.definition.length - 1) addRow_def();
@@ -569,16 +588,18 @@ function getJSON() {
   for (var defNum=0; defNum<def_rows.children.length - 1; defNum++) {
     
     // reference
-    var re = def_rows.children[defNum].children[0].value; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
-  
+    var re = def_rows.children[defNum].children[0].value; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
+    
+    // type
+    var ty = def_rows.children[defNum].children[1].value;
     
     // meaning
-    //if (!def_rows.children[defNum].children[1].value) return null;
-    var me = def_rows.children[defNum].children[1].value;
+    //if (!def_rows.children[defNum].children[2].value) return null;
+    var me = def_rows.children[defNum].children[2].value;
     
     // equivalents
     const equi = [];    
-    var equivs = def_rows.children[defNum].children[2];
+    var equivs = def_rows.children[defNum].children[3];
     for (var equNum=0; equNum<equivs.children.length; equNum+=2) {
       if (!equivs.children[equNum].value && equNum > 0) return null;
       equi.push(equivs.children[equNum].value);
@@ -589,7 +610,7 @@ function getJSON() {
     
     // examples
     const exam = [];
-    var examps = def_rows.children[defNum].children[3];
+    var examps = def_rows.children[defNum].children[4];
     for (var exaNum=0; exaNum<examps.children.length; exaNum+=6) {
       if (!examps.children[exaNum].value) return null;
       if (!examps.children[exaNum + 2].value) return null;
@@ -605,6 +626,7 @@ function getJSON() {
     
     var de = {
       refer: re,
+      type: ty,
       meaning: me,
       equivalent: equi,
       example: exam
