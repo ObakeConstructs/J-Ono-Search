@@ -344,7 +344,7 @@ function addRow_equi(defNum) {
   var example_hidden_input_group = document.createElement("div");
   example_hidden_input_group.appendChild(example_hidden_input);
   
-  var grid_equi = document.getElementsByClassName("grid_def")[defNum].children[2]; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
+  var grid_equi = document.getElementsByClassName("grid_def")[defNum].children[3]; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
   grid_equi.appendChild(equivalent_text);
   grid_equi.appendChild(example_hidden_input_group);
   
@@ -394,7 +394,7 @@ function delRow_exam(num) {
  
 function delRow_equi(num) {
   
-  var grid_equi = document.getElementsByClassName("grid_def")[num].children[2]; // children[0] = refer, children[1] = meaning, children[2] = equivalent group, children[3] = example group
+  var grid_equi = document.getElementsByClassName("grid_def")[num].children[3]; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
   if(grid_equi.children.length > 2) {
     grid_equi.lastChild.outerHTML = "";
     grid_equi.lastChild.outerHTML = "";
@@ -541,12 +541,7 @@ function load_details_to_fields(id) {
     def_rows[def_rows.length - 2].children[2].value = details.definition[detNum].meaning;
       
     for (var equNum = 0; equNum<details.definition[detNum].equivalent.length; equNum++) {
-      console.log("------------------------------------------");
-      console.log("equNum: " + equNum);
-      console.log("def_rows[def_rows.length - 2].children[3].children[equNum].value: " + def_rows[def_rows.length - 2].children[3].children[equNum].value);
-      console.log("------------------------------------------");
-      //def_rows[def_rows.length - 2].children[3].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
-      def_rows[def_rows.length - 2].children[3].children[equNum].value = details.definition[detNum].equivalent[equNum];
+      def_rows[def_rows.length - 2].children[3].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
       if (equNum < details.definition[detNum].equivalent.length - 1) addRow_equi(detNum);
     }
     
