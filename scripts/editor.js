@@ -539,9 +539,12 @@ function load_details_to_fields(id) {
     //def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].type;
     def_rows[def_rows.length - 2].children[2].value = details.definition[detNum].meaning;
 
-    console.log("def_rows[def_rows.length - 2].children[3].children: " + def_rows[def_rows.length - 2].children[3].children);
+    console.log("------------------------------------------");
+    console.log("def_rows[def_rows.length - 2].children[3].children[0]: " + def_rows[def_rows.length - 2].children[3].children[0]);
+    console.log("def_rows[def_rows.length - 2].children[3].children[1]: " + def_rows[def_rows.length - 2].children[3].children[1]);
     console.log("def_rows.length: " + def_rows.length);
     console.log("def_rows[def_rows.length - 2].children[3].children.length: " + def_rows[def_rows.length - 2].children[3].children.length);
+    console.log("------------------------------------------");
       
     for (var equNum = 0; equNum<details.definition[detNum].equivalent.length; equNum++) {
       
