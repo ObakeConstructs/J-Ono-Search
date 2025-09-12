@@ -338,7 +338,7 @@ function addRow_equi(defNum) {
   //--- blank input (in lieu of extra plus/minus buttons)
   var example_hidden_input = document.createElement("input");
   example_hidden_input.setAttribute("type", "hidden");
-  example_bexample_hidden_inputlank.value = "0";
+  example_hidden_input.value = "0";
   
   //--- blank button group
   var example_hidden_input_group = document.createElement("div");
