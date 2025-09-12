@@ -530,7 +530,7 @@ function load_details_to_fields(id) {
   for (var i = 0; i < details.katakana.length; i++) {
     kana_rows[kana_rows.length - 2].children[0].value = details.katakana[i];
     kana_rows[kana_rows.length - 2].children[1].value = details.hiragana[i];
-    if (i < details.katakana.length) < addRow_kana();
+    if (i < details.katakana.length) addRow_kana();
   }
   //--------------------------------------
   for (var detNum = 0; detNum < details.definition.length; detNum++) {
