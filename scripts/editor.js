@@ -486,8 +486,8 @@ function create_picker_list() {
   var subGroupLetter = "";
   picker.innerHTML += "A:\t"
   
-  //for (var i=0; i<deets.length; i++) {
-  for (var i=0; i<5; i++) {
+  for (var i=0; i<deets.length; i++) {
+  //for (var i=0; i<5; i++) {
     currentLetter1 = deets[i].literal.substring(0, 1);
     currentLetter2 = deets[i].literal.substring(1, 2);
     if (currentLetter1 !== groupLetter) {
