@@ -543,7 +543,7 @@ function load_details_to_fields(id) {
     //for (var choice of choices) {
       //console.log("choice.innerText: " + choice.innerText);
       //choice.value === details.definition[detNum].type);
-    }
+    //}
     //--------------------------------------
     def_rows[def_rows.length - 2].children[2].value = details.definition[detNum].meaning;
     //--------------------------------------
