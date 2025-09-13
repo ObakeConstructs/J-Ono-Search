@@ -454,7 +454,7 @@ function getButtons(section) {
     return newDiv;
   
   var test = document.createElement("div");
-  test.innerHTML = "o:onomatopoeic<br>v:voiced<br>s:state<br>m:movment<br>e:emotions";
+  test.innerHTML = "o:onomatopoeic<br>v:voiced<br>s:state<br>m:movement<br>e:emotions";
   newDiv.appendChild(test);
   
   return newDiv;
