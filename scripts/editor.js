@@ -538,8 +538,9 @@ function load_details_to_fields(id) {
   for (var detNum = 0; detNum < details.definition.length; detNum++) {
     def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
     //--------------------------------------
-    var choices = Array.from(def_rows[def_rows.length - 2].children[1]);
-    console.log(choices);
+    //var choices = Array.from(def_rows[def_rows.length - 2].children[1]);
+    
+    console.log(def_rows[def_rows.length - 2].children[1]);
     //for (var choice of choices) {
       //console.log("choice.innerText: " + choice.innerText);
       //choice.value === details.definition[detNum].type);
