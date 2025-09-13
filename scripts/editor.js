@@ -488,7 +488,8 @@ function create_picker_list() {
   var subGroupLetter = "";
   picker.innerHTML += "A:\t"
   
-  for (var i=0; i<deets.length; i++) {
+  //for (var i=0; i<deets.length; i++) {
+  for (var i=0; i<5; i++) {
     currentLetter1 = deets[i].literal.substring(0, 1);
     currentLetter2 = deets[i].literal.substring(1, 2);
     if (currentLetter1 !== groupLetter) {
@@ -535,9 +536,10 @@ function load_details_to_fields(id) {
   //--------------------------------------
   for (var detNum = 0; detNum < details.definition.length; detNum++) {
     def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
-    //--------------------------------------
-    //def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].type;
-    console.log(def_rows[def_rows.length - 2].children[1].length);
+    //--------------------------------------    
+    def_rows[def_rows.length - 2].children[1].foreach(function(choice) {
+      choice.checked = (choice.value === details.definition[detNum].type);
+    });
     //--------------------------------------
     def_rows[def_rows.length - 2].children[2].value = details.definition[detNum].meaning;
     //--------------------------------------
