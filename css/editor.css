@@ -15,7 +15,6 @@
 .grid_editor {
   display: grid;
   grid-template-columns: 120px 250px auto; /* literal, kana, definition */
-  /*grid-template-columns: 150px 250px auto;*/ /* literal, kana, definition */
   align-content: start;
   padding: 5px;
   /*outline: 1px dashed gray;*/
@@ -69,21 +68,6 @@
   text-align: center;
   height: 16px;
 }
-
-/*
-.type-group {
-  display: flex;
-  flex-direction: column;
-  background-color: #000000;
-  border: 1px solid #505050;
-}
-
-.type-option {
-  display: block;
-  cursor: pointer;
-  font-size: 10px;
-}
-*/
 
 .little_button {
   width: 25px;

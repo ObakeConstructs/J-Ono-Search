@@ -182,7 +182,7 @@ function addRow_def() {
   example_publisher_dropdown_button.setAttribute("name", "btn_source");
   example_publisher_dropdown_button.setAttribute("onClick", "javascript: source_dropdown(this);" );
   example_publisher_dropdown_button.setAttribute("tabindex", "-1");
-  example_publisher_dropdown_button.value = "v";
+  example_publisher_dropdown_button.value = "⇓";
   example_publisher_dropdown_button.className = "little_button";  
   
   //--- example plus button
@@ -242,7 +242,7 @@ function addRow_def() {
   //--- add full definition to doc
   var definition_column = document.getElementById("column_def");
   definition_column.appendChild(definition_group_div);
-  definition_column.appendChild(getButtons("def")); 
+  definition_column.appendChild(getButtons("def"));
   
   bUpdated = true;
   document.getElementById("modified_label").style.display = "block";
@@ -290,7 +290,7 @@ function addRow_exam(num) {
   example_publisher_dropdown_button.setAttribute("name", "btn_source");
   example_publisher_dropdown_button.setAttribute("onClick", "javascript: source_dropdown(this);" );
   example_publisher_dropdown_button.setAttribute("tabindex", "-1");
-  example_publisher_dropdown_button.value = "v";
+  example_publisher_dropdown_button.value = "⇓";
   example_publisher_dropdown_button.className = "little_button"; 
   
   //--- hidden input (in lieu of extra plus/minus buttons)
@@ -442,13 +442,21 @@ function getButtons(section) {
   newInput.className = "little_button";
   tmpDiv.appendChild(newInput);
   
+  if (section === "exam")
+    return tmpDiv;
+  
   var newDiv = document.createElement("div");
   newDiv.id = "button_" + section;
   newDiv.className = "grid_" + section;
   newDiv.appendChild(tmpDiv);
   
-  if (section === "exam")
-    return tmpDiv;
+  if (section === "kana")
+    return newDiv;
+  
+  var test = document.createElement("div");
+  test.innerHTML = "o:onomatopoeic<br>v:voiced<br>s:state<br>m:movment<br>e:emotions";
+  newDiv.appendChild(test);
+  
   return newDiv;
 }
   
@@ -514,9 +522,9 @@ function load_details_to_fields(id) {
   var literal_rows = document.getElementsByClassName("grid_lit");
   var def_rows = document.getElementsByClassName("grid_def");
   var details = deets[id];
-  //--------------------------------------
-    literal_rows[0].children[0].value = details.literal;
-  //--------------------------------------
+  
+  literal_rows[0].children[0].value = details.literal;
+  
   var kana_rows = document.getElementsByClassName("grid_kana");
 
   for (var i = 0; i < details.katakana.length; i++) {
@@ -524,26 +532,17 @@ function load_details_to_fields(id) {
     kana_rows[kana_rows.length - 2].children[1].value = details.hiragana[i];
     if (i < details.katakana.length - 1) addRow_kana();
   }
-  //--------------------------------------
+  
   for (var detNum = 0; detNum < details.definition.length; detNum++) {
     def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group    
     def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].type; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
-    //--------------------------------------
-    //var choices = Array.from(def_rows[def_rows.length - 2].children[1]);
-    
-    //console.log(def_rows[def_rows.length - 2].children[1]);
-    //for (var choice of choices) {
-      //console.log("choice.innerText: " + choice.innerText);
-      //choice.value === details.definition[detNum].type);
-    //}
-    //--------------------------------------
     def_rows[def_rows.length - 2].children[2].value = details.definition[detNum].meaning;
-    //--------------------------------------
+    
     for (var equNum = 0; equNum<details.definition[detNum].equivalent.length; equNum++) {
       def_rows[def_rows.length - 2].children[3].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
       if (equNum < details.definition[detNum].equivalent.length - 1) addRow_equi(detNum);
     }
-    //--------------------------------------
+    
     for (var exaNum = 0; exaNum < details.definition[detNum].example.length; exaNum++) {
       def_rows[def_rows.length - 2].children[4].children[exaNum*6].value = details.definition[detNum].example[exaNum].source;
       def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 2].value = details.definition[detNum].example[exaNum].file;
@@ -551,7 +550,7 @@ function load_details_to_fields(id) {
       def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 4].value = details.definition[detNum].example[exaNum].contributor;
       if (exaNum < details.definition[detNum].example.length - 1) addRow_exam(detNum);
     }
-    //--------------------------------------
+    
     if (detNum < details.definition.length - 1) addRow_def();
   }
   
@@ -747,7 +746,7 @@ async function opener() {
   
   create_picker_list();
   create_publisher_source_list();
-  //send_stats_to_console();
+  send_stats_to_console();
   
   newRecord();
 }
