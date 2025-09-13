@@ -115,26 +115,8 @@ function addRow_def() {
   type_text.setAttribute("type", "text");
   type_text.setAttribute("name", "type");
   type_text.setAttribute("class", "input_field");
-  type_text.setAttribute("placeholder", "reference");
-                         
-  /*
-  var types = ["o", "v", "s", "m", "e"];
-  var defnum = document.getElementById("column_def").children.length
-  var typeContainer = document.createElement("div");
-  typeContainer.setAttribute("class", "type-group");
-  types.forEach(function(type, index) {
-    var label = document.createElement("label");
-    label.setAttribute("class", "type-option");
-    var radio = document.createElement("input");
-    radio.setAttribute("type", "radio");
-    radio.setAttribute("name", "type-"+defnum);
-    radio.setAttribute("value", type);
-    label.appendChild(radio);
-    label.appendChild(document.createTextNode(" " + type));
-    typeContainer.appendChild(label);
-  });
-  */
-  
+  type_text.setAttribute("placeholder", "type");
+                        
   //--- text input - meaning
   var meaning_text = document.createElement("input");
   meaning_text.setAttribute("type", "text");
