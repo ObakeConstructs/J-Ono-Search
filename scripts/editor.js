@@ -251,8 +251,8 @@ function addRow_def() {
   var definition_group_div = document.createElement("div");
   definition_group_div.className = "grid_def";
   definition_group_div.appendChild(reference_text);
-  definition_group_div.appendChild(typeContainer);
-  //definition_group_div.appendChild(ty_text);
+  //definition_group_div.appendChild(typeContainer);
+  definition_group_div.appendChild(type_text);
   definition_group_div.appendChild(meaning_text);
   definition_group_div.appendChild(equivalent_group_div);
   definition_group_div.appendChild(example_group_div);
@@ -544,11 +544,12 @@ function load_details_to_fields(id) {
   }
   //--------------------------------------
   for (var detNum = 0; detNum < details.definition.length; detNum++) {
-    def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
+    def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group    
+    def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].type; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
     //--------------------------------------
     //var choices = Array.from(def_rows[def_rows.length - 2].children[1]);
     
-    console.log(def_rows[def_rows.length - 2].children[1]);
+    //console.log(def_rows[def_rows.length - 2].children[1]);
     //for (var choice of choices) {
       //console.log("choice.innerText: " + choice.innerText);
       //choice.value === details.definition[detNum].type);
