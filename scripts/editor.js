@@ -536,8 +536,9 @@ function load_details_to_fields(id) {
   //--------------------------------------
   for (var detNum = 0; detNum < details.definition.length; detNum++) {
     def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
-    //--------------------------------------    
-    def_rows[def_rows.length - 2].children[1].foreach(function(choice) {
+    //--------------------------------------
+    var choices = document.querySelectorAll('input[name="type' + detNum + '"]');
+    choices.foreach(function(choice) {
       choice.checked = (choice.value === details.definition[detNum].type);
     });
     //--------------------------------------
