@@ -528,9 +528,12 @@ function load_details_to_fields(id) {
     literal_rows[0].children[0].value = details.literal;
   //--------------------------------------
   var kana_rows = document.getElementsByClassName("grid_kana");
+  
+  console.log("details.katakana.length: " + details.katakana.length);
   for (var i = 0; i < details.katakana.length; i++) {
     kana_rows[kana_rows.length - 2].children[0].value = details.katakana[i];
     kana_rows[kana_rows.length - 2].children[1].value = details.hiragana[i];
+    console.log("i: " + i);
     if (i < details.katakana.length) addRow_kana();
   }
   //--------------------------------------
@@ -753,7 +756,7 @@ async function opener() {
   
   create_picker_list();
   create_publisher_source_list();
-  send_stats_to_console();
+  //send_stats_to_console();
   
   newRecord();
 }
