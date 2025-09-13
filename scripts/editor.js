@@ -528,12 +528,10 @@ function load_details_to_fields(id) {
     literal_rows[0].children[0].value = details.literal;
   //--------------------------------------
   var kana_rows = document.getElementsByClassName("grid_kana");
-  
-  console.log("details.katakana.length: " + details.katakana.length);
+
   for (var i = 0; i < details.katakana.length; i++) {
     kana_rows[kana_rows.length - 2].children[0].value = details.katakana[i];
     kana_rows[kana_rows.length - 2].children[1].value = details.hiragana[i];
-    console.log("i: " + i);
     if (i < details.katakana.length - 1) addRow_kana();
   }
   //--------------------------------------
@@ -542,6 +540,8 @@ function load_details_to_fields(id) {
     //--------------------------------------
     console.log("def_rows[def_rows.length - 2].children[1].children.length: " + def_rows[def_rows.length - 2].children[1].children.length);
     console.log("def_rows[def_rows.length - 2].children[1].children: " + def_rows[def_rows.length - 2].children[1].children);
+    var choices = Array.from(def_rows[def_rows.length - 2].children[1].children);
+    console.log(choices);
     //var choices = document.querySelectorAll('input[name="type' + detNum + '"]');
     //console.log(choices);
     //choices.foreach(function(choice) {
