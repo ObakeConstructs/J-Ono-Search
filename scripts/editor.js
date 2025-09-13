@@ -537,11 +537,11 @@ function load_details_to_fields(id) {
   for (var detNum = 0; detNum < details.definition.length; detNum++) {
     def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
     //--------------------------------------
-    var choices = document.querySelectorAll('input[name="type' + detNum + '"]');
-    console.log(choices);
-    choices.foreach(function(choice) {
-      choice.checked = (choice.value === details.definition[detNum].type);
-    });
+    //var choices = document.querySelectorAll('input[name="type' + detNum + '"]');
+    //console.log(choices);
+    //choices.foreach(function(choice) {
+    //  choice.checked = (choice.value === details.definition[detNum].type);
+    //});
     //--------------------------------------
     def_rows[def_rows.length - 2].children[2].value = details.definition[detNum].meaning;
     //--------------------------------------
