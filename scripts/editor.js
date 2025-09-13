@@ -111,7 +111,14 @@ function addRow_def() {
   reference_text.setAttribute("placeholder", "reference");
   
   //--- text input - type
-  var types = ["onomato", "vocal", "stative", "motive", "emotive"];
+  var type_text = document.createElement("input");
+  type_text.setAttribute("type", "text");
+  type_text.setAttribute("name", "type");
+  type_text.setAttribute("class", "input_field");
+  type_text.setAttribute("placeholder", "reference");
+                         
+  /*
+  var types = ["o", "v", "s", "m", "e"];
   var defnum = document.getElementById("column_def").children.length
   var typeContainer = document.createElement("div");
   typeContainer.setAttribute("class", "type-group");
@@ -126,6 +133,7 @@ function addRow_def() {
     label.appendChild(document.createTextNode(" " + type));
     typeContainer.appendChild(label);
   });
+  */
   
   //--- text input - meaning
   var meaning_text = document.createElement("input");
