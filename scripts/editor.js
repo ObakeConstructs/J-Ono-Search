@@ -539,6 +539,7 @@ function load_details_to_fields(id) {
     def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
     //--------------------------------------
     var choices = Array.from(def_rows[def_rows.length - 2].children[1].children);
+    console.log(choices);
     for (var choice of choices) {
       console.log("choice: " + choice);
       console.log("choice.value: " + choice.value);
