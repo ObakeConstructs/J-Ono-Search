@@ -111,7 +111,7 @@ function addRow_def() {
   reference_text.setAttribute("placeholder", "reference");
   
   //--- text input - type
-  var types = ["imitative", "vocal", "stative", "motive", "emotive"];
+  var types = ["onomatopoeic", "vocal", "stative", "motive", "emotive"];
   var defnum = document.getElementById("column_def").children.length
   var typeContainer = document.createElement("div");
   typeContainer.setAttribute("class", "type-group");
