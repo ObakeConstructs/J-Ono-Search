@@ -534,12 +534,14 @@ function load_details_to_fields(id) {
     kana_rows[kana_rows.length - 2].children[0].value = details.katakana[i];
     kana_rows[kana_rows.length - 2].children[1].value = details.hiragana[i];
     console.log("i: " + i);
-    if (i < details.katakana.length) addRow_kana();
+    if (i < details.katakana.length - 1) addRow_kana();
   }
   //--------------------------------------
   for (var detNum = 0; detNum < details.definition.length; detNum++) {
     def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
     //--------------------------------------
+    console.log("def_rows[def_rows.length - 2].children[1].children.length: " + def_rows[def_rows.length - 2].children[1].children.length);
+    console.log("def_rows[def_rows.length - 2].children[1].children: " + def_rows[def_rows.length - 2].children[1].children);
     //var choices = document.querySelectorAll('input[name="type' + detNum + '"]');
     //console.log(choices);
     //choices.foreach(function(choice) {
