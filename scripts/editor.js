@@ -541,8 +541,7 @@ function load_details_to_fields(id) {
     var choices = Array.from(def_rows[def_rows.length - 2].children[1].children);
     console.log(choices);
     for (var choice of choices) {
-      console.log("choice: " + choice);
-      console.log("choice.value: " + choice.value);
+      console.log("choice.innerText: " + choice.innerText);
       //choice.value === details.definition[detNum].type);
     }
     //--------------------------------------
