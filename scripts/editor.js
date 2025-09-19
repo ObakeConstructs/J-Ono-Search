@@ -593,9 +593,11 @@ function build_JSON_from_fields() {
     
     // type
     var ty = def_rows.children[defNum].children[1].value;
+    if (re.length == 0 and ty.length == 0) return null;
     
     // meaning    
     var me = def_rows.children[defNum].children[2].value;
+    if (re.length == 0 and me.length == 0) return null;
     
     // equivalents
     const equi = [];    
@@ -603,10 +605,8 @@ function build_JSON_from_fields() {
     for (var equNum=0; equNum<equivs.children.length; equNum+=2) {
       if (!equivs.children[equNum].value && equNum > 0) return null;
       equi.push(equivs.children[equNum].value);
-    }
-    
+    }    
     if (equi.length == 0 && re.length == 0) return null;
-    if (me.length == 0 && re.length == 0) return null;
     
     // examples
     const exam = [];
@@ -730,7 +730,9 @@ function saver() {
     document.body.removeChild(element);
     bUpdated = false;
     document.getElementById("modified_label").style.display = "none";
-  } else alert("Missing data elements");
+  } else {
+    alert("Missing data elements");
+  }
 }
 
 //======================================================================================================

@@ -63,7 +63,7 @@
 
 .grid_main { 
   display: grid;
-  grid-template-columns: 210px 80px auto; /* japanese - literal - definitions */
+  grid-template-columns: 230px 100px auto; /* japanese - literal - definitions */
   background-color: #000000;
   align-items: stretch;
   word-break: keep-all;
@@ -72,7 +72,8 @@
 
 .grid_defs {
   display: grid;
-  grid-template-columns: 260px 260px auto; /* equivalent - meaning - examples */
+  grid-template-columns: 240px 240px auto; /* equivalent - meaning - type - examples */
+  /*outline: 1px dashed blue;*/
 } 
 
 .grid_kana {
@@ -103,6 +104,34 @@
   outline: 1px solid gray;
 }
 
+.type_block_primary {
+  display: inline-block;
+  max-width: 100px;
+  border: 1px solid gray;
+  background-color: #151515;
+  border-radius: 10px;
+  font-size: 10px;
+  color: gray;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 2px;
+  margin-top: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.notice {
+  border: 1px solid #B06060;
+  background-color: #503030;
+  border-radius: 5px;
+  font-size: 12px;
+  font-style: italic;
+  color: white;
+  padding: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .input-container {
   position: relative;
 }
@@ -113,7 +142,7 @@ input.right {
 
 }#search_input {
   width: 220px;
-  padding-right: 25px; /* Space for the clear button */
+  padding-right: 25px;
 }
 
 .clear-button {
