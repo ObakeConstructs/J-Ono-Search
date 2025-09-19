@@ -593,11 +593,11 @@ function build_JSON_from_fields() {
     
     // type
     var ty = def_rows.children[defNum].children[1].value;
-    if (re.length == 0 and ty.length == 0) return null;
+    if (re.length == 0 && ty.length == 0) return null;
     
     // meaning    
     var me = def_rows.children[defNum].children[2].value;
-    if (re.length == 0 and me.length == 0) return null;
+    if (re.length == 0 && me.length == 0) return null;
     
     // equivalents
     const equi = [];    
