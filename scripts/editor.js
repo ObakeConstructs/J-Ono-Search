@@ -607,6 +607,7 @@ function build_JSON_from_fields() {
       equi.push(equivs.children[equNum].value);
     }    
     if (equi.length == 0 && re.length == 0) return null;
+    equi.sort();
     
     // examples
     const exam = [];
