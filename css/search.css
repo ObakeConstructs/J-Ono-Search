@@ -63,7 +63,7 @@
 
 .grid_main { 
   display: grid;
-  grid-template-columns: 230px 100px auto; /* japanese - literal - definitions */
+  grid-template-columns: 220px 90px auto; /* japanese - literal - definitions */
   background-color: #000000;
   align-items: stretch;
   word-break: keep-all;
@@ -72,7 +72,7 @@
 
 .grid_defs {
   display: grid;
-  grid-template-columns: 240px 240px auto; /* equivalent - meaning - type - examples */
+  grid-template-columns: 230px 270px auto; /* equivalent - meaning - examples */
   /*outline: 1px dashed blue;*/
 } 
 
@@ -106,7 +106,6 @@
 
 .type_block_giongo {
   display: inline-block;
-  max-width: 100px;
   border: 1px solid #af4b4b;
   background-color: #150907;
   color: #af4b4b;
@@ -122,7 +121,6 @@
 
 .type_block_giseigo {
   display: inline-block;
-  max-width: 100px;
   border: 1px solid #c9b04a;
   background-color: #171407;
   color: #c9b04a;
@@ -138,7 +136,6 @@
 
 .type_block_gitaigo {
   display: inline-block;
-  max-width: 100px;
   border: 1px solid #7daaca;
   background-color: #0f1315;
   color: #7daaca;
@@ -154,7 +151,6 @@
 
 .type_block_giyogo {
   display: inline-block;
-  max-width: 100px;
   border: 1px solid #619161;
   background-color: #0c1009;
   color: #619161;
@@ -170,7 +166,6 @@
 
 .type_block_gijogo {
   display: inline-block;
-  max-width: 100px;
   border: 1px solid #8b618b;
   background-color: #100b0d;
   color: #8b618b;
@@ -186,7 +181,6 @@
 
 .type_block_symbolic {
   display: inline-block;
-  max-width: 100px;
   border: 1px solid #ffffff;
   background-color: #202020;
   color: #ffffff;
