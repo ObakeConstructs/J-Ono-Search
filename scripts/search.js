@@ -155,22 +155,22 @@ function get_type_divs(type_string) {
     case "s":
       type_div.innerHTML = "state/condition - 擬態語 (gitaigo)";
       type_div.setAttribute("class", "type_block_gitaigo");
-      type_div.title = "Expresses states or conditions without actual sound (擬態語)";
+      type_div.title = "Expresses states or conditions (擬態語)";
       break;
     case "m":
-      type_div.innerHTML = "motion/movement - 擬容語 (giyogo)";
+      type_div.innerHTML = "motion/movement - 擬容語 (giyougo)";
       type_div.setAttribute("class", "type_block_giyogo");
-      type_div.title = "Expresses motions or movements without actual sound (擬容語)";
+      type_div.title = "Expresses motions or movements (擬容語)";
       break;
     case "e":
-      type_div.innerHTML = "emotion/feeling - 擬情語 (gijogo)";
+      type_div.innerHTML = "emotion/mental state - 擬情語 (gijougo)";
       type_div.setAttribute("class", "type_block_gijogo");
-      type_div.title = "Expresses emotions or feelings without actual sound (擬情語)";
+      type_div.title = "Expresses emotions or mental states (擬情語)";
       break;
     case "c":
       type_div.innerHTML = "meta/visual cue - 視覚的オノマトペ (shikaku teki)";
       type_div.setAttribute("class", "type_block_symbolic");
-      type_div.title = "Conveys a mood, effect, or emphasis to a scene (視覚的オノマトペ)";
+      type_div.title = "Conveys a moods, effects, or emphasis to scenes (視覚的オノマトペ)";
       break;
   }
   type_divs.appendChild(type_div)
