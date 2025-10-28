@@ -454,7 +454,7 @@ function getButtons(section) {
     return newDiv;
   
   var test = document.createElement("div");
-  test.innerHTML = "o:onomatopoeic (giongo)<br>v:voiced (giseigo)<br>s:state (gitaigo)<br>m:movement(giyougo)<br>e:emotions(gijougo)<br>c:symbolic&nbsp;cue";
+  test.innerHTML = "o:onomatopoeic&nbsp;(giongo)<br>v:voiced&nbsp;(giseigo)<br>s:state&nbsp;(gitaigo)<br>m:movement&nbsp;(giyougo)<br>e:emotions&nbsp;(gijougo)<br>c:symbolic&nbsp;cue";
   newDiv.appendChild(test);
   
   return newDiv;
