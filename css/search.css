@@ -206,6 +206,11 @@
   overflow: hidden;
 }
 
+.popupTitle {
+  word-spacing: 8px;
+  letter-spacing: -2px;
+}
+
 .input-container {
   position: relative;
 }
