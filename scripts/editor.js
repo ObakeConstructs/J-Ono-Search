@@ -486,9 +486,9 @@ function create_picker_list() {
   // picker is grouped by letter, starting with A:
   
   // initial settings (starting with "a" words).
-  var groupLetter = "a";
+  var groupLetter = "";
   var subGroupLetter = "";
-  picker.innerHTML += "A:\t"
+  picker.innerHTML = ""
   
   for (var i=0; i<deets.length; i++) {
   //for (var i=0; i<5; i++) {
@@ -743,7 +743,6 @@ function saver() {
 //======================================================================================================
 
 async function opener() {
-  console.log("Getting and sorting data");
   const data = await fetch(content + "json/j-ono-data.json");
   deets = await data.json();
   
@@ -753,11 +752,8 @@ async function opener() {
   
   pubs.sort((a, b) => a.publisher_name.localeCompare(b.publisher_name));
   
-  console.log("Creating picker list");
-  //create_picker_list();
-  console.log("Creating publisher list");
+  create_picker_list();
   create_publisher_source_list();
-  console.log("Sending stats to console");
   send_stats_to_console();
   
   newRecord();
