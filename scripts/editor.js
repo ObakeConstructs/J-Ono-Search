@@ -744,7 +744,7 @@ async function opener() {
   console.log("Getting data from j-ono-data.json");
   const data = await fetch(content + "json/j-ono-data.json");
   deets = await data.json(); 
-  console.log("Got data from j-ono-data.json");");
+  console.log("Got data from j-ono-data.json");
   
   
   console.log("Getting data from j-ono-source.json");
