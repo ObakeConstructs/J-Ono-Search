@@ -755,7 +755,7 @@ async function opener() {
   create_picker_list();
   console.log("Creating publisher list");
   create_publisher_source_list();
-  console.log(Sending stats to console");
+  console.log("Sending stats to console");
   send_stats_to_console();
   
   newRecord();
