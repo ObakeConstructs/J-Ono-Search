@@ -741,23 +741,21 @@ function saver() {
 //======================================================================================================
 
 async function opener() {
-  console.log("Getting data from j-ono-data.json");
+  console.log("Getting and sorting data");
   const data = await fetch(content + "json/j-ono-data.json");
-  deets = await data.json(); 
-  console.log("Got data from j-ono-data.json");
+  deets = await data.json();
   
   
-  console.log("Getting data from j-ono-source.json");
   const src = await fetch(content + "json/j-ono-source.json");
   pubs = await src.json();
-  console.log("Got data from j-ono-source.json");
   
-  console.log("Sorting pubs");
   pubs.sort((a, b) => a.publisher_name.localeCompare(b.publisher_name));
-  console.log("Sourted");
   
+  console.log("Creating picker list");
   create_picker_list();
+  console.log("Creating publisher list");
   create_publisher_source_list();
+  console.log(Sending stats to console");
   send_stats_to_console();
   
   newRecord();
