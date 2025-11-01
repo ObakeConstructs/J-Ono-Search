@@ -465,6 +465,7 @@ function getButtons(section) {
 function create_publisher_source_list() {   
   var ids = [];
   
+  console.log("Grabbing source.id");
   pubs.forEach((pub) => {
     pub.sources.forEach((source) => {
       ids.push(source.id);
@@ -472,6 +473,7 @@ function create_publisher_source_list() {
   });
   ids.sort();
   
+  console.log("Using source.id");
   for (var i=0; i<ids.length; i++) {
     document.getElementById("sourceDropdown").innerHTML += "<a href='#!' class='pick_link' onclick=\"pickSource('" + ids[i] + "')\">" + ids[i] + "</a>";
   }
