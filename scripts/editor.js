@@ -481,7 +481,9 @@ function create_publisher_source_list() {
 
 function create_picker_list() {
   var picker = document.getElementById("picker");
+  // picker is grouped by letter, starting with A:
   
+  // initial settings (starting with "a" words).
   var groupLetter = "a";
   var subGroupLetter = "";
   picker.innerHTML += "A:\t"
@@ -739,13 +741,20 @@ function saver() {
 //======================================================================================================
 
 async function opener() {
+  console.log("Getting data from j-ono-data.json");
   const data = await fetch(content + "json/j-ono-data.json");
-  deets = await data.json();
+  deets = await data.json(); 
+  console.log("Got data from j-ono-data.json");");
   
+  
+  console.log("Getting data from j-ono-source.json");
   const src = await fetch(content + "json/j-ono-source.json");
   pubs = await src.json();
+  console.log("Got data from j-ono-source.json");
   
+  console.log("Sorting pubs");
   pubs.sort((a, b) => a.publisher_name.localeCompare(b.publisher_name));
+  console.log("Sourted");
   
   create_picker_list();
   create_publisher_source_list();
