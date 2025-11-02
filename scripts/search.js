@@ -256,7 +256,7 @@ function shower_results(details, deet_num) {
     exam.setAttribute("class", "grid_examples");
     itm.example.forEach((ex_itm) => {
       var image_div = document.createElement("div");
-      var path = content + "img/" + ex_itm.source + "/" + ex_itm.file + ".jpg";
+      var path = content + "img/" + ex_itm.source + "/" + ex_itm.file;
       
       var link = document.createElement("a");
       link.setAttribute("href", "#!");
