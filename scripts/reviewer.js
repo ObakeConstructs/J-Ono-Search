@@ -39,7 +39,7 @@ function shower () {
         
         var img = document.createElement("img");
         img.setAttribute("style", "width:100%; border: 1px solid black;");
-        img.setAttribute("src", content + "img/" + src + "/" + file + ".jpg");
+        img.setAttribute("src", content + "img/" + src + "/" + file);
         
         var imgdiv = document.createElement("div");
         imgdiv.setAttribute("style", "float:left; width:" + col_size + "%; padding: 5px 0px;");
