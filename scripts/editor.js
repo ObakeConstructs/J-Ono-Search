@@ -180,7 +180,7 @@ function addRow_def() {
   var example_publisher_dropdown_button = document.createElement("input");
   example_publisher_dropdown_button.setAttribute("type", "button");
   example_publisher_dropdown_button.setAttribute("name", "btn_source");
-  example_publisher_dropdown_button.setAttribute("onClick", "javascript: source_dropdown(this);" );
+  example_publisher_dropdown_button.setAttribute("onClick", "javascript: source_dropdown_clicked(this);" );
   example_publisher_dropdown_button.setAttribute("tabindex", "-1");
   example_publisher_dropdown_button.value = "⇓";
   example_publisher_dropdown_button.className = "little_button";  
@@ -288,7 +288,7 @@ function addRow_exam(num) {
   var example_publisher_dropdown_button = document.createElement("input");
   example_publisher_dropdown_button.setAttribute("type", "button");
   example_publisher_dropdown_button.setAttribute("name", "btn_source");
-  example_publisher_dropdown_button.setAttribute("onClick", "javascript: source_dropdown(this);" );
+  example_publisher_dropdown_button.setAttribute("onClick", "javascript: source_dropdown_clicked(this);" );
   example_publisher_dropdown_button.setAttribute("tabindex", "-1");
   example_publisher_dropdown_button.value = "⇓";
   example_publisher_dropdown_button.className = "little_button"; 
@@ -397,16 +397,23 @@ function delRow_equi(num) {
 
 //======================================================================================================
 
-function source_dropdown(element) {
+function source_dropdown_clicked(element) {
   if (element.previousSibling.id) {
+    //already showing, so hide
     element.previousSibling.removeAttribute("id");
-    document.getElementById("sourceDropdown").style.display = "none";
+    document.getElementById("sourceDropdown1").style.display = "none";
+    document.getElementById("sourceDropdown2").style.display = "none";
   } else {
+    //show the dropdown
     element.previousSibling.setAttribute("id", "sourceDropped");
     let bb = element.getBoundingClientRect();
-    document.getElementById("sourceDropdown").style.top = (bb.top + 25) + "px";
-    document.getElementById("sourceDropdown").style.left = bb.left + "px";
-    document.getElementById("sourceDropdown").style.display = "block";
+    document.getElementById("sourceDropdown1").style.top = (bb.top + 25) + "px";
+    document.getElementById("sourceDropdown1").style.left = bb.left + "px";
+    document.getElementById("sourceDropdown1").style.display = "block";
+    
+    document.getElementById("sourceDropdown2").style.top = (bb.top + 25) + "px";
+    document.getElementById("sourceDropdown2").style.left = (bb.left + 164) + "px";
+    document.getElementById("sourceDropdown2").style.display = "block";
   }
 }
 
@@ -415,7 +422,8 @@ function source_dropdown(element) {
 function pickSource(sourceid) {
   document.getElementById("sourceDropped").value = sourceid;
   document.getElementById("sourceDropped").removeAttribute("id");
-  document.getElementById("sourceDropdown").style.display = "none";
+  document.getElementById("sourceDropdown1").style.display = "none";
+  document.getElementById("sourceDropdown2").style.display = "none";
   
   bUpdated = true;
   document.getElementById("modified_label").style.display = "block";
@@ -472,8 +480,14 @@ function create_publisher_source_list() {
   });
   ids.sort();
   
-  for (var i=0; i<ids.length; i++) {
-    document.getElementById("sourceDropdown").innerHTML += "<a href='#!' class='pick_link' onclick=\"pickSource('" + ids[i] + "')\">" + ids[i] + "</a>";
+  for (var i=0; i<Math.floor(ids.length/2); i++) {
+    document.getElementById("sourceDropdown1").innerHTML += "<a href='#!' class='pick_link' onclick=\"pickSource('" + ids[i] + "')\">" + ids[i] + "</a>";
+  }
+  if(Math.floor(ids.length/2) != ids.length/2) {
+    document.getElementById("sourceDropdown1").innerHTML += "<a class='pick_link'>&nbsp;</a>"
+  }
+  for (var i=Math.floor(ids.length/2); i<ids.length; i++) {
+    document.getElementById("sourceDropdown2").innerHTML += "<a href='#!' class='pick_link' onclick=\"pickSource('" + ids[i] + "')\">" + ids[i] + "</a>";
   }
 }
   
