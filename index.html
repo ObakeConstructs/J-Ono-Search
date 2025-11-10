@@ -16,7 +16,7 @@
     <div></div>
     <div class="grid_title">
       <h1>J-Ono Search</h1>
-      <h3>An open-source, searchable collection of translated Japanese onomatopoeia and mimetic words from manga.</h3>
+      <h3>An open-source, searchable collection of translated Japanese onomatopoeia and mimetic words from manga.&nbsp;&nbsp;&nbsp;<input type="button" onclick="show_stats()" value="Stats" /></h3>
     </div>
     <div></div>
     <div></div>
@@ -72,7 +72,7 @@
         </tr>
       </table>
       <p>
-      Please be aware that J-Ono example images will never be pornographic (hentai), but some may be considered mature (ecchi).<br /><br />
+      Please be aware that J-Ono example images will never be pornographic (hentai), but some may be considered erotic (ecchi).<br /><br />
       Do you see a mistake or want something added?<br />
       Feel free to open a new <a href="https://github.com/ObakeConstructs/j-ono-data/issues" target="_blank">J-Ono Data Issue</a> via GitHub.
       </p>
@@ -105,6 +105,11 @@
     <div id="imgTitle" class="popupTitle"></div>
     <div id="imgAttrib" class="popupAttrib"></div>
     <div id="imgContrib" class="popupContrib"></div>
+  </div>
+
+  <div id="blackOverlay" class="blackOverlay"></div>
+  <div id="stat_popup" class="popup">
+    <div id="stat_text" class="stat_block"></div>
   </div>
 
   <script src="./scripts/global.js" charset="utf-8"></script>

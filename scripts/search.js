@@ -4,6 +4,7 @@ const content = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/ma
 //global arrays to hold definition and publisher data
 let deets = [];
 let pubs = [];
+let updates = [];
 
 //=================================================================================
 
@@ -286,6 +287,50 @@ function shower_results(details, deet_num) {
 
 //=================================================================================
 
+function show_stats() {
+  showOverlay();
+  document.getElementById('stat_popup').style.display = 'block';
+  document.getElementById('stat_text').innerHTML = "<p class=\"update_text\">J-Ono Statistics</p>";
+  
+  var lit_cnt = 0;
+  var kana_cnt = 0;
+  var def_cnt = 0;
+  var img_cnt = 0;
+  var pub_cnt = 0;
+  var mng_cnt = 0;
+  
+  deets.forEach((d) => {
+    kana_cnt += d.katakana.length;
+    kana_cnt += d.hiragana.length;
+    def_cnt += d.definition.length;
+    d.definition.forEach((def) => {
+      img_cnt += def.example.length;
+    });
+  });
+  
+  pub_cnt = pubs.length;
+  pubs.forEach((p) => {
+    mng_cnt += p.sources.length;
+  });
+  
+  document.getElementById('stat_text').innerHTML += "<p class=\"update_text\">---------------------</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">JSON Records: " + deets.length + "</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Defined Meanings: " + def_cnt + "</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Kana Recognized: " + kana_cnt + "</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Example Images: " + img_cnt + "</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Publisher Count: " + pub_cnt + "</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"update_text\">Manga Count: " + mng_cnt + "</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"update_text\">---------------------</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"update_text\">Recent Updates</p>";
+  
+  updates.forEach((u) => {
+    document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">" + u.date + " - " + u.message + "</p>";
+  });
+  
+}
+
+//=================================================================================
+
 function showPopup(img_path, title, src, contributor) {
   showOverlay();
   document.getElementById('popup').style.display = 'block';
@@ -390,31 +435,6 @@ function pickMe(picked) {
 
 //=================================================================================
 
-function get_stats() {
-  var lit_cnt = 0;
-  var kana_cnt = 0;
-  var def_cnt = 0;
-  var img_cnt = 0;
-  
-  deets.forEach((d) => {
-    kana_cnt += d.katakana.length;
-    kana_cnt += d.hiragana.length;
-    def_cnt += d.definition.length;
-    d.definition.forEach((def) => {
-      img_cnt += def.example.length;
-    });
-  });
-  
-  console.log("---------------------");
-  console.log("Records: " + deets.length);
-  console.log("Meanings: " + def_cnt);
-  console.log("Recognized Kanas: " + kana_cnt);
-  console.log("Example Images: " + img_cnt);
-  console.log("---------------------");
-}
-
-//=================================================================================
-
 function copier() {
   var srch = document.getElementById("search_input");
   navigator.clipboard.writeText(srch.value);
@@ -472,7 +492,11 @@ async function quickLoad(srch) {
 //=================================================================================
 
 async function prefetch() {
-  //Pre-fetch all records and publishers
+  //Pre-fetch all JSON data
+  
+  const upd = await fetch(content + "json/j-ono-updates.json");
+  updates = await upd.json();
+  
   const data = await fetch(content + "json/j-ono-data.json");
   deets = await data.json();
   
@@ -480,6 +504,5 @@ async function prefetch() {
   pubs = await src.json();  
   pubs.sort(function(a, b){return a.publisher_name > b.publisher_name});
   
-  get_stats();
 }
 
