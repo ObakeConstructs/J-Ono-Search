@@ -1,6 +1,6 @@
 const content = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/";
-let deets = [];
-let pubs = [];
+let RECORDS_ARRAY = [];
+let PUBLISHERS_ARRAY = [];
 
 var bUpdated = false;
 var textElements = document.querySelectorAll('.input_field');
@@ -15,12 +15,6 @@ document.addEventListener("keyup", function(event) {
 });
 
 //======================================================================================================
-
-function findRecordIndexByLiteral(search_val) {
-  return deets.findIndex(item => item.literal === search_val);  
-}
-
-//======================================================================================================
   
 function newRecord() {
   if (bUpdated) {
@@ -30,11 +24,11 @@ function newRecord() {
     return;
   }
   
-  document.getElementById("column_lit").innerHTML = "";
+  document.getElementById("column_romaji").innerHTML = "";
   document.getElementById("column_kana").innerHTML = "";
   document.getElementById("column_def").innerHTML = "";
   
-  addRow_literal();
+  addRow_romaji();
   addRow_kana();
   addRow_def();
   
@@ -44,19 +38,25 @@ function newRecord() {
   
 //======================================================================================================
 
-function addRow_literal() {
+function addRow_romaji() {
+  var btn = document.getElementById("button_romaji");
+  if (btn) {
+    btn.outerHTML = "";
+  }
+  
   var newInput = document.createElement("input");
   newInput.setAttribute("type", "text");
-  newInput.setAttribute("name", "lit");
+  newInput.setAttribute("name", "romaji");
   newInput.setAttribute("class", "input_field");
-  newInput.setAttribute("placeholder", "literal value");
+  newInput.setAttribute("placeholder", "romaji value");
   
   var newDiv = document.createElement("div");
-  newDiv.className = "grid_lit";
+  newDiv.className = "grid_romaji";
   newDiv.appendChild(newInput);
   
-  var col = document.getElementById("column_lit");
+  var col = document.getElementById("column_romaji");
   col.appendChild(newDiv);
+  col.appendChild(getButtons("romaji"));
 }
 
 //======================================================================================================
@@ -97,9 +97,9 @@ function addRow_def() {
     btn.outerHTML = "";
   }
   
-  var literal_rows = document.getElementsByClassName("grid_lit");
-  var literal_value = literal_rows[0].children[0].value
-  var base_name = literal_value.replace(" ", "_");
+  var romaji_rows = document.getElementsByClassName("grid_romaji");
+  var romaji_value = romaji_rows[0].children[0].value
+  var base_name = romaji_value.id
       
   //----------------------------------------------------------------------------------------------------
   
@@ -251,9 +251,9 @@ function addRow_def() {
 //======================================================================================================
 
 function addRow_exam(num) {
-  var literal_rows = document.getElementsByClassName("grid_lit");
-  var literal_value = literal_rows[0].children[0].value
-  var base_name = literal_value.replace(" ", "_");
+  var romaji_rows = document.getElementsByClassName("grid_romaji");
+  var romaji_value = romaji_rows[0].children[0].value
+  var base_name = romaji_value.id
   
   //--- text input - filename
   var example_filename_text = document.createElement("input");
@@ -343,27 +343,24 @@ function addRow_equi(defNum) {
 }
 
 //======================================================================================================
- 
-function delRow_kana() {
-  var rows = document.getElementsByClassName("grid_kana");
-  if(rows.length > 2)
+
+function delRow_common(section) {
+  var rows = document.getElementsByClassName("grid_" + section);
+    
+  if(rows.length > 2) { //two rows: one div for the field and one for the buttons
     rows[rows.length - 2].outerHTML = "";
+  }
   
   bUpdated = true;
-  document.getElementById("modified_label").style.display = "block";
+  document.getElementById("modified_label").style.display = "block";  
 }
-  
+
 //======================================================================================================
  
-function delRow_def() {
-  var rows = document.getElementsByClassName("grid_def");
-  if(rows.length > 2)
-    rows[rows.length - 2].outerHTML = "";
-  
-  bUpdated = true;
-  document.getElementById("modified_label").style.display = "block";
-}
-  
+function delRow_romaji() { delRow_common("romaji"); }
+function delRow_kana() { delRow_common("kana"); }
+function delRow_def() { delRow_common("def"); }
+
 //======================================================================================================
  
 function delRow_exam(num) {
@@ -386,7 +383,7 @@ function delRow_exam(num) {
 function delRow_equi(num) {
   
   var grid_equi = document.getElementsByClassName("grid_def")[num].children[3]; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
-  if(grid_equi.children.length > 2) {
+  if(grid_equi.children.length > 2) { 
     grid_equi.lastChild.outerHTML = "";
     grid_equi.lastChild.outerHTML = "";
   }
@@ -432,8 +429,11 @@ function pickSource(sourceid) {
 //======================================================================================================
 
 function getButtons(section) {
+  // build side-by-side +/- buttons (except for those for equivs)
+  
   var tmpDiv = document.createElement("div");
   
+  // + button
   var newInput = document.createElement("input");
   newInput.setAttribute("type", "button");
   newInput.setAttribute("onClick", "javascript: addRow_" + section + "();" );
@@ -442,6 +442,7 @@ function getButtons(section) {
   newInput.className = "little_button";
   tmpDiv.appendChild(newInput);
   
+  // - button
   newInput = document.createElement("input");
   newInput.setAttribute("type", "button");
   newInput.setAttribute("onClick", "javascript: delRow_" + section + "();" );
@@ -450,21 +451,23 @@ function getButtons(section) {
   newInput.className = "little_button";
   tmpDiv.appendChild(newInput);
   
+  // good enough for examples
   if (section === "exam")
     return tmpDiv;
   
+  // put buttons in a new div (so they appear below instead of next-to)
   var newDiv = document.createElement("div");
   newDiv.id = "button_" + section;
   newDiv.className = "grid_" + section;
   newDiv.appendChild(tmpDiv);
   
-  if (section === "kana")
+  if (section === "kana" || section === "romaji")
     return newDiv;
   
+  // tack on type notes next to def buttons
   var test = document.createElement("div");
   test.innerHTML = "o:onomatopoeic&nbsp;(giongo)<br>v:voiced&nbsp;(giseigo)<br>s:state&nbsp;(gitaigo)<br>m:movement&nbsp;(giyougo)<br>e:emotions&nbsp;(gijougo)<br>c:symbolic&nbsp;cue";
   newDiv.appendChild(test);
-  
   return newDiv;
 }
   
@@ -473,7 +476,7 @@ function getButtons(section) {
 function create_publisher_source_list() {   
   var ids = [];
   
-  pubs.forEach((pub) => {
+  PUBLISHERS_ARRAY.forEach((pub) => {
     pub.sources.forEach((source) => {
       ids.push(source.id);
     });    
@@ -502,10 +505,10 @@ function create_picker_list() {
   var subGroupLetter = "";
   picker.innerHTML += "A:\t"
   
-  for (var i=0; i<deets.length; i++) {
+  for (var i=0; i<RECORDS_ARRAY.length; i++) {
   //for (var i=0; i<5; i++) {
-    currentLetter1 = deets[i].literal.substring(0, 1);
-    currentLetter2 = deets[i].literal.substring(1, 2);
+    currentLetter1 = RECORDS_ARRAY[i].id.substring(0, 1);
+    currentLetter2 = RECORDS_ARRAY[i].id.substring(1, 2);
     if (currentLetter1 !== groupLetter) {
       picker.innerHTML += "<br />" + currentLetter1.toUpperCase() + ":\t";
       groupLetter = currentLetter1
@@ -518,7 +521,7 @@ function create_picker_list() {
         }
       }
     }
-    picker.innerHTML += "<a href='#!', onclick=\"javascript: load_details_to_fields('" + i + "');\" tabindex='-1'>" + deets[i].literal.replace(" ", "&nbsp;") + "</a>, ";
+    picker.innerHTML += "<a href='#!', onclick=\"javascript: load_details_to_fields('" + i + "');\" tabindex='-1'>" + RECORDS_ARRAY[i].id	 + "</a>, ";
   }
 }
   
@@ -534,21 +537,26 @@ function load_details_to_fields(id) {
   }
 
   newRecord();
-  //--------------------------------------
-  var literal_rows = document.getElementsByClassName("grid_lit");
-  var def_rows = document.getElementsByClassName("grid_def");
-  var details = deets[id];
   
-  literal_rows[0].children[0].value = details.literal;
+  var details = RECORDS_ARRAY[id];
   
+  // load romaji values
+  var romaji_rows = document.getElementsByClassName("grid_romaji");
+  for (var i = 0; i < details.romaji.length; i++) {
+    romaji_rows[romaji_rows.length - 2].children[0].value = details.romaji[i];
+    if (i < details.romaji.length - 1) addRow_romaji();
+  }
+  
+  // load katakana and hiragana values (in lock-step)
   var kana_rows = document.getElementsByClassName("grid_kana");
-
   for (var i = 0; i < details.katakana.length; i++) {
     kana_rows[kana_rows.length - 2].children[0].value = details.katakana[i];
     kana_rows[kana_rows.length - 2].children[1].value = details.hiragana[i];
     if (i < details.katakana.length - 1) addRow_kana();
   }
   
+  // load definitions
+  var def_rows = document.getElementsByClassName("grid_def");
   for (var detNum = 0; detNum < details.definition.length; detNum++) {
     def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group    
     def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].type; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
@@ -577,11 +585,32 @@ function load_details_to_fields(id) {
   
 //======================================================================================================
 
-function build_JSON_from_fields() {
+function make_id() {
+  var romaji_rows = document.getElementsByName("romaji");
+  var id = "";
+  for (var i=0; i<romaji_rows.length; i++) {
+    if (!romaji_rows[i].value) return null;
+    if (id.length > 0) id += "_";
+    id += romaji_rows[i].value;
+  }
+  id = id.replace(" ", "_");
+  return id;
+}
+  
+//======================================================================================================
 
-  // literal
-  if (!document.getElementsByName("lit")[0].value) return null;
-  var lit = document.getElementsByName("lit")[0].value;
+function build_JSON_from_fields() {
+  
+  var index = make_id();
+  if (!index) return null;
+
+  // romaji
+  var romaji_rows = document.getElementsByName("romaji");
+  const roms = [];
+  for (var i=0; i<romaji_rows.length; i++) {
+    if (!romaji_rows[i].value) return null;
+    roms.push(romaji_rows[i].value);
+  }
   
   // katagana
   var kata_rows = document.getElementsByName("kata");
@@ -650,8 +679,9 @@ function build_JSON_from_fields() {
     };
     def.push(de);
     
-    var json_obj = { 
-      literal: lit,
+    var json_obj = {
+      id: index,
+      romaji: roms,
       katakana: kata,
       hiragana: hira,
       definition: def
@@ -665,12 +695,11 @@ function build_JSON_from_fields() {
 //=================================================================================
 
 function send_stats_to_console() {
-  var lit_cnt = 0;
   var kana_cnt = 0;
   var def_cnt = 0;
   var img_cnt = 0;
   
-  deets.forEach((d) => {
+  RECORDS_ARRAY.forEach((d) => {
     kana_cnt += d.katakana.length;
     kana_cnt += d.hiragana.length;
     def_cnt += d.definition.length;
@@ -680,18 +709,18 @@ function send_stats_to_console() {
   });
   
   console.log();
-  console.log("Records: " + deets.length);
+  console.log("Records: " + RECORDS_ARRAY.length);
   console.log("Meanings: " + def_cnt);
   console.log("Recognized Kanas: " + kana_cnt);
   console.log("Example Images: " + img_cnt);
   
-  pubs.forEach((pub) => {
+  PUBLISHERS_ARRAY.forEach((pub) => {
     console.log();
     var pubcnt = 0;
     //var sercnt = 0;
     pub.sources.forEach((source) => {
       //sercnt++;
-      deets.forEach((d) => {
+      RECORDS_ARRAY.forEach((d) => {
         d.definition.forEach((def) => {
           def.example.forEach((exa) => {
             if (exa.source === source.id) pubcnt++;
@@ -702,7 +731,7 @@ function send_stats_to_console() {
     console.log("-- " + pub.publisher_name + " " +  pubcnt + " --> " + pub.site);
     pub.sources.forEach((source) => {
       var sercnt = 0;
-      deets.forEach((d) => {
+      RECORDS_ARRAY.forEach((d) => {
         d.definition.forEach((def) => {
           def.example.forEach((exa) => {
             if (exa.source === source.id) sercnt++;
@@ -728,18 +757,17 @@ function copier() {
   }
   else alert("Missing data elements");
 }
-  
+
 //======================================================================================================
   
 function saver() {
   var text = build_JSON_from_fields();
+  var filename = make_id();
+  
   if(text) {
-    var fname = document.getElementsByName("lit")[0].value;
-    fname = fname.replace(" ", "_");
-    
     var element = document.createElement('a');
     element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', fname);
+    element.setAttribute('download', filename);
 
     element.style.display = 'none';
     document.body.appendChild(element);
@@ -756,13 +784,12 @@ function saver() {
 
 async function opener() {
   const data = await fetch(content + "json/j-ono-data.json");
-  deets = await data.json();
-  
+  RECORDS_ARRAY = await data.json();
   
   const src = await fetch(content + "json/j-ono-source.json");
-  pubs = await src.json();
+  PUBLISHERS_ARRAY = await src.json();
   
-  pubs.sort((a, b) => a.publisher_name.localeCompare(b.publisher_name));
+  PUBLISHERS_ARRAY.sort((a, b) => a.publisher_name.localeCompare(b.publisher_name));
   
   create_picker_list();
   create_publisher_source_list();

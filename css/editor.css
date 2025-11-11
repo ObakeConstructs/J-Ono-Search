@@ -14,7 +14,7 @@
 
 .grid_editor {
   display: grid;
-  grid-template-columns: 120px 250px auto; /* literal, kana, definition */
+  grid-template-columns: 120px 250px auto; /* romaji, kana, definition */
   align-content: start;
   padding: 5px;
   /*outline: 1px dashed gray;*/
@@ -28,9 +28,9 @@
   border: 1px solid black;
 }
 
-.grid_lit {
+.grid_romaji {
   display: grid;
-  grid-template-columns: 96%; /* literal only */
+  grid-template-columns: 96%; /* romaji only */
 }
 
 .grid_kana {
