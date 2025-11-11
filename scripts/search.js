@@ -2,9 +2,9 @@
 const content = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/";
 
 //global arrays to hold definition and publisher data
-let deets = [];
-let pubs = [];
-let updates = [];
+let RECORDS_ARRAY = [];
+let PUBLISHERS_ARRAY = [];
+let UPDATES_ARRAY = [];
 
 //=================================================================================
 
@@ -30,33 +30,27 @@ function clearer() {
   document.getElementById("search_input").value = "";
 }
 
-//======================================================================================================
-
-function findRecordIndexByLiteral(search_val) {
-  return deets.findIndex(item => item.literal === search_val);  
-}
-
 //=================================================================================
 
 function get_meaning_by_refer(refer) {
-  refer_parts = refer.split(":"); // [0] = literal, [1] = definition index
-  itm = deets.find(item => item.literal === refer_parts[0]); // get the object from deets by searching for the literal
+  refer_parts = refer.split(":"); // [0] = id, [1] = definition index number
+  itm = RECORDS_ARRAY.find(item => item.id === refer_parts[0]); // get the object from RECORDS_ARRAY by searching for the id
   return itm.definition[refer_parts[1] - 1].meaning; // return the meaning string using the definition index
 }
 
 //=================================================================================
 
 function get_type_by_refer(refer) {
-  refer_parts = refer.split(":"); // [0] = literal, [1] = definition index
-  itm = deets.find(item => item.literal === refer_parts[0]); // get the object from deets by searching for the literal
+  refer_parts = refer.split(":"); // [0] = id, [1] = definition index number
+  itm = RECORDS_ARRAY.find(item => item.id === refer_parts[0]); // get the object from RECORDS_ARRAY by searching for the id
   return itm.definition[refer_parts[1] - 1].type; // return the meaning string using the definition index
 }
 
 //=================================================================================
 
 function get_equivs_by_refer(refer) {
-  refer_parts = refer.split(":"); // [0] = literal, [1] = definition index
-  itm = deets.find(item => item.literal === refer_parts[0]); // get the object from deets by searching for the literal
+  refer_parts = refer.split(":"); // [0] = id, [1] = definition index number
+  itm = RECORDS_ARRAY.find(item => item.id === refer_parts[0]); // get the object from RECORDS_ARRAY by searching for the id
   
   //loop through equivs and build a quick string
   var retval = "";
@@ -74,7 +68,7 @@ function searcher() {
   if (document.getElementById("search_input").value.length == 0) return;
   
   var jap = document.getElementById("japanese").checked;
-  var lit = document.getElementById("literal").checked;
+  var rom = document.getElementById("romaji").checked;
   var equ = document.getElementById("equivalent").checked;
   var com = document.getElementById("comment").checked;
   var typ = -1;
@@ -84,24 +78,27 @@ function searcher() {
 
   document.getElementById("grid_body").innerHTML = "";
    
-  deets.forEach((details, idx) => {
+  RECORDS_ARRAY.forEach((record, idx) => {
+    
     var isMatch = false;
     
-    //check for literal match
-    if(checkForMatch(details.literal, typ) && lit) isMatch = true;
+    //check for romaji match
+    record.romaji.forEach((itm) => {
+      if(checkForMatch(itm, typ) && rom) isMatch = true;
+    });
     
     //check for katakana match
-    details.katakana.forEach((itm) => {
+    record.katakana.forEach((itm) => {
       if(checkForMatch(itm, typ) && jap) isMatch = true;
     });    
     
     //check for hiragana match
-    details.hiragana.forEach((itm) => {
+    record.hiragana.forEach((itm) => {
       if(checkForMatch(itm, typ) && jap) isMatch = true;
     });
     
     //check for definition match
-    details.definition.forEach((itm) => {
+    record.definition.forEach((itm) => {
       if(checkForMatch(itm.meaning, typ) && com) isMatch = true;
       itm.equivalent.forEach((eq) => {
         if(checkForMatch(eq, typ) && equ) isMatch = true;
@@ -109,7 +106,7 @@ function searcher() {
     });
     
     if (isMatch) {
-      shower_results(details, idx)
+      shower_results(record, idx)
     }
   });
 }
@@ -204,9 +201,12 @@ function shower_results(details, deet_num) {
   
   //----------------------
   
-  var lit = document.createElement("div");
-  lit.setAttribute("class", "grid_main_block");
-  lit.innerHTML = details.literal;
+  var rom = document.createElement("div");
+  rom.setAttribute("class", "grid_main_block");
+  details.romaji.forEach((itm) => {
+    if (rom.innerHTML.length > 0) rom.innerHTML += ", ";
+    rom.innerHTML += itm;
+  });
   
   //----------------------
   
@@ -280,7 +280,7 @@ function shower_results(details, deet_num) {
   
   var body = document.getElementById("grid_body");
   grid_body.appendChild(kana);
-  grid_body.appendChild(lit);
+  grid_body.appendChild(rom);
   grid_body.appendChild(defs);
   
 }
@@ -292,14 +292,13 @@ function show_stats() {
   document.getElementById('stat_popup').style.display = 'block';
   document.getElementById('stat_text').innerHTML = "<p class=\"update_text\">J-Ono Statistics</p>";
   
-  var lit_cnt = 0;
   var kana_cnt = 0;
   var def_cnt = 0;
   var img_cnt = 0;
   var pub_cnt = 0;
   var mng_cnt = 0;
   
-  deets.forEach((d) => {
+  RECORDS_ARRAY.forEach((d) => {
     kana_cnt += d.katakana.length;
     kana_cnt += d.hiragana.length;
     def_cnt += d.definition.length;
@@ -308,13 +307,13 @@ function show_stats() {
     });
   });
   
-  pub_cnt = pubs.length;
-  pubs.forEach((p) => {
+  pub_cnt = PUBLISHERS_ARRAY.length;
+  PUBLISHERS_ARRAY.forEach((p) => {
     mng_cnt += p.sources.length;
   });
   
   document.getElementById('stat_text').innerHTML += "<p class=\"update_text\">---------------------</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">JSON Records: " + deets.length + "</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">JSON Records: " + RECORDS_ARRAY.length + "</p>";
   document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Defined Meanings: " + def_cnt + "</p>";
   document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Kana Recognized: " + kana_cnt + "</p>";
   document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Example Images: " + img_cnt + "</p>";
@@ -323,7 +322,7 @@ function show_stats() {
   document.getElementById('stat_text').innerHTML += "<p class=\"update_text\">---------------------</p>";
   document.getElementById('stat_text').innerHTML += "<p class=\"update_text\">Recent Updates</p>";
   
-  updates.forEach((u) => {
+  UPDATES_ARRAY.forEach((u) => {
     document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">" + u.date + " - " + u.message + "</p>";
   });
   
@@ -338,7 +337,7 @@ function showPopup(img_path, title, src, contributor) {
   document.getElementById('imgTitle').innerHTML = title;
   var attribution = "Image used for education/instructional purposes only."
   var cont = "";  
-  pubs.forEach((pub) => {
+  PUBLISHERS_ARRAY.forEach((pub) => {
     pub.sources.forEach((source) => {
       if (source.id === src) {
         attribution += "<br />Source: " + source.manga;
@@ -495,14 +494,14 @@ async function prefetch() {
   //Pre-fetch all JSON data
   
   const upd = await fetch(content + "json/j-ono-updates.json");
-  updates = await upd.json();
+  UPDATES_ARRAY = await upd.json();
   
-  const data = await fetch(content + "json/j-ono-data.json");
-  deets = await data.json();
+  const data = await fetch(content + "json/j-ono-data_TEST.json");
+  RECORDS_ARRAY = await data.json();
   
   const src = await fetch(content + "json/j-ono-source.json");
-  pubs = await src.json();  
-  pubs.sort(function(a, b){return a.publisher_name > b.publisher_name});
+  PUBLISHERS_ARRAY = await src.json();  
+  PUBLISHERS_ARRAY.sort(function(a, b){return a.publisher_name > b.publisher_name});
   
 }
 
