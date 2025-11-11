@@ -496,7 +496,7 @@ async function prefetch() {
   const upd = await fetch(content + "json/j-ono-updates.json");
   UPDATES_ARRAY = await upd.json();
   
-  const data = await fetch(content + "json/j-ono-data_TEST.json");
+  const data = await fetch(content + "json/j-ono-data.json");
   RECORDS_ARRAY = await data.json();
   
   const src = await fetch(content + "json/j-ono-source.json");
