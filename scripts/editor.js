@@ -587,22 +587,40 @@ function load_details_to_fields(id) {
 
 function make_id() {
   var romaji_rows = document.getElementsByName("romaji");
-  var id = "";
+  var id_parts = [];
+  
   for (var i=0; i<romaji_rows.length; i++) {
-    if (!romaji_rows[i].value) return null;
-    if (id.length > 0) id += "_";
-    id += romaji_rows[i].value;
+    rom = romaji_rows[i].value
+    
+    // check for doublets
+    if (rom.includes(" ")) {
+      var rom_parts = rom.split(" ");
+      if (rom_parts[0] === rom_parts[1]) rom = rom_parts[0];
+    }
+    
+    // check for dupes
+    var has_dupes = false;
+    if (i > 0)
+      for (j=0; j<i; j++)
+        if (id_parts[j] === rom)
+          has_dupes = true;
+
+    
+    if (!has_dupes)
+      id_parts.push(rom);
   }
-  id = id.replace(" ", "_");
+  
+  var id = id_parts[0];
+  for (var i=1; i<id_parts.length; i++) {
+    id += "_" + id_parts[i];
+  }
+  
   return id;
 }
   
 //======================================================================================================
 
-function build_JSON_from_fields() {
-  
-  var index = make_id();
-  if (!index) return null;
+function build_JSON_from_fields(index) {
 
   // romaji
   var romaji_rows = document.getElementsByName("romaji");
@@ -748,7 +766,7 @@ function send_stats_to_console() {
 //======================================================================================================
 
 function copier() {
-  j = build_JSON_from_fields();
+  var j = build_JSON_from_fields();
   
   if(j) {
     navigator.clipboard.writeText(j);
@@ -761,13 +779,13 @@ function copier() {
 //======================================================================================================
   
 function saver() {
-  var text = build_JSON_from_fields();
-  var filename = make_id();
+  var id = make_id();
+  var text = build_JSON_from_fields(id);
   
   if(text) {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', filename);
+    element.setAttribute('download', id);
 
     element.style.display = 'none';
     document.body.appendChild(element);
