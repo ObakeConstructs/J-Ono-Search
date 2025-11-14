@@ -1,6 +1,6 @@
 .grid_wrapper {
   display: grid;
-  grid-template-columns: auto 1600px auto;
+  grid-template-columns: 10px 400px 1200px auto;
   padding: 5px;
   align-items: center;
   column-gap: 10px;
@@ -9,6 +9,13 @@
 .grid_title {  
   padding: 10px;
   text-align: left;
+}
+
+.text_block {
+  padding: 0px 5px;
+  height: 92px;
+  display: table-cell;
+  vertical-align: bottom;
 }
 
 .block_text {
