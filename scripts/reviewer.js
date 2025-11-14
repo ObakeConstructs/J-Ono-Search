@@ -18,6 +18,25 @@ async function opener() {
 
 //=================================================================================
 
+function get_meaning_by_refer(refer, file) {
+  refer_parts = refer.split(":");
+  
+  for (var record_number = 0; record_number < RECORDS.length; record_number++) {
+    if(RECORDS[record_number].id === refer_parts[0]) {
+      for (var definition_number = 0; definition_number < RECORDS[record_number].definition.length; definition_number++) {
+        if ((definition_number + 1) == refer_parts[1]) {
+          return "[" + RECORDS[record_number].definition[definition_number].meaning + "]";
+        }
+      }
+    }
+  }
+  
+  //console.log(refer_parts[0] + " <--> " + refer_parts[1]);
+  return "";  
+}
+
+//=================================================================================
+
 function shower () {
   var frm = document.getElementById("images");
   
@@ -29,16 +48,21 @@ function shower () {
   var row = document.createElement("div");
   row.setAttribute("class", "row");
   
-  for (var deetnum = 0; deetnum < RECORDS.length; deetnum++) {
-    for (var defnum = 0; defnum < RECORDS[deetnum].definition.length; defnum++) {
-      for (var exnum = 0; exnum < RECORDS[deetnum].definition[defnum].example.length; exnum++) {
-        var src = RECORDS[deetnum].definition[defnum].example[exnum].source;
-        var file = RECORDS[deetnum].definition[defnum].example[exnum].file;
-        var disp = RECORDS[deetnum].definition[defnum].example[exnum].display;
-        var mean = RECORDS[deetnum].definition[defnum].meaning;
+  for (var record_number = 0; record_number < RECORDS.length; record_number++) {
+    for (var definition_number = 0; definition_number < RECORDS[record_number].definition.length; definition_number++) {
+      for (var example_number = 0; example_number < RECORDS[record_number].definition[definition_number].example.length; example_number++) {
+        var src = RECORDS[record_number].definition[definition_number].example[example_number].source;
+        var file = RECORDS[record_number].definition[definition_number].example[example_number].file;
+        var disp = RECORDS[record_number].definition[definition_number].example[example_number].display;
+        var mean = RECORDS[record_number].definition[definition_number].meaning;
+        var refer = RECORDS[record_number].definition[definition_number].refer;
+        
+        if (refer.length > 0) {
+          mean = get_meaning_by_refer(refer, file) + mean;
+        }
         
         var img = document.createElement("img");
-        img.setAttribute("style", "width:100%; border: 1px solid black;");
+        img.setAttribute("class", "example_image");
         img.setAttribute("src", CONTENT + "img/" + src + "/" + file);
         
         var textblock = document.createElement("div");
@@ -47,7 +71,6 @@ function shower () {
         
         var imgdiv = document.createElement("div");
         imgdiv.setAttribute("style", "float:left; width:" + COLUMN_SIZE + "%; padding: 5px 0px;");
-        //imgdiv.innerHTML = src + "/" + file + "<br />" + disp + "<br />" + mean;
         imgdiv.appendChild(textblock);
         imgdiv.appendChild(img);
         

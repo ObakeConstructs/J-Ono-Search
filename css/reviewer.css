@@ -18,6 +18,11 @@
   vertical-align: bottom;
 }
 
+.example_image {
+  width: 100%;
+  border: 1px solid black;
+}
+
 .block_text {
   padding: 5px;
   display: block;
