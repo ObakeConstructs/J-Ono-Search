@@ -138,10 +138,20 @@ a:active {
 
 .popupTitle {
   position: absolute;
-  top: 10px;
+  top: 5px;
   width: 100%;
   font-size: 24px;  
   font-weight:bold;
+  text-align: center;
+  color:#0000ff;
+}
+
+.popupSubTitle {
+  position: absolute;
+  top: 33px;
+  width: 100%;
+  font-size: 10px;  
+  font-weight:normal;
   text-align: center;
   color:#0000ff;
 }
