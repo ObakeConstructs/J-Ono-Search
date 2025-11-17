@@ -536,8 +536,13 @@ function modified_warning() {
 //======================================================================================================
 
 function load_details_to_fields(id) {
+  
+  if (bUpdated) {
+    newRecord();
+    return;
+  }
 
-  newRecord();  
+  newRecord();
   var details = RECORDS_ARRAY[id];
   
   // load id value
