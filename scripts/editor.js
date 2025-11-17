@@ -101,9 +101,7 @@ function addRow_def() {
     btn.outerHTML = "";
   }
   
-  var romaji_rows = document.getElementsByClassName("grid_romaji");
-  var romaji_value = romaji_rows[0].children[0].value
-  var base_name = romaji_value.id
+  var base_name = make_id();
       
   //----------------------------------------------------------------------------------------------------
   
@@ -151,7 +149,7 @@ function addRow_def() {
   equivalent_button_remover.value = "-";
   equivalent_button_remover.className = "little_button";
   
-  //--- text input - filename
+  //--- text input - image filename
   var example_filename_text = document.createElement("input");
   example_filename_text.setAttribute("type", "text");
   example_filename_text.setAttribute("class", "input_field");
@@ -159,14 +157,14 @@ function addRow_def() {
   example_filename_text.setAttribute("placeholder", "filename");
   example_filename_text.setAttribute("value", base_name + "-" + (document.getElementById("column_def").children.length + 1) + "a");
   
-  //--- text input - contributor
+  //--- text input - image contributor
   var example_contributor_text = document.createElement("input");
   example_contributor_text.setAttribute("type", "text");
   example_contributor_text.setAttribute("class", "input_field");
   example_contributor_text.setAttribute("name", "exam_contrib");
   example_contributor_text.setAttribute("placeholder", "contributor");
   
-  //--- text input - display
+  //--- text input - image display
   var example_display_text = document.createElement("input");
   example_display_text.setAttribute("type", "text");
   example_display_text.setAttribute("class", "input_field");
@@ -259,14 +257,14 @@ function addRow_exam(num) {
   var romaji_value = romaji_rows[0].children[0].value
   var base_name = romaji_value.id
   
-  //--- text input - filename
+  //--- text input - image filename
   var example_filename_text = document.createElement("input");
   example_filename_text.setAttribute("type", "text");
   example_filename_text.setAttribute("class", "input_field");
   example_filename_text.setAttribute("name", "exam_file");
   example_filename_text.setAttribute("placeholder", "filename");
   example_filename_text.setAttribute("value", base_name + "-" + (num + 1) + String.fromCharCode(97 + document.getElementsByClassName("grid_def")[num].children[3].children.length/6));
-  
+    
   //--- text input - contributor
   var example_contributor_text = document.createElement("input");
   example_contributor_text.setAttribute("type", "text");

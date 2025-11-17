@@ -23,7 +23,9 @@ function closePopup() {
 //=================================================================================
 
 function showOverlay(message) {
-  document.getElementById('dialog').innerHTML = message
+  if (message) {
+    document.getElementById('dialog').innerHTML = message
+  }
   document.getElementById('blackOverlay').style.display = 'block';
 }
 
