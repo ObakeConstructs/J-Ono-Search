@@ -26,10 +26,10 @@
         <div class="column" id="column_def"></div>
       </div>
       <br />
+      <div id="loaded_id" data-id=""></div>
       <div class="modified_label" id="modified_label">Modified</div>
       <input type="button" onclick="newRecord()" value="New" class="norm" tabindex="-1" />
-      <input type="button" onclick="saver()" value="Save" class="norm" tabindex="-1" />
-      <input type="button" onclick="copier()" value="Copy" class="norm" tabindex="-1" />
+      <input type="button" onclick="saver()" value="Download" class="norm" tabindex="-1" />
       <br /><br /><br />
       Edit Existing Record...
       <div class="picker" id="picker"></div>
@@ -39,9 +39,7 @@
   </form>
 
   <div id="blackOverlay" class="blackOverlay">
-    <dialog open id="dialog">
-      <p>Changes neither saved nor copied.  Click again to continue.</p>
-    </dialog>
+    <dialog open id="dialog"></dialog>
   </div>
   
   <div id="sourceDropdown1" class="dropdownContent"></div>

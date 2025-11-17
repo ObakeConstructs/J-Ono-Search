@@ -3,6 +3,7 @@ let RECORDS_ARRAY = [];
 let PUBLISHERS_ARRAY = [];
 
 var bUpdated = false;
+var loaded_id = ""
 var textElements = document.querySelectorAll('.input_field');
 
 //=================================================================================
@@ -18,7 +19,7 @@ document.addEventListener("keyup", function(event) {
   
 function newRecord() {
   if (bUpdated) {
-    showOverlay();
+    modified_warning();
     bUpdated = false;
     document.getElementById("modified_label").style.display = "none";
     return;
@@ -27,6 +28,9 @@ function newRecord() {
   document.getElementById("column_romaji").innerHTML = "";
   document.getElementById("column_kana").innerHTML = "";
   document.getElementById("column_def").innerHTML = "";
+  
+  document.getElementById("loaded_id").innerHTML = "ID: (none)"
+  loaded_id = ""
   
   addRow_romaji();
   addRow_kana();
@@ -527,18 +531,20 @@ function create_picker_list() {
   
 //======================================================================================================
 
+function modified_warning() {
+  showOverlay("<p>The modified flag indicates that changes were made to this record.</p><p><b>--> Removing flag <--</b></p><p>Consider saving your changes, if needed.</p>");
+}
+  
+//======================================================================================================
+
 function load_details_to_fields(id) {
 
-  if (bUpdated) {
-    showOverlay();
-    bUpdated = false;
-    document.getElementById("modified_label").style.display = "none";
-    return;
-  }
-
-  newRecord();
-  
+  newRecord();  
   var details = RECORDS_ARRAY[id];
+  
+  // load id value
+  document.getElementById("loaded_id").innerHTML = "ID: " + details.id;
+  loaded_id = details.id;
   
   // load romaji values
   var romaji_rows = document.getElementsByClassName("grid_romaji");
@@ -762,24 +768,18 @@ function send_stats_to_console() {
   });
   
 }
-  
-//======================================================================================================
-
-function copier() {
-  var j = build_JSON_from_fields();
-  
-  if(j) {
-    navigator.clipboard.writeText(j);
-    bUpdated = false;
-    document.getElementById("modified_label").style.display = "none";
-  }
-  else alert("Missing data elements");
-}
 
 //======================================================================================================
   
 function saver() {
   var id = make_id();
+  if (id != loaded_id && loaded_id.length > 0) {
+    showOverlay("<p>This record's ID is based off its romaji list, which you have modified.</p><p><b>--> Updating the ID for this record <--</b></p><p>This means that this record will no longer overwrite the original record file (" + loaded_id + ".json). You will need to manually remove the old record file to avoid duplication.</p>");
+    loaded_id = id;
+    document.getElementById("loaded_id").innerHTML = "ID: " + loaded_id;
+    return;
+  }
+    
   var text = build_JSON_from_fields(id);
   
   if(text) {
