@@ -271,7 +271,7 @@ function new_totem_block(totem_type, definition_num = -999) {
       break;
       
     case Totem.EXAMPLE:
-      totemBlockContainer.style.gridTemplateColumns = "180px 30px 150px auto 180px 45px"; /* source, dropdown, filename, display, contributor control-box*/
+      totemBlockContainer.style.gridTemplateColumns = "180px 26px 150px auto 180px 45px"; /* source, dropdown, filename, display, contributor control-box*/
       totemBlockContainer.appendChild(new_input_field(Input.SOURCE, totem_count, definition_num));
       totemBlockContainer.appendChild(new_publisher_dropdown_button(INPUT_NAME[Input.SOURCE], totem_count, definition_num));
       totemBlockContainer.appendChild(new_input_field(Input.FILE, totem_count, definition_num));

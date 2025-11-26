@@ -1,10 +1,3 @@
-/*
-
-Needed...
-ID is not getting reset with new record
-
-*/
-
 const content = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/";
 let RECORDS_ARRAY = [];
 let PUBLISHERS_ARRAY = [];
@@ -12,6 +5,67 @@ let PUBLISHERS_ARRAY = [];
 let bUpdated = false;
 let loaded_id = ""
 let textElements = document.querySelectorAll('.input_field');
+
+//======================================================================================================
+
+function setup_controls() {
+  controlDiv = document.getElementById("little_wrapper");
+  
+  let upper_lower_div = document.createElement("div");  
+  let upper_div = document.createElement("div");
+  let lower_div = document.createElement("div");
+  let id_div = document.createElement("div");
+  let modified_div = document.createElement("div");
+  let guide_div = document.createElement("div");
+  
+  let new_button = document.createElement("input");
+  let saver_button = document.createElement("input");
+  
+  controlDiv.setAttribute("class", "grid_box");
+  upper_lower_div.setAttribute("class", "grid_box");
+  upper_div.setAttribute("class", "grid_box");
+  lower_div.setAttribute("class", "grid_box");
+  id_div.setAttribute("class", "grid_box");
+  modified_div.setAttribute("class", "grid_box");
+  guide_div.setAttribute("class", "grid_box");
+  
+  controlDiv.style.marginTop = "10px";
+  
+  id_div.setAttribute("id", "loaded_id");  
+  modified_div.setAttribute("id", "modified_label");
+  
+  controlDiv.style.gridTemplateColumns = "455px 300px auto"; /* upper/lower, guide */
+  lower_div.style.gridTemplateColumns = "104px 100px auto"; /* new button, download button*/
+  
+  new_button.setAttribute("type", "button");
+  new_button.setAttribute("onclick", "new_blank_record()");
+  new_button.setAttribute("value", "New");
+  new_button.setAttribute("class", "normal_button");
+  new_button.setAttribute("tabindex", "-1");
+  
+  saver_button.setAttribute("type", "button");
+  saver_button.setAttribute("onclick", "saver()");
+  saver_button.setAttribute("value", "Download");
+  saver_button.setAttribute("class", "normal_button");
+  saver_button.setAttribute("tabindex", "-1");
+  
+  guide_div.innerHTML = "o: onomatopoeic&nbsp;(giongo)<br>v: voiced&nbsp;(giseigo)<br>s: state&nbsp;(gitaigo)<br>m: movement&nbsp;(giyougo)<br>e: emotions&nbsp;(gijougo)<br>c: symbolic&nbsp;cue";
+  modified_div.innerHTML = "*Modified";
+  
+  upper_div.appendChild(id_div);
+  upper_div.appendChild(modified_div);
+  
+  lower_div.appendChild(new_button);
+  lower_div.appendChild(saver_button);
+  
+  upper_lower_div.appendChild(upper_div);
+  upper_lower_div.appendChild(lower_div);
+  
+  controlDiv.appendChild(upper_lower_div);
+  controlDiv.appendChild(guide_div);
+  
+  
+}
 
 //======================================================================================================
   
@@ -46,6 +100,9 @@ function new_blank_record() {
   new_totem_block(Totem.DEFINITION);
   new_totem_block(Totem.EQUIVALENT, 0);
   new_totem_block(Totem.EXAMPLE, 0);
+  
+  loaded_id = "";
+  document.getElementById("loaded_id").innerHTML = "ID: [null]";
 }
 
 //======================================================================================================
@@ -195,11 +252,13 @@ function new_json_record_from_fields() {
     re = document.getElementById("input_" + INPUT_NAME[Input.REFER] + "_" + i + "_-999").value;
     ty = document.getElementById("input_" + INPUT_NAME[Input.TYPE] + "_" + i + "_-999").value;
     me = document.getElementById("input_" + INPUT_NAME[Input.MEANING] + "_" + i + "_-999").value;
+    if (ty === "" && re === "") return null;
+    if (me === "" && re === "") return null;
 
     // equivalents
     for (let j=0; j<equivalent_count; j++) {
       equivalent = document.getElementById("input_" + INPUT_NAME[Input.EQUIVALENT] + "_" + j + "_" + i).value;
-      if (equivalent === "") return null;
+      if (equivalent === "" && re === "") return null;
       equi.push(equivalent);
     }
     equi.sort();
@@ -245,7 +304,7 @@ function new_json_record_from_fields() {
 
 function saver() {
   let id = get_id();  
-  if (id != loaded_id && loaded_id.length > 0) {
+  if (id != loaded_id && loaded_id !== "") {
     showOverlay("<p>This record's ID is based off its romaji list, which you have modified.</p><p><b>--> Updating the ID for this record <--</b></p><p>This means that this record will no longer overwrite the original record file (" + loaded_id + ".json). You will need to manually remove the old record file to avoid duplication.</p>");
     loaded_id = id;
     document.getElementById("loaded_id").innerHTML = "ID: " + loaded_id;
@@ -332,9 +391,11 @@ async function opener() {
   PUBLISHERS_ARRAY = await src.json();
   
   populate_publisher_popups();
+  setup_controls();
   create_picker_list();
   //send_stats_to_console();
   
   document.getElementById("modified_label").style.display = "none";
+  
   new_blank_record();
 }
