@@ -2,481 +2,50 @@ const content = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/ma
 let RECORDS_ARRAY = [];
 let PUBLISHERS_ARRAY = [];
 
-var bUpdated = false;
-var loaded_id = ""
-var textElements = document.querySelectorAll('.input_field');
-
-//=================================================================================
-
-document.addEventListener("keyup", function(event) {
-  if (event.key.length == 1) {
-    bUpdated = true;
-    document.getElementById("modified_label").style.display = "block";
-  }
-});
+let bUpdated = false;
+let loaded_id = ""
+let textElements = document.querySelectorAll('.input_field');
 
 //======================================================================================================
   
-function newRecord() {
+function clear_record() {
   if (bUpdated) {
-    modified_warning();
+    showOverlay("<p>The modified flag indicates that changes were made to this record.</p><p><b>--> Removing flag <--</b></p><p>Consider saving your changes, if needed.</p>");
     bUpdated = false;
     document.getElementById("modified_label").style.display = "none";
+    document.getElementById("body").setAttribute("onbeforeunload", null);
     return;
   }
   
-  document.getElementById("column_romaji").innerHTML = "";
-  document.getElementById("column_kana").innerHTML = "";
-  document.getElementById("column_def").innerHTML = "";
+  document.getElementById("new_wrapper").innerHTML = "";
+  let recordDiv = document.createElement("div");
+  recordDiv.setAttribute("class", "grid_box");
+  recordDiv.style.gridTemplateColumns = "150px 300px auto"; /* romaji, kana, definition */
+  recordDiv.appendChild(new_totem(Totem.ROMAJI));
+  recordDiv.appendChild(new_totem(Totem.KANA));
+  recordDiv.appendChild(new_totem(Totem.DEFINITION));
   
-  document.getElementById("loaded_id").innerHTML = "ID: (none)"
-  loaded_id = ""
-  
-  addRow_romaji();
-  addRow_kana();
-  addRow_def();
-  
-  bUpdated = false;
-  document.getElementById("modified_label").style.display = "none";
-  }
-  
+  document.getElementById("new_wrapper").appendChild(recordDiv);
+}
+
+
 //======================================================================================================
 
-function addRow_romaji() {
-  var btn = document.getElementById("button_romaji");
-  if (btn) {
-    btn.outerHTML = "";
-  }
+function new_blank_record() {
+  clear_record();
   
-  var newInput = document.createElement("input");
-  newInput.setAttribute("type", "text");
-  newInput.setAttribute("name", "romaji");
-  newInput.setAttribute("class", "input_field");
-  newInput.setAttribute("placeholder", "romaji value");
-  
-  var newDiv = document.createElement("div");
-  newDiv.className = "grid_romaji";
-  newDiv.appendChild(newInput);
-  
-  var col = document.getElementById("column_romaji");
-  col.appendChild(newDiv);
-  col.appendChild(getButtons("romaji"));
+  new_totem_block(Totem.ROMAJI);
+  new_totem_block(Totem.KANA);
+  new_totem_block(Totem.DEFINITION);
+  new_totem_block(Totem.EQUIVALENT, 0);
+  new_totem_block(Totem.EXAMPLE, 0);
 }
 
 //======================================================================================================
- 
-function addRow_kana() {
-  var btn = document.getElementById("button_kana");
-  if (btn) {
-    btn.outerHTML = "";
-  }
   
-  var newDiv = document.createElement("div");
-  newDiv.className = "grid_kana";
-  
-  var newInput = document.createElement("input");
-  newInput.setAttribute("type", "text");
-  newInput.setAttribute("name", "kata");
-  newInput.setAttribute("class", "input_field");
-  newInput.setAttribute("placeholder", "katakana value");
-  newDiv.appendChild(newInput);
-  
-  newInput = document.createElement("input");
-  newInput.setAttribute("type", "text");
-  newInput.setAttribute("name", "hira");
-  newInput.setAttribute("class", "input_field");
-  newInput.setAttribute("placeholder", "hiragana value");
-  newDiv.appendChild(newInput);
-  
-  var col = document.getElementById("column_kana");
-  col.appendChild(newDiv);  
-  col.appendChild(getButtons("kana"));
-}
 
-//======================================================================================================
-
-function addRow_def() {
-  var btn = document.getElementById("button_def");
-  if (btn) {
-    btn.outerHTML = "";
-  }
-  
-  var base_name = make_id();
-      
-  //----------------------------------------------------------------------------------------------------
-  
-  //--- text input - refer
-  var reference_text = document.createElement("input");
-  reference_text.setAttribute("type", "text");
-  reference_text.setAttribute("name", "refer");
-  reference_text.setAttribute("class", "input_field");
-  reference_text.setAttribute("placeholder", "reference");
-  
-  //--- text input - type
-  var type_text = document.createElement("input");
-  type_text.setAttribute("type", "text");
-  type_text.setAttribute("name", "type");
-  type_text.setAttribute("class", "input_field");
-  type_text.setAttribute("placeholder", "type");
-                        
-  //--- text input - meaning
-  var meaning_text = document.createElement("input");
-  meaning_text.setAttribute("type", "text");
-  meaning_text.setAttribute("name", "mean");
-  meaning_text.setAttribute("class", "input_field");
-  meaning_text.setAttribute("placeholder", "meaning");
-  
-  //--- text input - equivalent
-  var equivalent_text = document.createElement("input");
-  equivalent_text.setAttribute("type", "text");
-  equivalent_text.setAttribute("name", "equi");
-  equivalent_text.setAttribute("class", "input_field");
-  equivalent_text.setAttribute("placeholder", "equivalent values");
-  
-  //--- equivalent plus button
-  var equivalent_button_adder = document.createElement("input");
-  equivalent_button_adder.setAttribute("type", "button");
-  equivalent_button_adder.setAttribute("onClick", "javascript: addRow_equi(" + (document.getElementsByClassName("grid_def").length) + ");" );
-  equivalent_button_adder.setAttribute("tabindex", "-1");
-  equivalent_button_adder.value = "+";
-  equivalent_button_adder.className = "little_button";
-  
-  //--- equivalent minus button
-  var equivalent_button_remover = document.createElement("input");
-  equivalent_button_remover.setAttribute("type", "button");
-  equivalent_button_remover.setAttribute("onClick", "javascript: delRow_equi(" + (document.getElementsByClassName("grid_def").length) + ");" );
-  equivalent_button_remover.setAttribute("tabindex", "-1");
-  equivalent_button_remover.value = "-";
-  equivalent_button_remover.className = "little_button";
-  
-  //--- text input - image filename
-  var example_filename_text = document.createElement("input");
-  example_filename_text.setAttribute("type", "text");
-  example_filename_text.setAttribute("class", "input_field");
-  example_filename_text.setAttribute("name", "exam_file");
-  example_filename_text.setAttribute("placeholder", "filename");
-  example_filename_text.setAttribute("value", base_name + "-" + (document.getElementById("column_def").children.length + 1) + "a");
-  
-  //--- text input - image contributor
-  var example_contributor_text = document.createElement("input");
-  example_contributor_text.setAttribute("type", "text");
-  example_contributor_text.setAttribute("class", "input_field");
-  example_contributor_text.setAttribute("name", "exam_contrib");
-  example_contributor_text.setAttribute("placeholder", "contributor");
-  
-  //--- text input - image display
-  var example_display_text = document.createElement("input");
-  example_display_text.setAttribute("type", "text");
-  example_display_text.setAttribute("class", "input_field");
-  example_display_text.setAttribute("name", "exam_display");
-  example_display_text.setAttribute("placeholder", "display");
-  
-  //--- text input - source
-  var example_source_text = document.createElement("input");
-  example_source_text.setAttribute("type", "text");
-  example_source_text.setAttribute("class", "input_field");
-  example_source_text.setAttribute("name", "exam_source");
-  example_source_text.setAttribute("placeholder", "example source");
-  
-  //--- dropdown button for source
-  var example_publisher_dropdown_button = document.createElement("input");
-  example_publisher_dropdown_button.setAttribute("type", "button");
-  example_publisher_dropdown_button.setAttribute("name", "btn_source");
-  example_publisher_dropdown_button.setAttribute("onClick", "javascript: source_dropdown_clicked(this);" );
-  example_publisher_dropdown_button.setAttribute("tabindex", "-1");
-  example_publisher_dropdown_button.value = "⇓";
-  example_publisher_dropdown_button.className = "little_button";  
-  
-  //--- example plus button
-  var example_button_adder = document.createElement("input");
-  example_button_adder.setAttribute("type", "button");
-  example_button_adder.setAttribute("onClick", "javascript: addRow_exam(" + (document.getElementsByClassName("grid_def").length) + ");" );
-  example_button_adder.setAttribute("tabindex", "-1");
-  example_button_adder.value = "+";
-  example_button_adder.className = "little_button";  
-  
-  //--- example minus button
-  var example_button_remover = document.createElement("input");
-  example_button_remover.setAttribute("type", "button");
-  example_button_remover.setAttribute("onClick", "javascript: delRow_exam(" + (document.getElementsByClassName("grid_def").length) + ");" );
-  example_button_remover.setAttribute("tabindex", "-1");
-  example_button_remover.value = "-";
-  example_button_remover.className = "little_button";
-  
-  //----------------------------------------------------------------------------------------------------
-  
-  //--- equivalent button group (only one button group per meaning)
-  var equivalent_buttons_div = document.createElement("div");
-  equivalent_buttons_div.appendChild(equivalent_button_adder);
-  equivalent_buttons_div.appendChild(equivalent_button_remover);
-  
-  //--- example button group (only one button group per meaning)
-  var example_buttons_div = document.createElement("div");
-  example_buttons_div.appendChild(example_button_adder);
-  example_buttons_div.appendChild(example_button_remover);
-  
-  //--- equivalent group
-  var equivalent_group_div = document.createElement("div");
-  equivalent_group_div.className = "grid_equi";
-  equivalent_group_div.appendChild(equivalent_text);
-  equivalent_group_div.appendChild(equivalent_buttons_div);
-  
-  //--- example group
-  var example_group_div = document.createElement("div");
-  example_group_div.className = "grid_exam";
-  example_group_div.appendChild(example_source_text);
-  example_group_div.appendChild(example_publisher_dropdown_button);
-  example_group_div.appendChild(example_filename_text);
-  example_group_div.appendChild(example_display_text);
-  example_group_div.appendChild(example_contributor_text);
-  example_group_div.appendChild(example_buttons_div);
-  
-  //--- definition group
-  var definition_group_div = document.createElement("div");
-  definition_group_div.className = "grid_def";
-  definition_group_div.appendChild(reference_text);
-  //definition_group_div.appendChild(typeContainer);
-  definition_group_div.appendChild(type_text);
-  definition_group_div.appendChild(meaning_text);
-  definition_group_div.appendChild(equivalent_group_div);
-  definition_group_div.appendChild(example_group_div);
-  
-  //--- add full definition to doc
-  var definition_column = document.getElementById("column_def");
-  definition_column.appendChild(definition_group_div);
-  definition_column.appendChild(getButtons("def"));
-  
-  bUpdated = true;
-  document.getElementById("modified_label").style.display = "block";
-}
-
-//======================================================================================================
-
-function addRow_exam(num) {
-  var romaji_rows = document.getElementsByClassName("grid_romaji");
-  var romaji_value = romaji_rows[0].children[0].value
-  var base_name = romaji_value.id
-  
-  //--- text input - image filename
-  var example_filename_text = document.createElement("input");
-  example_filename_text.setAttribute("type", "text");
-  example_filename_text.setAttribute("class", "input_field");
-  example_filename_text.setAttribute("name", "exam_file");
-  example_filename_text.setAttribute("placeholder", "filename");
-  example_filename_text.setAttribute("value", base_name + "-" + (num + 1) + String.fromCharCode(97 + document.getElementsByClassName("grid_def")[num].children[3].children.length/6));
-    
-  //--- text input - contributor
-  var example_contributor_text = document.createElement("input");
-  example_contributor_text.setAttribute("type", "text");
-  example_contributor_text.setAttribute("class", "input_field");
-  example_contributor_text.setAttribute("name", "exam_contrib");
-  example_contributor_text.setAttribute("placeholder", "contributor");
-  
-  //--- text input - display
-  var example_display_text = document.createElement("input");
-  example_display_text.setAttribute("type", "text");
-  example_display_text.setAttribute("class", "input_field");
-  example_display_text.setAttribute("name", "exam_display");
-  example_display_text.setAttribute("placeholder", "display");
-  
-  //--- text input - source
-  var example_source_text = document.createElement("input");
-  example_source_text.setAttribute("type", "text");
-  example_source_text.setAttribute("class", "input_field");
-  example_source_text.setAttribute("name", "exam_source");
-  example_source_text.setAttribute("placeholder", "example source");
-  
-  //--- dropdown button for source
-  var example_publisher_dropdown_button = document.createElement("input");
-  example_publisher_dropdown_button.setAttribute("type", "button");
-  example_publisher_dropdown_button.setAttribute("name", "btn_source");
-  example_publisher_dropdown_button.setAttribute("onClick", "javascript: source_dropdown_clicked(this);" );
-  example_publisher_dropdown_button.setAttribute("tabindex", "-1");
-  example_publisher_dropdown_button.value = "⇓";
-  example_publisher_dropdown_button.className = "little_button"; 
-  
-  //--- hidden input (in lieu of extra plus/minus buttons)
-  var example_hidden_input = document.createElement("input");
-  example_hidden_input.setAttribute("type", "hidden");
-  example_hidden_input.value = "0";
-  
-  //--- hidden input group
-  var example_hidden_input_group = document.createElement("div");
-  example_hidden_input_group.appendChild(example_hidden_input); 
-  
-  var grid_exam = document.getElementsByClassName("grid_def")[num].children[4]; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
-  grid_exam.appendChild(example_source_text);
-  grid_exam.appendChild(example_publisher_dropdown_button);
-  grid_exam.appendChild(example_filename_text);
-  grid_exam.appendChild(example_display_text);
-  grid_exam.appendChild(example_contributor_text);
-  grid_exam.appendChild(example_hidden_input_group);
-  
-  bUpdated = true;
-  document.getElementById("modified_label").style.display = "block";
-  
-}
-
-//======================================================================================================
-
-function addRow_equi(defNum) {
-  
-  //--- text input - equivalent values
-  var equivalent_text = document.createElement("input");
-  equivalent_text.setAttribute("type", "text");
-  equivalent_text.setAttribute("name", "equi");
-  equivalent_text.setAttribute("class", "input_field");
-  equivalent_text.setAttribute("placeholder", "equivalent values");
-  
-  //--- blank input (in lieu of extra plus/minus buttons)
-  var example_hidden_input = document.createElement("input");
-  example_hidden_input.setAttribute("type", "hidden");
-  example_hidden_input.value = "0";
-  
-  //--- blank button group
-  var example_hidden_input_group = document.createElement("div");
-  example_hidden_input_group.appendChild(example_hidden_input);
-  
-  var grid_equi = document.getElementsByClassName("grid_def")[defNum].children[3]; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
-  grid_equi.appendChild(equivalent_text);
-  grid_equi.appendChild(example_hidden_input_group);
-  
-  bUpdated = true;
-}
-
-//======================================================================================================
-
-function delRow_common(section) {
-  var rows = document.getElementsByClassName("grid_" + section);
-    
-  if(rows.length > 2) { //two rows: one div for the field and one for the buttons
-    rows[rows.length - 2].outerHTML = "";
-  }
-  
-  bUpdated = true;
-  document.getElementById("modified_label").style.display = "block";  
-}
-
-//======================================================================================================
- 
-function delRow_romaji() { delRow_common("romaji"); }
-function delRow_kana() { delRow_common("kana"); }
-function delRow_def() { delRow_common("def"); }
-
-//======================================================================================================
- 
-function delRow_exam(num) {
-  var grid_exam = document.getElementsByClassName("grid_def")[num].children[4]; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
-  if(grid_exam.children.length > 6) { //four input fields + one div for buttons
-    grid_exam.lastChild.outerHTML = "";
-    grid_exam.lastChild.outerHTML = "";
-    grid_exam.lastChild.outerHTML = "";
-    grid_exam.lastChild.outerHTML = "";
-    grid_exam.lastChild.outerHTML = "";
-    grid_exam.lastChild.outerHTML = "";
-  }
-  
-  bUpdated = true;
-  document.getElementById("modified_label").style.display = "block";
-}
-  
-//======================================================================================================
- 
-function delRow_equi(num) {
-  
-  var grid_equi = document.getElementsByClassName("grid_def")[num].children[3]; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
-  if(grid_equi.children.length > 2) { 
-    grid_equi.lastChild.outerHTML = "";
-    grid_equi.lastChild.outerHTML = "";
-  }
-  
-  bUpdated = true;
-  document.getElementById("modified_label").style.display = "block";
-}
-
-//======================================================================================================
-
-function source_dropdown_clicked(element) {
-  if (element.previousSibling.id) {
-    //already showing, so hide
-    element.previousSibling.removeAttribute("id");
-    document.getElementById("sourceDropdown1").style.display = "none";
-    document.getElementById("sourceDropdown2").style.display = "none";
-  } else {
-    //show the dropdown
-    element.previousSibling.setAttribute("id", "sourceDropped");
-    let bb = element.getBoundingClientRect();
-    document.getElementById("sourceDropdown1").style.top = (bb.top + 25) + "px";
-    document.getElementById("sourceDropdown1").style.left = bb.left + "px";
-    document.getElementById("sourceDropdown1").style.display = "block";
-    
-    document.getElementById("sourceDropdown2").style.top = (bb.top + 25) + "px";
-    document.getElementById("sourceDropdown2").style.left = (bb.left + 164) + "px";
-    document.getElementById("sourceDropdown2").style.display = "block";
-  }
-}
-
-//======================================================================================================
-
-function pickSource(sourceid) {
-  document.getElementById("sourceDropped").value = sourceid;
-  document.getElementById("sourceDropped").removeAttribute("id");
-  document.getElementById("sourceDropdown1").style.display = "none";
-  document.getElementById("sourceDropdown2").style.display = "none";
-  
-  bUpdated = true;
-  document.getElementById("modified_label").style.display = "block";
-}
-
-//======================================================================================================
-
-function getButtons(section) {
-  // build side-by-side +/- buttons (except for those for equivs)
-  
-  var tmpDiv = document.createElement("div");
-  
-  // + button
-  var newInput = document.createElement("input");
-  newInput.setAttribute("type", "button");
-  newInput.setAttribute("onClick", "javascript: addRow_" + section + "();" );
-  newInput.setAttribute("tabindex", "-1");
-  newInput.value = "+";
-  newInput.className = "little_button";
-  tmpDiv.appendChild(newInput);
-  
-  // - button
-  newInput = document.createElement("input");
-  newInput.setAttribute("type", "button");
-  newInput.setAttribute("onClick", "javascript: delRow_" + section + "();" );
-  newInput.setAttribute("tabindex", "-1");
-  newInput.value = "-";
-  newInput.className = "little_button";
-  tmpDiv.appendChild(newInput);
-  
-  // good enough for examples
-  if (section === "exam")
-    return tmpDiv;
-  
-  // put buttons in a new div (so they appear below instead of next-to)
-  var newDiv = document.createElement("div");
-  newDiv.id = "button_" + section;
-  newDiv.className = "grid_" + section;
-  newDiv.appendChild(tmpDiv);
-  
-  if (section === "kana" || section === "romaji")
-    return newDiv;
-  
-  // tack on type notes next to def buttons
-  var test = document.createElement("div");
-  test.innerHTML = "o:onomatopoeic&nbsp;(giongo)<br>v:voiced&nbsp;(giseigo)<br>s:state&nbsp;(gitaigo)<br>m:movement&nbsp;(giyougo)<br>e:emotions&nbsp;(gijougo)<br>c:symbolic&nbsp;cue";
-  newDiv.appendChild(test);
-  return newDiv;
-}
-  
-//======================================================================================================
-
-function create_publisher_source_list() {   
-  var ids = [];
+function populate_publisher_popups() {
+  let ids = [];
   
   PUBLISHERS_ARRAY.forEach((pub) => {
     pub.sources.forEach((source) => {
@@ -485,30 +54,29 @@ function create_publisher_source_list() {
   });
   ids.sort();
   
-  for (var i=0; i<Math.floor(ids.length/2); i++) {
-    document.getElementById("sourceDropdown1").innerHTML += "<a href='#!' class='pick_link' onclick=\"pickSource('" + ids[i] + "')\">" + ids[i] + "</a>";
+  for (let i=0; i<Math.floor(ids.length/2); i++) {
+    document.getElementById("publisher_popup_left").innerHTML += "<a href='#!' class='pick_link' onclick=\"javascript: picked_publisher('" + ids[i] + "')\">" + ids[i] + "</a>";
   }
   if(Math.floor(ids.length/2) != ids.length/2) {
-    document.getElementById("sourceDropdown1").innerHTML += "<a class='pick_link'>&nbsp;</a>"
+    document.getElementById("publisher_popup_left").innerHTML += "<a class='pick_link'>&nbsp;</a>"
   }
-  for (var i=Math.floor(ids.length/2); i<ids.length; i++) {
-    document.getElementById("sourceDropdown2").innerHTML += "<a href='#!' class='pick_link' onclick=\"pickSource('" + ids[i] + "')\">" + ids[i] + "</a>";
+  for (let i=Math.floor(ids.length/2); i<ids.length; i++) {
+    document.getElementById("publisher_popup_right").innerHTML += "<a href='#!' class='pick_link' onclick=\"javascript: picked_publisher('" + ids[i] + "')\">" + ids[i] + "</a>";
   }
 }
   
 //======================================================================================================
 
 function create_picker_list() {
-  var picker = document.getElementById("picker");
-  // picker is grouped by letter, starting with A:
+  let picker = document.getElementById("picker");
   
+  // picker is grouped by letter, starting with A:  
   // initial settings (starting with "a" words).
-  var groupLetter = "a";
-  var subGroupLetter = "";
+  let groupLetter = "a";
+  let subGroupLetter = "";
   picker.innerHTML += "A:\t"
   
-  for (var i=0; i<RECORDS_ARRAY.length; i++) {
-  //for (var i=0; i<5; i++) {
+  for (let i=0; i<RECORDS_ARRAY.length; i++) {
     currentLetter1 = RECORDS_ARRAY[i].id.substring(0, 1);
     currentLetter2 = RECORDS_ARRAY[i].id.substring(1, 2);
     if (currentLetter1 !== groupLetter) {
@@ -523,181 +91,124 @@ function create_picker_list() {
         }
       }
     }
-    picker.innerHTML += "<a href='#!', onclick=\"javascript: load_details_to_fields('" + i + "');\" tabindex='-1'>" + RECORDS_ARRAY[i].id	 + "</a>, ";
+    picker.innerHTML += "<a href='#!', onclick=\"javascript: record_to_fields('" + i + "');\" tabindex='-1'>" + RECORDS_ARRAY[i].id	 + "</a>, ";
   }
 }
   
 //======================================================================================================
 
-function modified_warning() {
-  showOverlay("<p>The modified flag indicates that changes were made to this record.</p><p><b>--> Removing flag <--</b></p><p>Consider saving your changes, if needed.</p>");
-}
-  
-//======================================================================================================
-
-function load_details_to_fields(id) {
-  
+function record_to_fields(record_num) {
   if (bUpdated) {
-    newRecord();
+    clear_record();
     return;
-  }
-
-  newRecord();
-  var details = RECORDS_ARRAY[id];
+  }  
+  clear_record();
   
-  // load id value
-  document.getElementById("loaded_id").innerHTML = "ID: " + details.id;
-  loaded_id = details.id;
-  
-  // load romaji values
-  var romaji_rows = document.getElementsByClassName("grid_romaji");
-  for (var i = 0; i < details.romaji.length; i++) {
-    romaji_rows[romaji_rows.length - 2].children[0].value = details.romaji[i];
-    if (i < details.romaji.length - 1) addRow_romaji();
-  }
-  
-  // load katakana and hiragana values (in lock-step)
-  var kana_rows = document.getElementsByClassName("grid_kana");
-  for (var i = 0; i < details.katakana.length; i++) {
-    kana_rows[kana_rows.length - 2].children[0].value = details.katakana[i];
-    kana_rows[kana_rows.length - 2].children[1].value = details.hiragana[i];
-    if (i < details.katakana.length - 1) addRow_kana();
-  }
-  
-  // load definitions
-  var def_rows = document.getElementsByClassName("grid_def");
-  for (var detNum = 0; detNum < details.definition.length; detNum++) {
-    def_rows[def_rows.length - 2].children[0].value = details.definition[detNum].refer; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group    
-    def_rows[def_rows.length - 2].children[1].value = details.definition[detNum].type; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
-    def_rows[def_rows.length - 2].children[2].value = details.definition[detNum].meaning;
-    
-    for (var equNum = 0; equNum<details.definition[detNum].equivalent.length; equNum++) {
-      def_rows[def_rows.length - 2].children[3].children[equNum*2].value = details.definition[detNum].equivalent[equNum];
-      if (equNum < details.definition[detNum].equivalent.length - 1) addRow_equi(detNum);
-    }
-    
-    for (var exaNum = 0; exaNum < details.definition[detNum].example.length; exaNum++) {
-      def_rows[def_rows.length - 2].children[4].children[exaNum*6].value = details.definition[detNum].example[exaNum].source;
-      def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 2].value = details.definition[detNum].example[exaNum].file;
-      def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 3].value = details.definition[detNum].example[exaNum].display;
-      def_rows[def_rows.length - 2].children[4].children[exaNum*6 + 4].value = details.definition[detNum].example[exaNum].contributor;
-      if (exaNum < details.definition[detNum].example.length - 1) addRow_exam(detNum);
-    }
-    
-    if (detNum < details.definition.length - 1) addRow_def();
-  }
-  
-  bUpdated = false;
-  document.getElementById("modified_label").style.display = "none";
-  
+  json_to_field(RECORDS_ARRAY[record_num])
 }
   
 //======================================================================================================
 
-function make_id() {
-  var romaji_rows = document.getElementsByName("romaji");
-  var id_parts = [];
+function get_id() {
+  let romaji_count = parseInt(document.getElementById("totem_" + TOTEM_NAME[Totem.ROMAJI] + "_-999").getAttribute("data-blockcount"));
+  let id_parts = [];
   
-  for (var i=0; i<romaji_rows.length; i++) {
-    rom = romaji_rows[i].value
+  for (let i=0; i<romaji_count; i++) {
+    romaji = document.getElementById("input_" + INPUT_NAME[Input.ROMAJI] + "_" + i + "_-999").value;
     
     // check for doublets
-    if (rom.includes(" ")) {
-      var rom_parts = rom.split(" ");
-      if (rom_parts[0] === rom_parts[1]) rom = rom_parts[0];
+    if (romaji.includes(" ")) {
+      let romaji_parts = romaji.split(" ");
+      if (romaji_parts[0] === romaji_parts[1]) {
+        romaji = romaji_parts[0];
+      } else {
+        romaji = romaji.split(" ").join("_");
+      }
     }
     
     // check for dupes
-    var has_dupes = false;
-    if (i > 0)
-      for (j=0; j<i; j++)
-        if (id_parts[j] === rom)
+    let has_dupes = false;
+    if (i > 0) { //we're comparing against all previous, so we can't start at zero
+      for (let j=0; j<i; j++) {
+        if (id_parts[j] === romaji) {
           has_dupes = true;
-
-    
-    if (!has_dupes)
-      id_parts.push(rom);
+        }
+      }
+    }
+    if (!has_dupes) {
+      id_parts.push(romaji);
+    }
   }
   
-  var id = id_parts[0];
-  for (var i=1; i<id_parts.length; i++) {
+  // put the parts together
+  let id = id_parts[0];
+  for (let i=1; i<id_parts.length; i++) {
     id += "_" + id_parts[i];
   }
-  
   return id;
 }
   
 //======================================================================================================
 
-function build_JSON_from_fields(index) {
-
-  // romaji
-  var romaji_rows = document.getElementsByName("romaji");
+function new_json_record_from_fields() {
+  let romaji_count = parseInt(document.getElementById("totem_" + TOTEM_NAME[Totem.ROMAJI] + "_-999").getAttribute("data-blockcount"));
+  let kana_count = parseInt(document.getElementById("totem_" + TOTEM_NAME[Totem.KANA] + "_-999").getAttribute("data-blockcount"));
+  let definition_count = parseInt(document.getElementById("totem_" + TOTEM_NAME[Totem.DEFINITION] + "_-999").getAttribute("data-blockcount"));
+  let json_object;
   const roms = [];
-  for (var i=0; i<romaji_rows.length; i++) {
-    if (!romaji_rows[i].value) return null;
-    roms.push(romaji_rows[i].value);
+  const kata = [];
+  const hira = [];
+  const def = [];
+  const equi = [];
+  const exam = [];
+  
+  // id
+  const id = get_id();
+  
+  // romaji
+  for (let i=0; i<romaji_count; i++) {
+    romaji = document.getElementById("input_" + INPUT_NAME[Input.ROMAJI] + "_" + i + "_-999").value;
+    if (romaji.length == 0) return null;
+    roms.push(romaji);
   }
   
   // katagana
-  var kata_rows = document.getElementsByName("kata");
-  const kata = [];
-  for (var i=0; i<kata_rows.length; i++) {
-    if (!kata_rows[i].value) return null;
-    kata.push(kata_rows[i].value);
+  for (let i=0; i<kana_count; i++) {
+    katakana = document.getElementById("input_" + INPUT_NAME[Input.KATAKANA] + "_" + i + "_-999").value;
+    hiragana = document.getElementById("input_" + INPUT_NAME[Input.HIRAGANA] + "_" + i + "_-999").value;
+    if (katakana === "" || hiragana === "") return null;
+    kata.push(katakana);
+    hira.push(hiragana);
   }
   
-  // hiragana
-  var hira_rows = document.getElementsByName("hira");
-  const hira = [];
-  for (var i=0; i<hira_rows.length; i++) {
-    if (!hira_rows[i].value) return null;
-    hira.push(hira_rows[i].value);
-  }
-    
   // definitions
-  var def_rows = document.getElementById("column_def");
-  const def = [];  
-  for (var defNum=0; defNum<def_rows.children.length - 1; defNum++) {
-    
-    // reference
-    var re = def_rows.children[defNum].children[0].value; // children[0] = refer, children[1] = type, children[2] = meaning, children[3] = equivalent group, children[4] = example group
-    
-    // type
-    var ty = def_rows.children[defNum].children[1].value;
-    if (re.length == 0 && ty.length == 0) return null;
-    
-    // meaning    
-    var me = def_rows.children[defNum].children[2].value;
-    if (re.length == 0 && me.length == 0) return null;
-    
-    // equivalents
-    const equi = [];    
-    var equivs = def_rows.children[defNum].children[3];
-    for (var equNum=0; equNum<equivs.children.length; equNum+=2) {
-      if (!equivs.children[equNum].value && equNum > 0) return null;
-      equi.push(equivs.children[equNum].value);
-    }    
-    if (equi.length == 0 && re.length == 0) return null;
-    equi.sort();
-    
-    // examples
-    const exam = [];
-    var examps = def_rows.children[defNum].children[4];
-    for (var exaNum=0; exaNum<examps.children.length; exaNum+=6) {
-      if (!examps.children[exaNum].value) return null;
-      if (!examps.children[exaNum + 2].value) return null;
-      if (!examps.children[exaNum + 3].value) return null;
-      var ex = {
-        source: examps.children[exaNum].value,
-        file: examps.children[exaNum + 2].value,
-        display: examps.children[exaNum + 3].value,
-        contributor: examps.children[exaNum + 4].value,
+  for (let i=0; i<definition_count; i++) {
+    let equivalent_count = parseInt(document.getElementById("totem_" + TOTEM_NAME[Totem.EQUIVALENT] + "_" + i).getAttribute("data-blockcount"));
+    let example_count = parseInt(document.getElementById("totem_" + TOTEM_NAME[Totem.EXAMPLE] + "_" + i).getAttribute("data-blockcount"));
+    re = document.getElementById("input_" + INPUT_NAME[Input.REFER] + "_" + i + "_-999").value;
+    ty = document.getElementById("input_" + INPUT_NAME[Input.TYPE] + "_" + i + "_-999").value;
+    me = document.getElementById("input_" + INPUT_NAME[Input.MEANING] + "_" + i + "_-999").value;
+    for (let j=0; j<equivalent_count; j++) {
+      equivalent = document.getElementById("input_" + INPUT_NAME[Input.EQUIVALENT] + "_" + j + "_" + i).value;
+      if (equivalent === "") return null;
+      equi.push(equivalent);
+    }
+    for (let j=0; j<example_count; j++) {
+      source = document.getElementById("input_" + INPUT_NAME[Input.SOURCE] + "_" + j + "_" + i).value;
+      file = document.getElementById("input_" + INPUT_NAME[Input.FILE] + "_" + j + "_" + i).value;
+      display = document.getElementById("input_" + INPUT_NAME[Input.DISPLAY] + "_" + j + "_" + i).value;
+      contributor = document.getElementById("input_" + INPUT_NAME[Input.CONTRIBUTOR] + "_" + j + "_" + i).value;
+      if (source === "" || file === "" | display === "") return null;
+      let ex = {
+        source: source,
+        file: file,
+        display: display,
+        contributor: contributor,
       };
       exam.push(ex);
     }
     
-    var de = {
+    let de = {
       refer: re,
       type: ty,
       meaning: me,
@@ -706,25 +217,56 @@ function build_JSON_from_fields(index) {
     };
     def.push(de);
     
-    var json_obj = {
-      id: index,
+    json_obj = {
+      id: id,
       romaji: roms,
       katakana: kata,
       hiragana: hira,
       definition: def
     };
-    
   }
   
   return JSON.stringify(json_obj, null, 2)
 }
+  
+//======================================================================================================
 
+function saver() {
+  let id = get_id();  
+  if (id != loaded_id && loaded_id.length > 0) {
+    showOverlay("<p>This record's ID is based off its romaji list, which you have modified.</p><p><b>--> Updating the ID for this record <--</b></p><p>This means that this record will no longer overwrite the original record file (" + loaded_id + ".json). You will need to manually remove the old record file to avoid duplication.</p>");
+    loaded_id = id;
+    document.getElementById("loaded_id").innerHTML = "ID: " + loaded_id;
+    return;
+  }
+  
+  let json_record = new_json_record_from_fields();
+  
+  if(json_record) {
+    let saver_link = document.createElement('a');
+    saver_link.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(json_record));
+    saver_link.setAttribute('download', id);
+    saver_link.style.display = 'none';
+    
+    document.body.appendChild(saver_link);
+    saver_link.click();
+    document.body.removeChild(saver_link);
+    
+    bUpdated = false;
+    document.getElementById("modified_label").style.display = "none";
+    document.getElementById("body").setAttribute("onbeforeunload", null);
+  } else {
+    showOverlay("<p>This record has one or more blank fields that should not be blank.</p>");
+    return;
+  }
+}
+  
 //=================================================================================
 
 function send_stats_to_console() {
-  var kana_cnt = 0;
-  var def_cnt = 0;
-  var img_cnt = 0;
+  let kana_cnt = 0;
+  let def_cnt = 0;
+  let img_cnt = 0;
   
   RECORDS_ARRAY.forEach((d) => {
     kana_cnt += d.katakana.length;
@@ -743,10 +285,8 @@ function send_stats_to_console() {
   
   PUBLISHERS_ARRAY.forEach((pub) => {
     console.log();
-    var pubcnt = 0;
-    //var sercnt = 0;
+    let pubcnt = 0;
     pub.sources.forEach((source) => {
-      //sercnt++;
       RECORDS_ARRAY.forEach((d) => {
         d.definition.forEach((def) => {
           def.example.forEach((exa) => {
@@ -757,7 +297,7 @@ function send_stats_to_console() {
     });
     console.log("-- " + pub.publisher_name + " " +  pubcnt + " --> " + pub.site);
     pub.sources.forEach((source) => {
-      var sercnt = 0;
+      let sercnt = 0;
       RECORDS_ARRAY.forEach((d) => {
         d.definition.forEach((def) => {
           def.example.forEach((exa) => {
@@ -767,38 +307,7 @@ function send_stats_to_console() {
       });
       console.log("     " + source.manga + " ( " + source.id + " ): " + sercnt);
     });
-    
   });
-  
-}
-
-//======================================================================================================
-  
-function saver() {
-  var id = make_id();
-  if (id != loaded_id && loaded_id.length > 0) {
-    showOverlay("<p>This record's ID is based off its romaji list, which you have modified.</p><p><b>--> Updating the ID for this record <--</b></p><p>This means that this record will no longer overwrite the original record file (" + loaded_id + ".json). You will need to manually remove the old record file to avoid duplication.</p>");
-    loaded_id = id;
-    document.getElementById("loaded_id").innerHTML = "ID: " + loaded_id;
-    return;
-  }
-    
-  var text = build_JSON_from_fields(id);
-  
-  if(text) {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', id);
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-    bUpdated = false;
-    document.getElementById("modified_label").style.display = "none";
-  } else {
-    alert("Missing data elements");
-  }
 }
 
 //======================================================================================================
@@ -810,11 +319,10 @@ async function opener() {
   const src = await fetch(content + "json/j-ono-source.json");
   PUBLISHERS_ARRAY = await src.json();
   
-  PUBLISHERS_ARRAY.sort((a, b) => a.publisher_name.localeCompare(b.publisher_name));
-  
+  populate_publisher_popups();
   create_picker_list();
-  create_publisher_source_list();
-  send_stats_to_console();
+  //send_stats_to_console();
   
-  newRecord();
+  document.getElementById("modified_label").style.display = "none";
+  new_blank_record();
 }
