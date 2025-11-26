@@ -188,11 +188,16 @@ function new_json_record_from_fields() {
     re = document.getElementById("input_" + INPUT_NAME[Input.REFER] + "_" + i + "_-999").value;
     ty = document.getElementById("input_" + INPUT_NAME[Input.TYPE] + "_" + i + "_-999").value;
     me = document.getElementById("input_" + INPUT_NAME[Input.MEANING] + "_" + i + "_-999").value;
+
+    // equivalents
     for (let j=0; j<equivalent_count; j++) {
       equivalent = document.getElementById("input_" + INPUT_NAME[Input.EQUIVALENT] + "_" + j + "_" + i).value;
       if (equivalent === "") return null;
       equi.push(equivalent);
     }
+    equi.sort();
+
+    // examples
     for (let j=0; j<example_count; j++) {
       source = document.getElementById("input_" + INPUT_NAME[Input.SOURCE] + "_" + j + "_" + i).value;
       file = document.getElementById("input_" + INPUT_NAME[Input.FILE] + "_" + j + "_" + i).value;
@@ -216,15 +221,15 @@ function new_json_record_from_fields() {
       example: exam
     };
     def.push(de);
-    
-    json_obj = {
-      id: id,
-      romaji: roms,
-      katakana: kata,
-      hiragana: hira,
-      definition: def
-    };
   }
+    
+  json_obj = {
+    id: id,
+    romaji: roms,
+    katakana: kata,
+    hiragana: hira,
+    definition: def
+  };
   
   return JSON.stringify(json_obj, null, 2)
 }
