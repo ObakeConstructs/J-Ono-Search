@@ -393,7 +393,7 @@ async function opener() {
   populate_publisher_popups();
   setup_controls();
   create_picker_list();
-  //send_stats_to_console();
+  send_stats_to_console();
   
   document.getElementById("modified_label").style.display = "none";
   
