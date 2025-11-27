@@ -49,7 +49,7 @@ function setup_controls() {
   saver_button.setAttribute("class", "normal_button");
   saver_button.setAttribute("tabindex", "-1");
   
-  guide_div.innerHTML = "o: onomatopoeic&nbsp;(giongo)<br>v: voiced&nbsp;(giseigo)<br>s: state&nbsp;(gitaigo)<br>m: movement&nbsp;(giyougo)<br>e: emotions&nbsp;(gijougo)<br>c: symbolic&nbsp;cue";
+  guide_div.innerHTML = "Types:<br>o: onomatopoeic&nbsp;(giongo)<br>v: voiced&nbsp;(giseigo)<br>s: state&nbsp;(gitaigo)<br>m: movement&nbsp;(giyougo)<br>e: emotions&nbsp;(gijougo)<br>c: symbolic&nbsp;cue";
   modified_div.innerHTML = "*Modified";
   
   upper_div.appendChild(id_div);
