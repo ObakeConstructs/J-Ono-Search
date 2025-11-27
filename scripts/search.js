@@ -332,14 +332,16 @@ function show_stats() {
 
 
 function get_romaji(kana) {
-  var multi_romaji = {
-    "きゃ":"kya","きゅ":"kyu","きょ":"kyo","ぎゃ":"gya","ぎゅ":"gyu","ぎょ":"gyo","しゃ":"sha","しゅ":"shu","しょ":"sho","じゃ":"ja","じゅ":"ju","じょ":"jo","ちゃ":"cha",
+  var romaji_triplets = {
+    "っしゃ":"ssha","っしゅ":"sshu","っしょ":"ssho","ッシャ":"ssha","ッシュ":"sshu","ッショ":"ssho"};
+  var romaji_doublets = {
+    "きゃ":"kya","きゅ":"kyu","きょ":"kyo","ぎゃ":"gya","ぎゅ":"gyu","ぎょ":"gyo","しゃ":"sha","しゅ":"shu","しょ":"sho","っし":"sshi","じゃ":"ja","じゅ":"ju","じょ":"jo","ちゃ":"cha",
     "ちゅ":"chu","ちょ":"cho","にゃ":"nya","にゅ":"nyu","にょ":"nyo","ひゃ":"hya","ひゅ":"hyu","ひょ":"hyo","みゃ":"mya","みゅ":"myu","みょ":"myo","りゃ":"rya",
-    "りゅ":"ryu","りょ":"ryo","キャ":"kya","キュ":"kyu","キョ":"kyo","ギャ":"gya","ギュ":"gyu","ギョ":"gyo","シャ":"sha","シュ":"shu","ショ":"sho","ジャ":"ja","ジュ":"ju",
+    "りゅ":"ryu","りょ":"ryo","キャ":"kya","キュ":"kyu","キョ":"kyo","ギャ":"gya","ギュ":"gyu","ギョ":"gyo","シャ":"sha","シュ":"shu","ショ":"sho","ッシ":"sshi","ジャ":"ja","ジュ":"ju",
     "ジョ":"jo","チャ":"cha","チュ":"chu","チョ":"cho","ニャ":"nya","ニュ":"nyu","ニョ":"nyo","ヒャ":"hya","ヒュ":"hyu","ヒョ":"hyo","ミャ":"mya","ミュ":"myu","ミョ":"myo",
     "リャ":"rya","リュ":"ryu","リョ":"ryo","ファ":"fa","フィ":"fi","フェ":"fe","フォ":"fo","フュ":"fyu","ティ":"ti","トゥ":"tu","ディ":"di","ドゥ":"du","チェ":"che",
     "シェ":"she","ジェ":"je","ウィ":"wi","ウェ":"we","ウォ":"wo","ヴァ":"va","ヴィ":"vi","ヴェ":"ve","ヴォ":"vo"};
-  var single_romaji = {
+  var romaji_singles= {
     "あ":"a","い":"i","う":"u","え":"e","お":"o","ア":"a","イ":"i","ウ":"u","ヴ":"vu","エ":"e","オ":"o","か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko","カ":"ka","キ":"ki",
     "ク":"ku","ケ":"ke","コ":"ko","さ":"sa","し":"shi","す":"su","せ":"se","そ":"so","サ":"sa","シ":"shi","ス":"su","セ":"se","ソ":"so","た":"ta","ち":"chi",
     "つ":"tsu","て":"te","と":"to","タ":"ta","チ":"chi","ツ":"tsu","テ":"te","ト":"to","な":"na","に":"ni","ぬ":"nu","ね":"ne","の":"no","ナ":"na","ニ":"ni",
@@ -354,36 +356,45 @@ function get_romaji(kana) {
     
   var result = kana;
   
-  // first pass - multi-kana
-  var result_length = result.length;
-  for (let i = 0; i < result_length; i++) {
+  // pass 1 - kana triplets
+  var count = result.length;
+  for (let i = 0; i < count; i++) {
+    let triplet = result.slice(i, i + 3);
+    if (triplet in romaji_triplets) {
+      result = result.replace(triplet, romaji_triplets[triplet]);
+      count = result.length;
+    }
+  }
+  
+  // pass 2 - kana doublets
+  for (let i = 0; i < count; i++) {
     let pair = result.slice(i, i + 2);
-    if (pair in multi_romaji) {
-      result = result.replace(pair, multi_romaji[pair]);
-      result_length = result.length;
+    if (pair in romaji_doublets) {
+      result = result.replace(pair, romaji_doublets[pair]);
+      count = result.length;
     }
   }
   
-  //second pass - single-kana
-  for (let i = 0; i < result_length; i += 1) {
+  // pass 3 - kana singles
+  for (let i = 0; i < count; i += 1) {
     let chr = result.slice(i, i + 1);
-    if (chr in single_romaji) {
-      result = result.replace(chr, single_romaji[chr]);
-      result_length = result.length;
+    if (chr in romaji_singles) {
+      result = result.replace(chr, romaji_singles[chr]);
+      count = result.length;
     }
   }
   
-  //third pass - remove little tsu
-  for (let i = 0; i < result_length; i += 1) {
+  // pass 4 - orphaned tsus
+  for (let i = 0; i < count; i += 1) {
     let chr = result.slice(i, i + 1);
     if (chr === "ッ" || chr === "っ") {
       result = result.replace(chr, "");
-      result_length = result.length;
+      count = result.length;
     }
   }
   
-  //fourth pass - extended vowel
-  for (let i = 0; i < result_length; i += 1) {
+  // pass 5 - extended vowels
+  for (let i = 0; i < count; i += 1) {
     let chr = result.slice(i, i + 1);
     if (chr === "ー") {
       var last_vowel = result.slice(i - 1, i)
@@ -391,10 +402,8 @@ function get_romaji(kana) {
         result = result.replace(chr, last_vowel);
       }
     }
-  }
-  
+  }  
   return result;
-
 }
 
 //=================================================================================
