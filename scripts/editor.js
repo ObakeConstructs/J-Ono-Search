@@ -14,17 +14,21 @@ function setup_controls() {
   let upper_lower_div = document.createElement("div");  
   let upper_div = document.createElement("div");
   let lower_div = document.createElement("div");
+  let id_line_div = document.createElement("div");
   let id_div = document.createElement("div");
   let modified_div = document.createElement("div");
   let guide_div = document.createElement("div");
   
   let new_button = document.createElement("input");
   let saver_button = document.createElement("input");
+  let collapse_check = document.createElement("input");
+  let collapse_label = document.createElement("label");
   
   controlDiv.setAttribute("class", "grid_box");
   upper_lower_div.setAttribute("class", "grid_box");
   upper_div.setAttribute("class", "grid_box");
   lower_div.setAttribute("class", "grid_box");
+  id_line_div.setAttribute("class", "grid_box");
   id_div.setAttribute("class", "grid_box");
   modified_div.setAttribute("class", "grid_box");
   guide_div.setAttribute("class", "grid_box");
@@ -36,6 +40,7 @@ function setup_controls() {
   
   controlDiv.style.gridTemplateColumns = "455px 300px auto"; /* upper/lower, guide */
   lower_div.style.gridTemplateColumns = "104px 100px auto"; /* new button, download button*/
+  id_line_div.style.gridTemplateColumns = "150px auto"; /* ID, collapse check*/
   
   new_button.setAttribute("type", "button");
   new_button.setAttribute("onclick", "new_blank_record()");
@@ -49,10 +54,23 @@ function setup_controls() {
   saver_button.setAttribute("class", "normal_button");
   saver_button.setAttribute("tabindex", "-1");
   
+  collapse_check.setAttribute("type", "checkbox");
+  collapse_check.setAttribute("id", "collapse_chk");
+  collapse_check.setAttribute("class", "picker");
+  
+  collapse_label.setAttribute("for", "collapse_chk");
+  
   guide_div.innerHTML = "Types:<br>o: onomatopoeic&nbsp;(giongo)<br>v: voiced&nbsp;(giseigo)<br>s: state&nbsp;(gitaigo)<br>m: movement&nbsp;(giyougo)<br>e: emotions&nbsp;(gijougo)<br>c: symbolic&nbsp;cue";
   modified_div.innerHTML = "*Modified";
   
-  upper_div.appendChild(id_div);
+  
+  collapse_label.appendChild(collapse_check);
+  collapse_label.innerHTML += " collapse duplicate romaji"
+  
+  id_line_div.appendChild(id_div);
+  id_line_div.appendChild(collapse_label);
+  
+  upper_div.appendChild(id_line_div);
   upper_div.appendChild(modified_div);
   
   lower_div.appendChild(new_button);
@@ -64,6 +82,7 @@ function setup_controls() {
   controlDiv.appendChild(upper_lower_div);
   controlDiv.appendChild(guide_div);
   
+  document.getElementById("collapse_chk").checked = true;
   
 }
 
@@ -175,6 +194,7 @@ function record_to_fields(record_num) {
 
 function get_id() {
   let romaji_count = parseInt(document.getElementById("totem_" + TOTEM_NAME[Totem.ROMAJI] + "_-999").getAttribute("data-blockcount"));
+  let bCollapse = document.getElementById("collapse_chk").checked;
   let id_parts = [];
   
   for (let i=0; i<romaji_count; i++) {
@@ -183,7 +203,7 @@ function get_id() {
     // check for doublets
     if (romaji.includes(" ")) {
       let romaji_parts = romaji.split(" ");
-      if (romaji_parts[0] === romaji_parts[1]) {
+      if (romaji_parts[0] === romaji_parts[1] && bCollapse == true) {
         romaji = romaji_parts[0];
       } else {
         romaji = romaji.split(" ").join("_");
@@ -192,7 +212,7 @@ function get_id() {
     
     // check for dupes
     let has_dupes = false;
-    if (i > 0) { //we're comparing against all previous, so we can't start at zero
+    if (i > 0 && bCollapse == true) {
       for (let j=0; j<i; j++) {
         if (id_parts[j] === romaji) {
           has_dupes = true;
