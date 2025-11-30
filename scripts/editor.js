@@ -63,7 +63,6 @@ function setup_controls() {
   guide_div.innerHTML = "Types:<br>o: onomatopoeic&nbsp;(giongo)<br>v: voiced&nbsp;(giseigo)<br>s: state&nbsp;(gitaigo)<br>m: movement&nbsp;(giyougo)<br>e: emotions&nbsp;(gijougo)<br>c: symbolic&nbsp;cue";
   modified_div.innerHTML = "*Modified";
   
-  
   collapse_label.appendChild(collapse_check);
   collapse_label.innerHTML += " collapse duplicate romaji"
   
@@ -82,7 +81,7 @@ function setup_controls() {
   controlDiv.appendChild(upper_lower_div);
   controlDiv.appendChild(guide_div);
   
-  document.getElementById("collapse_chk").checked = true;
+  document.getElementById("collapse_chk").checked = false;
   
 }
 
@@ -201,12 +200,10 @@ function get_id() {
     romaji = document.getElementById("input_" + INPUT_NAME[Input.ROMAJI] + "_" + i + "_-999").value;
     
     // check for doublets
-    if (romaji.includes(" ")) {
+    if (romaji.includes(" ") && bCollapse == true) {
       let romaji_parts = romaji.split(" ");
-      if (romaji_parts[0] === romaji_parts[1] && bCollapse == true) {
+      if (romaji_parts[0] === romaji_parts[1] && romaji_parts.length == 2) {
         romaji = romaji_parts[0];
-      } else {
-        romaji = romaji.split(" ").join("_");
       }
     }
     
@@ -227,7 +224,7 @@ function get_id() {
   // put the parts together
   let id = id_parts[0];
   for (let i=1; i<id_parts.length; i++) {
-    id += "_" + id_parts[i];
+    id += " " + id_parts[i];
   }
   return id;
 }
