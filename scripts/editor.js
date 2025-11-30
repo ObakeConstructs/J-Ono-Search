@@ -240,11 +240,9 @@ function new_json_record_from_fields() {
   let definition_count = parseInt(document.getElementById("totem_" + TOTEM_NAME[Totem.DEFINITION] + "_-999").getAttribute("data-blockcount"));
   let json_object;
   const roms = [];
-  const kata = [];
-  const hira = [];
-  const def = [];
-  const equi = [];
-  const exam = [];
+  const katas = [];
+  const hiras = [];
+  const defs = [];
   
   // id
   const id = get_id();
@@ -261,12 +259,14 @@ function new_json_record_from_fields() {
     katakana = document.getElementById("input_" + INPUT_NAME[Input.KATAKANA] + "_" + i + "_-999").value;
     hiragana = document.getElementById("input_" + INPUT_NAME[Input.HIRAGANA] + "_" + i + "_-999").value;
     if (katakana === "" || hiragana === "") return null;
-    kata.push(katakana);
-    hira.push(hiragana);
+    katas.push(katakana);
+    hiras.push(hiragana);
   }
   
   // definitions
   for (let i=0; i<definition_count; i++) {
+    const equis = [];
+    const exams = [];
     let equivalent_count = parseInt(document.getElementById("totem_" + TOTEM_NAME[Totem.EQUIVALENT] + "_" + i).getAttribute("data-blockcount"));
     let example_count = parseInt(document.getElementById("totem_" + TOTEM_NAME[Totem.EXAMPLE] + "_" + i).getAttribute("data-blockcount"));
     re = document.getElementById("input_" + INPUT_NAME[Input.REFER] + "_" + i + "_-999").value;
@@ -279,9 +279,9 @@ function new_json_record_from_fields() {
     for (let j=0; j<equivalent_count; j++) {
       equivalent = document.getElementById("input_" + INPUT_NAME[Input.EQUIVALENT] + "_" + j + "_" + i).value;
       if (equivalent === "" && re === "") return null;
-      equi.push(equivalent);
+      equis.push(equivalent);
     }
-    equi.sort();
+    equis.sort();
 
     // examples
     for (let j=0; j<example_count; j++) {
@@ -296,25 +296,24 @@ function new_json_record_from_fields() {
         display: display,
         contributor: contributor,
       };
-      exam.push(ex);
+      exams.push(ex);
     }
-    
     let de = {
       refer: re,
       type: ty,
       meaning: me,
-      equivalent: equi,
-      example: exam
+      equivalent: equis,
+      example: exams
     };
-    def.push(de);
+    defs.push(de);
   }
     
   json_obj = {
     id: id,
     romaji: roms,
-    katakana: kata,
-    hiragana: hira,
-    definition: def
+    katakana: katas,
+    hiragana: hiras,
+    definition: defs
   };
   
   return JSON.stringify(json_obj, null, 2)
