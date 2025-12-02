@@ -13,18 +13,15 @@
 
 <body onload="opener()">
   <div class="grid_wrapper">
-    <div></div>
     <div class="grid_title">
       <h1>J-Ono Search</h1>
       <h3>An open-source, searchable collection of translated Japanese onomatopoeia and mimetic words from manga.&nbsp;&nbsp;&nbsp;<input type="button" onclick="show_stats()" value="Stats" /></h3>
     </div>
-    <div></div>
-    <div></div>
     <div class="grid_sidebar">
       <p><b>Search:</b></p>
       <form>
         <div class="input_container">
-          <input type="text" id="search_input" class="text" name="src" placeholder="search text here" />
+          <input type="text" id="search_input" class="search_input" name="src" placeholder="search text here" />
           <span class="clear-button" onclick="clearer()">X</span>
           <input type="button" onclick="searcher()" value="&#x1F50D; Search" />
         </div>
@@ -81,7 +78,7 @@
     </div>
 
     <div class="grid_main_wrapper">
-      <p><b>Results</b></p>
+      <p><b>Results:</b></p>
       <div class="grid_main">
         <div class="grid_main_header_block"><b>Japanese</b></div>
         <div class="grid_main_header_block"><b>Romaji</b></div>
