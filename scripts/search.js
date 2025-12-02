@@ -7,8 +7,19 @@ var PUBLISHERS_ARRAY = [];
 var UPDATES_ARRAY = [];
 
 //=================================================================================
-
 // event listeners
+
+document.getElementById('blackOverlay').addEventListener("click", function(event) {
+  if (event.target.closest(".popup")) return;
+  closePopup();
+});
+
+document.addEventListener("keyup", (e) => {
+  if (e.key === "Escape" && document.getElementById('popup').style.display === "block") {
+    closePopup();
+  }
+});
+
 document.getElementById("search_input").addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -26,11 +37,24 @@ document.getElementById('hira').addEventListener('change', function() {
 
 //=================================================================================
 
-function clearer() {
-  document.getElementById("search_input").value = "";
+function closePopup() {
+  document.getElementById('blackOverlay').style.display = 'none';
+  document.getElementById('popup').style.display = 'none';
+  document.getElementById('stat_popup').style.display = 'none';
 }
 
 //=================================================================================
+
+
+function clearer() {
+  // for clear button (litte x just inside serach box)
+  document.getElementById("search_input").value = "";
+}
+
+
+//=================================================================================
+
+// refer handlers
 
 function get_meaning_by_refer(refer) {
   refer_parts = refer.split(":"); // [0] = id, [1] = definition index number
@@ -38,15 +62,11 @@ function get_meaning_by_refer(refer) {
   return itm.definition[refer_parts[1] - 1].meaning; // return the meaning string using the definition index
 }
 
-//=================================================================================
-
 function get_type_by_refer(refer) {
   refer_parts = refer.split(":"); // [0] = id, [1] = definition index number
   itm = RECORDS_ARRAY.find(item => item.id === refer_parts[0]); // get the object from RECORDS_ARRAY by searching for the id
   return itm.definition[refer_parts[1] - 1].type; // return the meaning string using the definition index
 }
-
-//=================================================================================
 
 function get_equivs_by_refer(refer) {
   refer_parts = refer.split(":"); // [0] = id, [1] = definition index number
@@ -65,6 +85,7 @@ function get_equivs_by_refer(refer) {
 //=================================================================================
 
 function searcher() {
+  // primary search loop
   if (document.getElementById("search_input").value.length == 0) return;
   
   var jap = document.getElementById("japanese").checked;
@@ -114,7 +135,8 @@ function searcher() {
 //=================================================================================
 
 function checkForMatch(str1, typ) {
-  //remove all spaces and ensure lowercase before comparisons...
+  // compares search string against definition string (str1) by comparison method (typ)
+  // (remove all spaces and sets to lowercase before comparisons)
   var srch = document.getElementById("search_input").value.toLowerCase().split(" ").join("");
   str = str1.toLowerCase().split(" ").join("");
   
@@ -134,6 +156,7 @@ function checkForMatch(str1, typ) {
 //=================================================================================
 
 function get_type_divs(type_string) {
+  // create and return pretty text block for each fx types
   if (type_string.length == 0) return null;
   
   var type_divs = document.createElement("div");  
@@ -196,7 +219,8 @@ function get_type_divs(type_string) {
 
 //=================================================================================
 
-function shower_results(details, deet_num) { 
+function shower_results(details, deet_num) {
+  // get and display search results
   
   var kata = document.createElement("div");
   kata.setAttribute("class", "grid_kana");
@@ -306,9 +330,10 @@ function shower_results(details, deet_num) {
 //=================================================================================
 
 function show_stats() {
-  showOverlay();
+  // show stats popup
+  document.getElementById('blackOverlay').style.display = 'block';
   document.getElementById('stat_popup').style.display = 'block';
-  document.getElementById('stat_text').innerHTML = "<p class=\"update_text\">J-Ono Statistics</p>";
+  document.getElementById('stat_text').innerHTML = "<p class=\"stat_text\">J-Ono Statistics</p>";
   
   var kana_cnt = 0;
   var def_cnt = 0;
@@ -330,15 +355,15 @@ function show_stats() {
     mng_cnt += p.sources.length;
   });
   
-  document.getElementById('stat_text').innerHTML += "<p class=\"update_text\">---------------------</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">---------------------</p>";
   document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">JSON Records: " + RECORDS_ARRAY.length + "</p>";
   document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Defined Meanings: " + def_cnt + "</p>";
   document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Kana Recognized: " + kana_cnt + "</p>";
   document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Example Images: " + img_cnt + "</p>";
   document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Publisher Count: " + pub_cnt + "</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"update_text\">Manga Count: " + mng_cnt + "</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"update_text\">---------------------</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"update_text\">Recent Updates</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Manga Count: " + mng_cnt + "</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">---------------------</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Recent Updates</p>";
   
   UPDATES_ARRAY.forEach((u) => {
     document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">" + u.date + " - " + u.message + "</p>";
@@ -350,6 +375,7 @@ function show_stats() {
 
 
 function get_romaji(kana) {
+  // dynamically create romaji for example images
   var romaji_triplets = {
     "っしゃ":"ssha","っしゅ":"sshu","っしょ":"ssho","ッシャ":"ssha","ッシュ":"sshu","ッショ":"ssho"};
   var romaji_doublets = {
@@ -427,7 +453,8 @@ function get_romaji(kana) {
 //=================================================================================
 
 function showPopup(img_path, title, src, contributor) {
-  showOverlay();
+  // show example image popup
+  document.getElementById('blackOverlay').style.display = 'block';
   document.getElementById('popup').style.display = 'block';
   document.getElementById('popup_img').src = img_path;
   document.getElementById('imgTitle').innerHTML = title;
@@ -452,31 +479,8 @@ function showPopup(img_path, title, src, contributor) {
 
 //=================================================================================
 
-function show_picker() {
-  if (document.getElementById('pick_place').style.display === "grid") {
-    hide_picker();
-    return;
-  }
-  
-  document.getElementById('pick_place').style.display = "grid";
-  document.getElementById('pick_flip').style.display = "grid"
-  document.getElementById('pick_button').value = "⏫";
-  document.getElementById('pick_button_label').innerHTML = "Collapse Kana Picker";
-  refresh_picker();
-}
-
-//=================================================================================
-  
-function hide_picker() {
-  document.getElementById('pick_place').style.display = "none";
-  document.getElementById('pick_flip').style.display = "none"
-  document.getElementById('pick_button').value = "⏬";
-  document.getElementById('pick_button_label').innerHTML = "Expand Kana Picker";
-}
-
-//=================================================================================
-
-function refresh_picker() {
+function create_picker_sidebar() {
+  // create the Kana Picker side bar
   place = document.getElementById('pick_place');
   const div1 = "<div class=\"grid_picker_block\">";
   const div2 = "<div class=\"grid_picker_kana\">";
@@ -506,9 +510,9 @@ function refresh_picker() {
 //=================================================================================
 
 function get_kana(pos) {
+  // return the kana link associated with the Kana Picker position (pos)
   const kata = "アァ  イィ  ウゥヴ エェ  オォ  カ ガ キ ギ ク グ ケ ゲ コ ゴ サ ザ シ ジ ス ズ セ ゼ ソ ゾ タ ダ チ ヂ ツッヅ テ デ ト ド ナ   ニ   ヌ   ネ   ノ   ハ バパヒ ビピフ ブプヘ ベペホ ボポマ   ミ   ム   メ   モ   ヤャ      ユュ      ヨョ  ラ   リ   ル   レ   ロ   ワヮヷ ヰ ヸ     ヱ ヹ ヲ ヺ ン   ー               ";
   const hira = "あぁ  いぃ  うぅゔ えぇ  おぉ  か が き ぎ く ぐ け げ こ ご さ ざ し じ す ず せ ぜ そ ぞ た だ ち ぢ つっづ て で と ど な   に   ぬ   ね   の   は ばぱひ びぴふ ぶぷへ べぺほ ぼぽま   み   む   め   も   やゃ      ゆゅ      よょ  ら   り   る   れ   ろ   わゎ  ゐ       ゑ   を   ん   ー               ";
-
 
   var retVal = "";
   
@@ -526,12 +530,14 @@ function get_kana(pos) {
 //=================================================================================
 
 function pickMe(picked) {
+  // add clicked kana to search text
   document.getElementById('search_input').value += picked;
 }
 
 //=================================================================================
 
 function copier() {
+  // copies search text to clipboard
   var srch = document.getElementById("search_input");
   navigator.clipboard.writeText(srch.value);
 }
@@ -539,6 +545,7 @@ function copier() {
 //=================================================================================
 
 function flipper() {
+  // flips search text between katakana and hiragana
   var srch = document.getElementById("search_input");
   const kata = "アァイィウゥヴエェオォカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツッヅテデトドナニヌネノハバパヒビピフブプホボポマミムメモヤャユュヨョラリルレロワヮヰヱヲン"
   const hira = "あぁいぃうぅゔえぇおぉかがきぎくぐけげこごさざしじすずせぜそぞただちぢつっづてでとどなにぬねのはばぱひびぴふぶぷほぼぽまみむめもやゃゆゅよょらりるれろわゎゐゑをん"
@@ -563,30 +570,6 @@ function flipper() {
 
 //=================================================================================
 
-async function opener() {
-  await prefetch();
-  show_picker();
-  
-  const url = window.location.search;
-  if (url) {
-    const params = new URLSearchParams(url);
-    let srch = params.get('search');
-    document.getElementById("search_input").value = srch;
-    document.getElementById("match").checked = true;
-    searcher();
-  }
-}
-
-//=================================================================================
-
-async function quickLoad(srch) {
-  let response = await fetch(content + srch.substring(0,1) + "/" + srch + ".json");
-  let details = await response.json();
-  shower(details);
-}
-
-//=================================================================================
-
 async function prefetch() {
   //Pre-fetch all JSON data
   
@@ -601,3 +584,18 @@ async function prefetch() {
   PUBLISHERS_ARRAY.sort(function(a, b){return a.publisher_name > b.publisher_name});
 }
 
+//=================================================================================
+
+async function opener() {
+  await prefetch();
+  create_picker_sidebar();
+  
+  const url = window.location.search;
+  if (url) {
+    const params = new URLSearchParams(url);
+    let srch = params.get('search');
+    document.getElementById("search_input").value = srch;
+    document.getElementById("match").checked = true;
+    searcher();
+  }
+}

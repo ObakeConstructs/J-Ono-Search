@@ -7,7 +7,6 @@
   <meta name="description" content="An open-source, searchable collection of translated Japanese onomatopoeia and mimetic words with examples from manga.">
   <link rel="icon" type="image/x-icon" href="./img/favicon.ico">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-  <link rel='stylesheet' href='./css/global.css'>
   <link rel='stylesheet' href='./css/search.css'>
 </head>
 
@@ -26,8 +25,7 @@
           <input type="button" onclick="searcher()" value="&#x1F50D; Search" />
         </div>
         <input type="button" title="Toggle between katakana to hiragana in search text" id="flip_button" onclick="flipper()" value="カ↔ひ"/>
-        <input type="button" title="Copy search text to clipboard" id="copy_button" onclick="copier()" value="    " class="right" style="background: url(img/copy_icon.png);" /><br /><br />
-        <input type="button" id="pick_button" onclick="show_picker()" value="⏫" class="transparent"><label id=pick_button_label onclick="show_picker()">Collapse Kana Picker</label><br />
+        <input type="image" title="Copy search text to clipboard" id="copy_button" onclick="copier()" src="img/copy_icon.png" class="copy_button" /><br /><br />
         <div class="grid_picker_wrapper" id = "pick_flip">
           <input type="radio" id="kata" name="kana_type" value="Katakana" checked="checked" />
           <label for="kata">Katakana</label><br />
@@ -37,7 +35,7 @@
         <div class="grid_picker_wrapper" id="pick_place">
         </div>
       </form>
-      <table>
+      <table class="old_table">
         <tr>
           <td>
             Search Method:<br />
@@ -68,12 +66,19 @@
           </td>
         </tr>
       </table>
-      <p>
-      Please be aware that J-Ono example images will never be pornographic (hentai), but some may be considered erotic (ecchi).<br /><br />
+      <p class="notes">
+      Be aware that J-Ono example images will never be pornographic (hentai), but some may be considered erotic (ecchi).<br /><br />
       Do you see a mistake or want something added?<br />
       Feel free to open a new <a href="https://github.com/ObakeConstructs/j-ono-data/issues" target="_blank">J-Ono Data Issue</a> via GitHub.
       </p>
       <br />
+      <!--form action="https://www.paypal.com/donate" method="post" target="_top">
+        <input type="hidden" name="business" value="KQ2QWQNPQP8DY" />
+        <input type="hidden" name="no_recurring" value="0" />
+        <input type="hidden" name="currency_code" value="USD" />
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+        <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+      </form-->
       <!--script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Help support this project on Ko-fi', '#29abe0', 'Y8Y27PQ71');kofiwidget2.draw();</script-->
     </div>
 
@@ -108,7 +113,6 @@
     <div id="stat_text" class="stat_block"></div>
   </div>
 
-  <script src="./scripts/global.js" charset="utf-8"></script>
   <script src="./scripts/search.js" charset="utf-8"></script>
 </body>
 </html>
