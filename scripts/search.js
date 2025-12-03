@@ -509,6 +509,35 @@ function create_picker_sidebar() {
 
 //=================================================================================
 
+function refresh_picker() {
+  place = document.getElementById('pick_place');
+  const div1 = "<div class=\"grid_picker_block\">";
+  const div2 = "<div class=\"grid_picker_kana\">";
+  const div_close = "</div>";
+  
+  place.innerHTML = "";
+  
+  var picker_cnt = 0;
+  for (var i=0; i<52; i++) {
+    var tmp = "";
+    if(i == 36 || i == 38 || i == 47) {
+      tmp = "<div class=\"grid_picker_block_gray\"></div>";
+      picker_cnt += 4;
+    }
+    else {
+      tmp = div1;
+      tmp += div2 + get_kana(picker_cnt++) + div_close;
+      tmp += div2 + get_kana(picker_cnt++) + div_close;
+      tmp += div2 + get_kana(picker_cnt++) + div_close;
+      tmp += div2 + get_kana(picker_cnt++) + div_close;
+      tmp += div_close;
+    }
+    place.innerHTML += tmp;
+  }
+}
+
+//=================================================================================
+
 function get_kana(pos) {
   // return the kana link associated with the Kana Picker position (pos)
   const kata = "アァ  イィ  ウゥヴ エェ  オォ  カ ガ キ ギ ク グ ケ ゲ コ ゴ サ ザ シ ジ ス ズ セ ゼ ソ ゾ タ ダ チ ヂ ツッヅ テ デ ト ド ナ   ニ   ヌ   ネ   ノ   ハ バパヒ ビピフ ブプヘ ベペホ ボポマ   ミ   ム   メ   モ   ヤャ      ユュ      ヨョ  ラ   リ   ル   レ   ロ   ワヮヷ ヰ ヸ     ヱ ヹ ヲ ヺ ン   ー               ";
