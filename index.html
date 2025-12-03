@@ -25,7 +25,9 @@
           <input type="button" onclick="searcher()" value="&#x1F50D; Search" />
         </div>
         <input type="button" title="Toggle between katakana to hiragana in search text" id="flip_button" onclick="flipper()" value="カ↔ひ"/>
-        <input type="image" title="Copy search text to clipboard" id="copy_button" onclick="copier()" src="img/copy_icon.png" class="copy_button" /><br /><br />
+        <!--input type="image" title="Copy search text to clipboard" id="copy_button" onclick="copier()" src="img/copy_icon.png" class="copy_button" /-->
+        <input type="button" title="Copy search text to clipboard" id="copy_button" onclick="copier()" value="    " class="copy_button" /><br /><br />
+        <br /><br />
         <div class="grid_picker_wrapper" id = "pick_flip">
           <input type="radio" id="kata" name="kana_type" value="Katakana" checked="checked" />
           <label for="kata">Katakana</label><br />
@@ -35,37 +37,28 @@
         <div class="grid_picker_wrapper" id="pick_place">
         </div>
       </form>
-      <table class="old_table">
-        <tr>
-          <td>
-            Search Method:<br />
-            <input type="radio" id="match" name="search_type" value="MATCH" />
-            <label for="match">Exact Match</label><br />
-            <input type="radio" id="lead" name="search_type" value="LEAD" checked="checked" />
-            <label for="lead">Match Beginning Characters</label><br />
-            <input type="radio" id="any" name="search_type" value="ANY" />
-            <label for="any">Match Any Characters</label><br />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Search For:<br />
-            <input type="checkbox" id="japanese" name="search_for" value="Japanese" checked="checked" />
-            <label for="japanese">Japanese</label><br />
-            <input type="checkbox" id="romaji" name="search_for" value="Romaji" checked="checked" />
-            <label for="romaji">Romaji</label><br />
-            <input type="checkbox" id="equivalent" name="search_for" value="Equivalent" />
-            <label for="equivalent">Equivalent English</label><br />
-            <input type="checkbox" id="comment" name="search_for" value="Meaning" />
-            <label for="comment">Meaning</label>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="button" onclick="searcher()" value="&#x1F50D; Search" />
-          </td>
-        </tr>
-      </table>
+      <form class="controls">
+        <fieldset>
+          <legend>Search Method</legend>
+          <input type="radio" id="match" name="search_type" value="MATCH" />
+          <label for="match">Exact Match</label><br />
+          <input type="radio" id="lead" name="search_type" value="LEAD" checked="checked" />
+          <label for="lead">Match Beginning Characters</label><br />
+          <input type="radio" id="any" name="search_type" value="ANY" />
+          <label for="any">Match Any Characters</label><br />
+        </fieldset>
+        <fieldset>
+          <legend>Search For</legend>
+          <input type="checkbox" id="japanese" name="search_for" value="Japanese" checked="checked" />
+          <label for="japanese">Japanese</label><br />
+          <input type="checkbox" id="romaji" name="search_for" value="Romaji" checked="checked" />
+          <label for="romaji">Romaji</label><br />
+          <input type="checkbox" id="equivalent" name="search_for" value="Equivalent" />
+          <label for="equivalent">Equivalent English</label><br />
+          <input type="checkbox" id="comment" name="search_for" value="Meaning" />
+          <label for="comment">Meaning</label>
+        </fieldset>
+      </form>
       <p class="notes">
       Be aware that J-Ono example images will never be pornographic (hentai), but some may be considered erotic (ecchi).<br /><br />
       Do you see a mistake or want something added?<br />

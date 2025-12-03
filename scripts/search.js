@@ -624,7 +624,6 @@ async function opener() {
     const params = new URLSearchParams(url);
     let srch = params.get('search');
     document.getElementById("search_input").value = srch;
-    document.getElementById("match").checked = true;
     searcher();
   }
 }

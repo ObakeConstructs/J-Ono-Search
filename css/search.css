@@ -32,51 +32,6 @@ input[type=button] {
   cursor: pointer;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%; 
-  background-color: #202020;
-  margin-bottom: 10px;
-}
-
-table.inner {
-  border-collapse: collapse;
-  width: 100%; 
-  height: 100%;
-  background-color: #202020;
-  margin: 0px;
-}
-
-th, td {
-  font-size: 14px;
-  border: 1px solid;
-  background-color: #000000;
-  padding: 10px;
-}
-
-td.inner_b {
-  background-color: #000000;
-  border: none;
-  border-right: 1px solid;
-  border-bottom: 1px solid #333333;
-  padding: 10px;
-  height: 100%;
-}
-
-td.inner {
-  background-color: #000000;
-  border: none;
-  border-bottom: 1px solid #333333;
-  padding: 10px;
-  height: 100%;
-}
-
-td.input { 
-  border: 1px solid;
-  padding: 2px;
-  word-break: normal;
-}
-
 .center {
   text-align: center;
 }
@@ -344,11 +299,6 @@ input, input:before, input:after {
 .update_text {
   margin-bottom: -5px; 
 }
-  
-input.copy_button {
-  float: right;
-  margin-right: 115px;
-}
 
 #search_input {
   width: 190px;
@@ -359,6 +309,13 @@ input.copy_button {
   position: relative;
   right: 25px;
   cursor: pointer;
+}
+  
+input.copy_button {
+  float: right;
+  margin-right: 115px;
+  background: url(../img/copy_icon.png);
+  height: 24px;
 }
 
 input.transparent {
@@ -372,3 +329,56 @@ p.notes {
   font-size: 14px;
   color: gray;
 }
+
+fieldset {
+  border-collapse: collapse;
+  background-color: #202020;
+}
+
+/*
+
+table {
+  border-collapse: collapse;
+  width: 100%; 
+  background-color: #202020;
+  margin-bottom: 10px;
+}
+
+table.inner {
+  border-collapse: collapse;
+  width: 100%; 
+  height: 100%;
+  background-color: #202020;
+  margin: 0px;
+}
+
+th, td {
+  font-size: 14px;
+  border: 1px solid;
+  background-color: #000000;
+  padding: 10px;
+}
+
+td.inner_b {
+  background-color: #000000;
+  border: none;
+  border-right: 1px solid;
+  border-bottom: 1px solid #333333;
+  padding: 10px;
+  height: 100%;
+}
+
+td.inner {
+  background-color: #000000;
+  border: none;
+  border-bottom: 1px solid #333333;
+  padding: 10px;
+  height: 100%;
+}
+
+td.input { 
+  border: 1px solid;
+  padding: 2px;
+  word-break: normal;
+}
+*/
