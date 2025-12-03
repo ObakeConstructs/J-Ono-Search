@@ -287,6 +287,7 @@ input, input:before, input:after {
 .grid_examples {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  place-content: start;
   padding: 5px;
   row-gap: 5px;
   outline: 1px solid gray;
