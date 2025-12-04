@@ -25,7 +25,6 @@
           <input type="button" onclick="searcher()" value="&#x1F50D; Search" />
         </div>
         <input type="button" title="Toggle between katakana to hiragana in search text" id="flip_button" onclick="flipper()" value="カ↔ひ"/>
-        <!--input type="image" title="Copy search text to clipboard" id="copy_button" onclick="copier()" src="img/copy_icon.png" class="copy_button" /-->
         <input type="button" title="Copy search text to clipboard" id="copy_button" onclick="copier()" value="    " class="copy_button" /><br /><br />
         <br /><br />
         <div class="grid_picker_wrapper" id = "pick_flip">
@@ -101,6 +100,8 @@
     <div id="imgSubTitle" class="popupSubTitle"></div>
     <div id="imgAttrib" class="popupAttrib"></div>
     <div id="imgContrib" class="popupContrib"></div>
+    <input id="button_nav_left" type="button" title="Previous Example" class="popup_nav_left" />
+    <input id="button_nav_right" type="button" title="Next Example" class="popup_nav_right" />
   </div>
   <div id="stat_popup" class="popup">
     <div id="stat_text" class="stat_block"></div>

@@ -1,5 +1,5 @@
 //location of json data and images...
-var content = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/";
+var CONTENT_URL = "https://raw.githubusercontent.com/ObakeConstructs/j-ono-data/main/";
 
 //global arrays to hold definition and publisher data
 var RECORDS_ARRAY = [];
@@ -297,14 +297,14 @@ function shower_results(details, deet_num) {
     //examples
     var exam = document.createElement("div");
     exam.setAttribute("class", "grid_examples");
-    itm.example.forEach((ex_itm) => {
+    itm.example.forEach((ex_itm, ex_idx) => {
       var image_div = document.createElement("div");
-      var path = content + "img/" + ex_itm.source + "/" + ex_itm.file;
+      var path = CONTENT_URL + "img/" + ex_itm.source + "/" + ex_itm.file;
       
       var link = document.createElement("a");
       link.setAttribute("href", "#!");
       link.setAttribute("class", "example");
-      link.setAttribute("onclick", "showPopup('" + path + "', '" + ex_itm.display + "', '" + ex_itm.source + "', '" + ex_itm.contributor + "');");
+      link.setAttribute("onclick", "show_popup_from_record(" + deet_num + ", " + idx + ", " + ex_idx + ");");
       
       var example_image = document.createElement("img");
       example_image.setAttribute("src", path);
@@ -324,6 +324,55 @@ function shower_results(details, deet_num) {
   grid_body.appendChild(kana);
   grid_body.appendChild(rom);
   grid_body.appendChild(defs);
+  
+}
+
+//=================================================================================
+
+function show_popup_from_record(record_index, definition_index, example_index) {
+  let example = RECORDS_ARRAY[record_index].definition[definition_index].example[example_index];
+  let img_path = CONTENT_URL + "img/" + example.source + "/" + example.file;
+  let example_count = RECORDS_ARRAY[record_index].definition[definition_index].example.length;
+  
+  document.getElementById("blackOverlay").style.display = "block";
+  document.getElementById("popup").style.display = "block";
+  document.getElementById("popup_img").src = img_path;
+  document.getElementById("imgTitle").innerHTML = example.display;
+  document.getElementById("imgSubTitle").innerHTML = get_romaji(example.display);
+  
+  var attribution = "Image used for education/instructional purposes only."
+  PUBLISHERS_ARRAY.forEach((pub) => {
+    pub.sources.forEach((source) => {
+      if (source.id === example.source) {
+        attribution += "<br />Source: " + source.manga;
+        attribution += "<br />© " + pub.publisher_name;
+      }
+    });    
+  });
+  document.getElementById("imgAttrib").innerHTML = attribution;  
+  
+  var cont = "";  
+  if (example.contributor.length > 0)
+    cont = "Contributor:<br />" + example.contributor;
+  else
+    cont = "Contributor:<br /> NightBug"
+  document.getElementById("imgContrib").innerHTML = cont;
+  
+  let prev = document.getElementById("button_nav_left");
+  if (example_index > 0) {
+    prev.style.display = "block";
+    prev.setAttribute("onclick", "show_popup_from_record(" + record_index + ", " + definition_index + ", " + (example_index - 1) + ");");
+  } else {
+    prev.style.display = "none";
+  }
+  
+  let next = document.getElementById("button_nav_right");
+  if (example_index < example_count - 1) {
+    next.style.display = "block";
+    next.setAttribute("onclick", "show_popup_from_record(" + record_index + ", " + definition_index + ", " + (example_index + 1) + ");");
+  } else {
+    next.style.display = "none";
+  }
   
 }
 
@@ -452,33 +501,6 @@ function get_romaji(kana) {
 
 //=================================================================================
 
-function showPopup(img_path, title, src, contributor) {
-  // show example image popup
-  document.getElementById('blackOverlay').style.display = 'block';
-  document.getElementById('popup').style.display = 'block';
-  document.getElementById('popup_img').src = img_path;
-  document.getElementById('imgTitle').innerHTML = title;
-  document.getElementById('imgSubTitle').innerHTML = get_romaji(title);
-  var attribution = "Image used for education/instructional purposes only."
-  var cont = "";  
-  PUBLISHERS_ARRAY.forEach((pub) => {
-    pub.sources.forEach((source) => {
-      if (source.id === src) {
-        attribution += "<br />Source: " + source.manga;
-        attribution += "<br />© " + pub.publisher_name;
-        if (contributor.length > 0) 
-          cont = "Contributor:<br />" + contributor;
-        else
-          cont = "Contributor:<br /> NightBug"        
-      }
-    });    
-  });
-  document.getElementById('imgAttrib').innerHTML = attribution;  
-  document.getElementById('imgContrib').innerHTML = cont;
-}
-
-//=================================================================================
-
 function create_picker_sidebar() {
   // create the Kana Picker side bar
   place = document.getElementById('pick_place');
@@ -602,13 +624,13 @@ function flipper() {
 async function prefetch() {
   //Pre-fetch all JSON data
   
-  const upd = await fetch(content + "json/j-ono-updates.json");
+  const upd = await fetch(CONTENT_URL + "json/j-ono-updates.json");
   UPDATES_ARRAY = await upd.json();
   
-  const data = await fetch(content + "json/j-ono-data.json");
+  const data = await fetch(CONTENT_URL + "json/j-ono-data.json");
   RECORDS_ARRAY = await data.json();
   
-  const src = await fetch(content + "json/j-ono-source.json");
+  const src = await fetch(CONTENT_URL + "json/j-ono-source.json");
   PUBLISHERS_ARRAY = await src.json();  
   PUBLISHERS_ARRAY.sort(function(a, b){return a.publisher_name > b.publisher_name});
 }
