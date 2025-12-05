@@ -502,7 +502,7 @@ function get_romaji(kana) {
   }
   
   // pass 4 - orphaned tsus
-  for (let i = 0; i < count; i += 1) {
+  for (let i = count - 1; i >= 0; i -= 1) { // count backwards here since we're removing characters with this pass
     let chr = result.slice(i, i + 1);
     if (chr === "ッ" || chr === "っ") {
       result = result.replace(chr, "");
