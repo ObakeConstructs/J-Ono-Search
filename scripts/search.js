@@ -14,11 +14,29 @@ document.getElementById('blackOverlay').addEventListener("click", function(event
   closePopup();
 });
 
+//---------------------------------------------------------------
+
 document.addEventListener("keyup", (e) => {
   if (e.key === "Escape" && document.getElementById('popup').style.display === "block") {
     closePopup();
   }
+  
+  if (e.key === "ArrowRight") {
+    let next = document.getElementById("button_nav_right");
+    if (next.style.display === "block") {
+      next.click();
+    }
+  }
+  
+  if (e.key === "ArrowLeft") {
+    let prev = document.getElementById("button_nav_left");
+    if (prev.style.display === "block") {
+      prev.click();
+    }
+  }
 });
+
+//---------------------------------------------------------------
 
 document.getElementById("search_input").addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
@@ -27,9 +45,13 @@ document.getElementById("search_input").addEventListener("keypress", function(ev
   }
 });
 
+//---------------------------------------------------------------
+
 document.getElementById('kata').addEventListener('change', function() {
   refresh_picker()
 });
+
+//---------------------------------------------------------------
 
 document.getElementById('hira').addEventListener('change', function() {
   refresh_picker()
@@ -41,6 +63,8 @@ function closePopup() {
   document.getElementById('blackOverlay').style.display = 'none';
   document.getElementById('popup').style.display = 'none';
   document.getElementById('stat_popup').style.display = 'none';
+  document.getElementById("button_nav_left").style.display = 'none';
+  document.getElementById("button_nav_right").style.display = 'none';
 }
 
 //=================================================================================
