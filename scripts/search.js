@@ -452,15 +452,15 @@ function get_romaji(kana) {
   var romaji_triplets = {
     "っしゃ":"ssha","っしゅ":"sshu","っしょ":"ssho","ッシャ":"ssha","ッシュ":"sshu","ッショ":"ssho"};
   var romaji_doublets = {
-    "きゃ":"kya","きゅ":"kyu","きょ":"kyo","ぎゃ":"gya","ぎゅ":"gyu","ぎょ":"gyo","しゃ":"sha","しゅ":"shu","しょ":"sho","っし":"sshi","じゃ":"ja","じゅ":"ju","じょ":"jo","ちゃ":"cha",
-    "ちゅ":"chu","ちょ":"cho","にゃ":"nya","にゅ":"nyu","にょ":"nyo","ひゃ":"hya","ひゅ":"hyu","ひょ":"hyo","みゃ":"mya","みゅ":"myu","みょ":"myo","りゃ":"rya",
-    "りゅ":"ryu","りょ":"ryo","キャ":"kya","キュ":"kyu","キョ":"kyo","ギャ":"gya","ギュ":"gyu","ギョ":"gyo","シャ":"sha","シュ":"shu","ショ":"sho","ッシ":"sshi","ジャ":"ja","ジュ":"ju",
-    "ジョ":"jo","チャ":"cha","チュ":"chu","チョ":"cho","ニャ":"nya","ニュ":"nyu","ニョ":"nyo","ヒャ":"hya","ヒュ":"hyu","ヒョ":"hyo","ミャ":"mya","ミュ":"myu","ミョ":"myo",
-    "リャ":"rya","リュ":"ryu","リョ":"ryo","ファ":"fa","フィ":"fi","フェ":"fe","フォ":"fo","フュ":"fyu","ティ":"ti","トゥ":"tu","ディ":"di","ドゥ":"du","チェ":"che",
+    "きゃ":"kya","きゅ":"kyu","きょ":"kyo","ぎゃ":"gya","ぎゅ":"gyu","ぎょ":"gyo","しゃ":"sha","しゅ":"shu","しょ":"sho","っし":"sshi","じゃ":"ja","じゅ":"ju","じょ":"jo",
+    "ちゃ":"cha","ちゅ":"chu","ちょ":"cho","にゃ":"nya","にゅ":"nyu","にょ":"nyo","ひゃ":"hya","ひゅ":"hyu","ひょ":"hyo","みゃ":"mya","みゅ":"myu","みょ":"myo","りゃ":"rya",
+    "りゅ":"ryu","りょ":"ryo","キャ":"kya","キュ":"kyu","キョ":"kyo","ギャ":"gya","ギュ":"gyu","ギョ":"gyo","シャ":"sha","シュ":"shu","ショ":"sho","ッシ":"sshi","ジャ":"ja",
+    "ジュ":"ju","ジョ":"jo","チャ":"cha","チュ":"chu","チョ":"cho","ニャ":"nya","ニュ":"nyu","ニョ":"nyo","ヒャ":"hya","ヒュ":"hyu","ヒョ":"hyo","ミャ":"mya","ミュ":"myu",
+    "ミョ":"myo","リャ":"rya","リュ":"ryu","リョ":"ryo","ファ":"fa","フィ":"fi","フェ":"fe","フォ":"fo","フュ":"fyu","ティ":"ti","トゥ":"tu","ディ":"di","ドゥ":"du","チェ":"che",
     "シェ":"she","ジェ":"je","ウィ":"wi","ウェ":"we","ウォ":"wo","ヴァ":"va","ヴィ":"vi","ヴェ":"ve","ヴォ":"vo"};
   var romaji_singles= {
-    "あ":"a","い":"i","う":"u","え":"e","お":"o","ア":"a","イ":"i","ウ":"u","ヴ":"vu","エ":"e","オ":"o","か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko","カ":"ka","キ":"ki",
-    "ク":"ku","ケ":"ke","コ":"ko","さ":"sa","し":"shi","す":"su","せ":"se","そ":"so","サ":"sa","シ":"shi","ス":"su","セ":"se","ソ":"so","た":"ta","ち":"chi",
+    "あ":"a","い":"i","う":"u","え":"e","お":"o","ア":"a","イ":"i","ウ":"u","ヴ":"vu","エ":"e","オ":"o","か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko","カ":"ka",
+    "キ":"ki","ク":"ku","ケ":"ke","コ":"ko","さ":"sa","し":"shi","す":"su","せ":"se","そ":"so","サ":"sa","シ":"shi","ス":"su","セ":"se","ソ":"so","た":"ta","ち":"chi",
     "つ":"tsu","て":"te","と":"to","タ":"ta","チ":"chi","ツ":"tsu","テ":"te","ト":"to","な":"na","に":"ni","ぬ":"nu","ね":"ne","の":"no","ナ":"na","ニ":"ni",
     "ヌ":"nu","ネ":"ne","ノ":"no","は":"ha","ひ":"hi","ふ":"fu","へ":"he","ほ":"ho","ハ":"ha","ヒ":"hi","フ":"fu","ヘ":"he","ホ":"ho","ま":"ma","み":"mi",
     "む":"mu","め":"me","も":"mo","マ":"ma","ミ":"mi","ム":"mu","メ":"me","モ":"mo","や":"ya","ゆ":"yu","よ":"yo","ヤ":"ya","ユ":"yu","ヨ":"yo","ら":"ra","り":"ri",
@@ -502,12 +502,12 @@ function get_romaji(kana) {
   }
   
   // pass 4 - orphaned tsus
-  for (let i = count - 1; i >= 0; i -= 1) { // count backwards here since we're removing characters with this pass
-    let chr = result.slice(i, i + 1);
-    if (chr === "ッ" || chr === "っ") {
-      result = result.replace(chr, "");
-      count = result.length;
-    }
+  console.log(result);
+  while (result.search("ッ") >= 0) {
+    result = result.replace("ッ", "");
+  }
+  while (result.search("っ") >= 0) {
+    result = result.replace("っ", "");
   }
   
   // pass 5 - extended vowels
