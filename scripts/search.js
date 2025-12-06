@@ -333,8 +333,8 @@ function shower_results(details, deet_num) {
       var example_image = document.createElement("img");
       example_image.setAttribute("src", path);
       example_image.setAttribute("alt", path);
-      example_image.setAttribute("width", 30);
-      example_image.setAttribute("height", 30);
+      example_image.setAttribute("width", 40);
+      example_image.setAttribute("height", 40);
       link.appendChild(example_image);
       image_div.appendChild(link);
       exam.appendChild(image_div);

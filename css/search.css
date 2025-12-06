@@ -160,20 +160,19 @@ input, input:before, input:after {
 
 .grid_wrapper {
   display: grid;
-  grid-template-columns: 320px 980px;
+  grid-template-columns: 320px 1100px; /* left sidebar, main results area */
   grid-template-rows: 105px 1fr;
   grid-template-areas:
     "grid_sidebar grid_header"
     "grid_sidebar grid_main";
   column-gap: 10px;
-  width: 1320px;
+  width: 1420px;
   margin: auto;
   font-size: 16px;  
 }
 
 .grid_picker_wrapper {
   display: grid;
-  /*grid-template-columns: 40px 40px 40px 40px 40px;*/
   grid-template-columns: 58px 58px 58px 58px 58px;
   padding: 5px 0px;
 }
@@ -228,7 +227,7 @@ input, input:before, input:after {
 
 .grid_main { 
   display: grid;
-  grid-template-columns: 220px 90px auto; /* japanese - literal - definitions */
+  grid-template-columns: 220px 120px auto; /* japanese - romaji - definitions */
   background-color: #000000;
   align-items: stretch;
   word-break: keep-all;
@@ -261,7 +260,7 @@ input, input:before, input:after {
 
 .grid_examples {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   place-content: start;
   padding: 5px;
   row-gap: 5px;
