@@ -346,17 +346,12 @@ function shower_results(details, deet_num) {
       var image_div = document.createElement("div");
       var path = CONTENT_URL + "img/" + ex_itm.source + "/" + ex_itm.file;
       
-      var link = document.createElement("a");
-      link.setAttribute("href", "#!");
-      link.setAttribute("class", "example");
-      link.setAttribute("onclick", "show_popup_from_record(" + deet_num + ", " + idx + ", " + ex_idx + ");");
+      var link = document.createElement("img");
+      link.setAttribute("class", "example_button");
+      link.setAttribute("onclick", "show_popup_from_record(" + deet_num + ", " + idx + ", " + ex_idx + ");");      
+      link.setAttribute("src", path);
+      link.setAttribute("alt", ex_itm.file);
       
-      var example_image = document.createElement("img");
-      example_image.setAttribute("src", path);
-      example_image.setAttribute("alt", path);
-      example_image.setAttribute("width", 40);
-      example_image.setAttribute("height", 40);
-      link.appendChild(example_image);
       image_div.appendChild(link);
       exam.appendChild(image_div);
     });

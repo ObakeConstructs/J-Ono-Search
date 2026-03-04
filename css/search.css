@@ -120,6 +120,7 @@ input.popup_nav_left {
   height: 73px;
   border: none;
   background: url(../img/img_prev.png);
+  cursor: pointer;
 }
 
 input.popup_nav_left:active {
@@ -135,6 +136,7 @@ input.popup_nav_right {
   height: 73px;
   border: none;
   background: url(../img/img_next.png);
+  cursor: pointer;
 }
 
 input.popup_nav_right:active {
@@ -210,6 +212,7 @@ input, input:before, input:after {
   color: white;
   text-decoration: none;
   background-color: black;
+  cursor: pointer;
 }
 
 .grid_picker_button:active {
@@ -287,6 +290,21 @@ input, input:before, input:after {
   row-gap: 5px;
   outline: 1px solid gray;
   
+}
+
+.example_button {
+  color: #A0A0A0;
+  border: none;
+  padding: 0px;
+  margin: 0px;
+  height: 40px;
+  width: 40px; 
+  border-radius: 0px;
+  cursor: pointer;
+}
+
+.example_button:active {
+  transform: translate(2px, 1px);
 }
 
 .type_block {
