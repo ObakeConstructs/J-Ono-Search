@@ -5,9 +5,24 @@ body {
   font-size: 12px;  
 }
 
+
 p, input {
   font-family: 'Lato', sans-serif;
   font-size: 16px;
+}
+
+.control {
+  background-color: #29abe0;
+  color: white;
+  padding: 4px 8px;
+  margin: 1px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.control:active {
+  transform: translate(2px, 1px);
 }
 
 input[type=text] {
@@ -18,44 +33,16 @@ input[type=text] {
   color: #d1d1d1;
 }
 
-input[type=button]:active {            
-  transform: translate(2px, 1px);
-}
-
-input[type=button] {
-  background-color: #29abe0;
-  color: white;
-  padding: 4px 8px;
-  margin: 1px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
 .center {
   text-align: center;
 }
 
 a:link {
-  color: darkgray;
-  text-decoration: none;
+  color: black;
 }
 
 a:visited {
-  color: darkgray;
-  text-decoration: none;
-}
-
-a:hover {
-  color: white;
-  text-decoration: none;
-  background-color: black;
-}
-
-a:active {
-  color: white;
-  text-decoration: none;
-  background-color: blue;
+  color: black;
 }
 
 .blackOverlay {
@@ -131,7 +118,12 @@ input.popup_nav_left {
   left: -70px;
   width: 49px;
   height: 73px;
+  border: none;
   background: url(../img/img_prev.png);
+}
+
+input.popup_nav_left:active {
+  transform: translate(2px, 1px);
 }
 
 input.popup_nav_right {
@@ -141,7 +133,12 @@ input.popup_nav_right {
   right: -70px;
   width: 49px;
   height: 73px;
+  border: none;
   background: url(../img/img_next.png);
+}
+
+input.popup_nav_right:active {
+  transform: translate(2px, 1px);
 }
 
 img {
@@ -191,12 +188,35 @@ input, input:before, input:after {
   height: 58px;
 }
 
-
 .grid_picker_kana {
   display: grid;
   height: 29px;
   text-align: center;  
   font-size: 20px;
+}
+
+.grid_picker_button {
+  background: transparent;
+  color: #A0A0A0;
+  text-align: center;
+  border: none;
+  font-size: 20px;
+  padding: 0px;
+  margin: 0px;
+  border-radius: 0px;
+}
+
+.grid_picker_button:hover {
+  color: white;
+  text-decoration: none;
+  background-color: black;
+}
+
+.grid_picker_button:active {
+  color: white;
+  text-decoration: none;
+  background-color: black;
+  transform: translate(2px, 1px);
 }
 
 .grid_title {
@@ -320,12 +340,14 @@ input, input:before, input:after {
   right: 25px;
   cursor: pointer;
 }
-  
+
 input.copy_button {
   float: right;
   margin-right: 115px;
   background: url(../img/copy_icon.png);
+  border: none;
   height: 24px;
+  padding: 4px 8px;
 }
 
 input.transparent {

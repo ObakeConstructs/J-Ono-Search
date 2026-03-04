@@ -41,20 +41,20 @@ document.addEventListener("keyup", (e) => {
 document.getElementById("search_input").addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
     event.preventDefault();
-    searcher();
+    submitter();
   }
 });
 
 //---------------------------------------------------------------
 
 document.getElementById('kata').addEventListener('change', function() {
-  refresh_picker()
+  create_picker_sidebar()
 });
 
 //---------------------------------------------------------------
 
 document.getElementById('hira').addEventListener('change', function() {
-  refresh_picker()
+  create_picker_sidebar()
 });
 
 //=================================================================================
@@ -108,18 +108,39 @@ function get_equivs_by_refer(refer) {
 
 //=================================================================================
 
+function submitter() {
+  let url = new URL(window.location.href.split("?")[0]);
+    
+  url.searchParams.set("search", document.getElementById("search_input").value);    
+  
+  if (document.getElementById("search_method_exact").checked)
+    url.searchParams.set("method", "exact");
+  
+  if (document.getElementById("search_method_any").checked)
+    url.searchParams.set("method", "any");
+  
+  if (document.getElementById("search_for_extended").checked)
+    url.searchParams.set("for", "extended");
+  
+  //console.log(url);
+  
+  window.location.href = url.href;
+  
+}
+
+//=================================================================================
+
 function searcher() {
   // primary search loop
   if (document.getElementById("search_input").value.length == 0) return;
   
-  var jap = document.getElementById("japanese").checked;
-  var rom = document.getElementById("romaji").checked;
-  var equ = document.getElementById("equivalent").checked;
-  var com = document.getElementById("comment").checked;
+  var search_default =  document.getElementById("search_for_default").checked;
+  var search_extended = document.getElementById("search_for_extended").checked;
+  
   var typ = -1;
-  if (document.getElementById("match").checked) typ = 0; //exact match
-  if (document.getElementById("lead").checked) typ = 1; //from start
-  if (document.getElementById("any").checked) typ = 2; //anywhere
+  if (document.getElementById("search_method_exact").checked) typ = 0; //exact match
+  if (document.getElementById("search_method_lead").checked) typ = 1; //from start
+  if (document.getElementById("search_method_any").checked) typ = 2; //anywhere
 
   document.getElementById("grid_body").innerHTML = "";
    
@@ -129,24 +150,24 @@ function searcher() {
     
     //check for romaji match
     record.romaji.forEach((itm) => {
-      if(checkForMatch(itm, typ) && rom) isMatch = true;
+      if(checkForMatch(itm, typ)) isMatch = true;
     });
     
     //check for katakana match
     record.katakana.forEach((itm) => {
-      if(checkForMatch(itm, typ) && jap) isMatch = true;
+      if(checkForMatch(itm, typ)) isMatch = true;
     });    
     
     //check for hiragana match
     record.hiragana.forEach((itm) => {
-      if(checkForMatch(itm, typ) && jap) isMatch = true;
+      if(checkForMatch(itm, typ)) isMatch = true;
     });
     
     //check for definition match
     record.definition.forEach((itm) => {
-      if(checkForMatch(itm.meaning, typ) && com) isMatch = true;
+      if(checkForMatch(itm.meaning, typ) && search_extended) isMatch = true;
       itm.equivalent.forEach((eq) => {
-        if(checkForMatch(eq, typ) && equ) isMatch = true;
+        if(checkForMatch(eq, typ) && search_extended) isMatch = true;
       });
     });
     
@@ -429,12 +450,11 @@ function show_stats() {
   });
   
   document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">---------------------</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">JSON Records: " + RECORDS_ARRAY.length + "</p>";
   document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Defined Meanings: " + def_cnt + "</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Kana Recognized: " + kana_cnt + "</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Recognized Kanas: " + kana_cnt + "</p>";
   document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Example Images: " + img_cnt + "</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Publisher Count: " + pub_cnt + "</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Manga Count: " + mng_cnt + "</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Referenced Mangas: " + mng_cnt + "</p>";
+  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Referenced Publishers: " + pub_cnt + "</p>";
   document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">---------------------</p>";
   document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Recent Updates</p>";
   
@@ -553,35 +573,6 @@ function create_picker_sidebar() {
 
 //=================================================================================
 
-function refresh_picker() {
-  place = document.getElementById('pick_place');
-  const div1 = "<div class=\"grid_picker_block\">";
-  const div2 = "<div class=\"grid_picker_kana\">";
-  const div_close = "</div>";
-  
-  place.innerHTML = "";
-  
-  var picker_cnt = 0;
-  for (var i=0; i<52; i++) {
-    var tmp = "";
-    if(i == 36 || i == 38 || i == 47) {
-      tmp = "<div class=\"grid_picker_block_gray\"></div>";
-      picker_cnt += 4;
-    }
-    else {
-      tmp = div1;
-      tmp += div2 + get_kana(picker_cnt++) + div_close;
-      tmp += div2 + get_kana(picker_cnt++) + div_close;
-      tmp += div2 + get_kana(picker_cnt++) + div_close;
-      tmp += div2 + get_kana(picker_cnt++) + div_close;
-      tmp += div_close;
-    }
-    place.innerHTML += tmp;
-  }
-}
-
-//=================================================================================
-
 function get_kana(pos) {
   // return the kana link associated with the Kana Picker position (pos)
   const kata = "アァ  イィ  ウゥヴ エェ  オォ  カ ガ キ ギ ク グ ケ ゲ コ ゴ サ ザ シ ジ ス ズ セ ゼ ソ ゾ タ ダ チ ヂ ツッヅ テ デ ト ド ナ   ニ   ヌ   ネ   ノ   ハ バパヒ ビピフ ブプヘ ベペホ ボポマ   ミ   ム   メ   モ   ヤャ      ユュ      ヨョ  ラ   リ   ル   レ   ロ   ワヮヷ ヰ ヸ     ヱ ヹ ヲ ヺ ン   ー               ";
@@ -594,8 +585,8 @@ function get_kana(pos) {
     
   if (retVal === " ") 
     retVal = "";
-  else 
-    retVal = "<a href=\"#!\" onclick=\"pickMe('" + retVal + "');\" class=\"grid_picker_kana\">" + retVal + "</a>"
+  else
+    retVal = "<input type=\"button\" onclick=\"pickMe('" + retVal + "');\" class=\"grid_picker_button\" value=\"" + retVal + "\"/>"
   
   return retVal;
 }
@@ -603,6 +594,7 @@ function get_kana(pos) {
 //=================================================================================
 
 function pickMe(picked) {
+  
   // add clicked kana to search text
   document.getElementById('search_input').value += picked;
 }
@@ -644,7 +636,7 @@ function flipper() {
 //=================================================================================
 
 async function prefetch() {
-  //Pre-fetch all JSON data
+  //Pre-fetch JSON data
   
   const upd = await fetch(CONTENT_URL + "json/j-ono-updates.json");
   UPDATES_ARRAY = await upd.json();
@@ -663,11 +655,27 @@ async function opener() {
   await prefetch();
   create_picker_sidebar();
   
-  const url = window.location.search;
-  if (url) {
-    const params = new URLSearchParams(url);
-    let srch = params.get('search');
-    document.getElementById("search_input").value = srch;
+  const url_search = window.location.search;  
+  if (url_search) {
+    const params = new URLSearchParams(url_search);
+    let search_value = params.get("search");
+    let search_method = params.get("method");
+    let search_for = params.get("for");
+
+    if (search_method) {
+      document.getElementById("search_method_exact").checked = (search_method == "exact");
+      document.getElementById("search_method_any").checked = (search_method == "any");
+      document.getElementById("search_method_lead").checked = (search_method == "leading");
+    }
+    
+    if (search_for) {
+      document.getElementById("search_for_default").checked = (search_for == "default");
+      document.getElementById("search_for_extended").checked = (search_for == "extended");
+    }
+    
+    if (search_value) {
+      document.getElementById("search_input").value = search_value;
+    }
     searcher();
   }
 }

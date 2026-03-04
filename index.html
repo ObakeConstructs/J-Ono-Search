@@ -24,52 +24,48 @@
   <div class="grid_wrapper">
     <div class="grid_title">
       <h2>J-Ono Search</h1>
-      <p>An open-source, searchable collection of translated Japanese onomatopoeia and mimetic words from manga&nbsp;&nbsp;&nbsp;<input type="button" onclick="show_stats()" value="Stats" /></p>
+      <p>An open-source, searchable collection of translated Japanese onomatopoeia and mimetic words from manga&nbsp;&nbsp;&nbsp;<input type="button" class="control" onclick="show_stats()" value="Stats" /></p>
     </div>
     <div class="grid_sidebar">
       <p><b>Search:</b></p>
       <form>
-        <div class="input_container">
-          <input type="text" id="search_input" class="search_input" name="src" placeholder="search text here" />
+        <div class="searcher()">
+          <input type="text" id="search_input" class="search_input" name="search" placeholder="search text here" />
           <span class="clear-button" onclick="clearer()">X</span>
-          <input type="button" onclick="searcher()" value="&#x1F50D; Search" />
+          <input type="button" class="control" value="&#x1F50D; Search" onclick="submitter()" />
+          <!--input type="button" onclick="searcher()" value="&#x1F50D; Search" /-->
         </div>
-        <input type="button" title="Toggle between katakana to hiragana in search text" id="flip_button" onclick="flipper()" value="カ↔ひ"/>
-        <input type="button" title="Copy search text to clipboard" id="copy_button" onclick="copier()" value="    " class="copy_button" /><br /><br />
-        <br /><br />
+        <input type="button" class="control" title="Toggle between katakana to hiragana in search text" id="flip_button" onclick="flipper()" value="カ↔ひ"/>
+        <input type="button"  title="Copy search text to clipboard" id="copy_button" onclick="copier()" value="    " class="copy_button" /><br /><br />
         <div class="grid_picker_wrapper" id = "pick_flip">
-          <input type="radio" id="kata" name="kana_type" value="Katakana" checked="checked" />
+          <input type="radio" id="kata" value="Katakana" name="pick_flip" checked="checked" />
           <label for="kata">Katakana</label><br />
-          <input type="radio" id="hira" name="kana_type" value="Hiragana" />
+          <input type="radio" id="hira" value="Hiragana" name="pick_flip" />
           <label for="hira">Hiragana</label>
         </div>
         <div class="grid_picker_wrapper" id="pick_place">
         </div>
-      </form>
-      <form class="controls">
+        <br />
         <fieldset>
           <legend>Search Method</legend>
-          <input type="radio" id="match" name="search_type" value="MATCH" />
-          <label for="match">Exact Match</label><br />
-          <input type="radio" id="lead" name="search_type" value="LEAD" checked="checked" />
-          <label for="lead">Match Beginning Characters</label><br />
-          <input type="radio" id="any" name="search_type" value="ANY" />
-          <label for="any">Match Any Characters</label><br />
+          <input type="radio" id="search_method_lead" name="method" value="leading" checked="checked" />
+          <label for="search_method_lead">Match Leading Characters</label><br />
+          <input type="radio" id="search_method_exact" name="method" value="exact" />
+          <label for="search_method_exact">Exact Match</label><br />
+          <input type="radio" id="search_method_any" name="method" value="any" />
+          <label for="search_method_any">Match Any Characters</label><br />
         </fieldset>
+        <br />
         <fieldset>
           <legend>Search For</legend>
-          <input type="checkbox" id="japanese" name="search_for" value="Japanese" checked="checked" />
-          <label for="japanese">Japanese</label><br />
-          <input type="checkbox" id="romaji" name="search_for" value="Romaji" checked="checked" />
-          <label for="romaji">Romaji</label><br />
-          <input type="checkbox" id="equivalent" name="search_for" value="Equivalent" />
-          <label for="equivalent">Equivalent English</label><br />
-          <input type="checkbox" id="comment" name="search_for" value="Meaning" />
-          <label for="comment">Meaning</label>
+          <input type="radio" id="search_for_default" name="for" value="default" checked="checked" />
+          <label for="search_for_default">Japanese and Romaji Only</label><br />
+          <input type="radio" id="search_for_extended" name="for" value="extended" />
+          <label for="search_for_extended">All</label><br />
         </fieldset>
       </form>
       <p class="notes">
-      Be aware that J-Ono example images will never be pornographic (hentai), but some may be considered erotic (ecchi).<br /><br />
+      Be aware that while J-Ono example images will never be pornographic (hentai), some may be considered to be erotic (ecchi).<br /><br />
       Do you see a mistake or want something added?<br />
       Feel free to open a new <a href="https://github.com/ObakeConstructs/j-ono-data/issues" target="_blank">J-Ono Data Issue</a> via GitHub.
       </p>
