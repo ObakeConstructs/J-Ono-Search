@@ -285,13 +285,15 @@ function new_json_record_from_fields() {
       source = document.getElementById("input_" + INPUT_NAME[Input.SOURCE] + "_" + j + "_" + i).value;
       file = document.getElementById("input_" + INPUT_NAME[Input.FILE] + "_" + j + "_" + i).value;
       display = document.getElementById("input_" + INPUT_NAME[Input.DISPLAY] + "_" + j + "_" + i).value;
+      nsfw = document.getElementById("input_" + INPUT_NAME[Input.NSFW] + "_" + j + "_" + i).checked;
       contributor = document.getElementById("input_" + INPUT_NAME[Input.CONTRIBUTOR] + "_" + j + "_" + i).value;
       if (source === "" || file === "" | display === "") return null;
       let ex = {
         source: source,
         file: file,
         display: display,
-        contributor: contributor,
+        nsfw: nsfw,
+        contributor: contributor
       };
       exams.push(ex);
     }

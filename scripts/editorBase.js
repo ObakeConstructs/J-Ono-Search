@@ -10,7 +10,7 @@ Self-contained functions used by Editor
 //======================================================================================================
 
 // Input Names
-const INPUT_NAME = ["romaji", "katakana", "hiragana", "refer", "type", "meaning", "equivalent", "source", "file", "display", "contributor"];
+const INPUT_NAME = ["romaji", "katakana", "hiragana", "refer", "type", "meaning", "equivalent", "source", "file", "display", "nsfw", "contributor"];
 
 // Totem Type Names
 const TOTEM_NAME = ["romaji", "kana", "definition", "equivalent", "example"];
@@ -27,7 +27,8 @@ const Input = {
   SOURCE:      7,
   FILE:        8,
   DISPLAY:     9,
-  CONTRIBUTOR: 10
+  NSFW:        10,
+  CONTRIBUTOR: 11
 }
 
 // Totem Types
@@ -140,9 +141,13 @@ function get_new_controller_button_set(totem_type, block_num, definition_num) {
 
 function new_input_field(input_type, totem_num, def_num) {
   let newInput = document.createElement("input");
-  newInput.setAttribute("type", "text");
+  if(input_type == Input.NSFW) {
+    newInput.setAttribute("type", "checkbox");
+  } else {
+    newInput.setAttribute("type", "text");
+    newInput.setAttribute("placeholder", INPUT_NAME[input_type] + " value");
+  }
   newInput.setAttribute("id", "input_" + INPUT_NAME[input_type] + "_" + totem_num + "_" + def_num);
-  newInput.setAttribute("placeholder", INPUT_NAME[input_type] + " value");
   
   return newInput;
 }
@@ -200,6 +205,7 @@ function json_to_field(json_record) {
       document.getElementById("input_" + INPUT_NAME[Input.SOURCE] + "_" + j + "_" + i).value = json_record.definition[i].example[j].source;
       document.getElementById("input_" + INPUT_NAME[Input.FILE] + "_" + j + "_" + i).value = json_record.definition[i].example[j].file;
       document.getElementById("input_" + INPUT_NAME[Input.DISPLAY] + "_" + j + "_" + i).value = json_record.definition[i].example[j].display;
+      document.getElementById("input_" + INPUT_NAME[Input.NSFW] + "_" + j + "_" + i).checked = json_record.definition[i].example[j].nsfw;
       document.getElementById("input_" + INPUT_NAME[Input.CONTRIBUTOR] + "_" + j + "_" + i).value = json_record.definition[i].example[j].contributor;
     }
   }
@@ -271,11 +277,13 @@ function new_totem_block(totem_type, definition_num = -999) {
       break;
       
     case Totem.EXAMPLE:
-      totemBlockContainer.style.gridTemplateColumns = "180px 26px 150px auto 180px 45px"; /* source, dropdown, filename, display, contributor control-box*/
+      totemBlockContainer.style.gridTemplateColumns = "180px 26px 150px auto 30px 40px 180px 45px"; /* source, dropdown, filename, display, nsfw, nsfw label, contributor, control-box*/
       totemBlockContainer.appendChild(new_input_field(Input.SOURCE, totem_count, definition_num));
       totemBlockContainer.appendChild(new_publisher_dropdown_button(INPUT_NAME[Input.SOURCE], totem_count, definition_num));
       totemBlockContainer.appendChild(new_input_field(Input.FILE, totem_count, definition_num));
       totemBlockContainer.appendChild(new_input_field(Input.DISPLAY, totem_count, definition_num));
+      totemBlockContainer.appendChild(new_input_field(Input.NSFW, totem_count, definition_num));
+      totemBlockContainer.innerHTML += "NSFW";
       totemBlockContainer.appendChild(new_input_field(Input.CONTRIBUTOR, totem_count, definition_num));
       totemBlockContainer.appendChild(get_new_controller_button_set(totem_type, totem_count, definition_num));
       totem.appendChild(totemBlockContainer);
@@ -338,6 +346,7 @@ function swap_definition_totems(top_definition) {
     document.getElementById("input_" + INPUT_NAME[Input.SOURCE] + "_" + i + "_" + top_definition).value = document.getElementById("input_" + INPUT_NAME[Input.SOURCE] + "_" + i + "_" + (top_definition + 1)).value;
     document.getElementById("input_" + INPUT_NAME[Input.FILE] + "_" + i + "_" + top_definition).value = document.getElementById("input_" + INPUT_NAME[Input.FILE] + "_" + i + "_" + (top_definition + 1)).value;
     document.getElementById("input_" + INPUT_NAME[Input.DISPLAY] + "_" + i + "_" + top_definition).value = document.getElementById("input_" + INPUT_NAME[Input.DISPLAY] + "_" + i + "_" + (top_definition + 1)).value;
+    document.getElementById("input_" + INPUT_NAME[Input.NSFW] + "_" + i + "_" + top_definition).checked = document.getElementById("input_" + INPUT_NAME[Input.NSFW] + "_" + i + "_" + (top_definition + 1)).checked;
     document.getElementById("input_" + INPUT_NAME[Input.CONTRIBUTOR] + "_" + i + "_" + top_definition).value = document.getElementById("input_" + INPUT_NAME[Input.CONTRIBUTOR] + "_" + i + "_" + (top_definition + 1)).value;
   }
   
@@ -348,7 +357,8 @@ function swap_definition_totems(top_definition) {
     document.getElementById("input_" + INPUT_NAME[Input.SOURCE] + "_" + i + "_" + bottom_definition).value = temp_totem.children[i].children[0].value;
     document.getElementById("input_" + INPUT_NAME[Input.FILE] + "_" + i + "_" + bottom_definition).value = temp_totem.children[i].children[1].value;
     document.getElementById("input_" + INPUT_NAME[Input.DISPLAY] + "_" + i + "_" + bottom_definition).value = temp_totem.children[i].children[2].value;
-    document.getElementById("input_" + INPUT_NAME[Input.CONTRIBUTOR] + "_" + i + "_" + bottom_definition).value = temp_totem.children[i].children[3].value;
+    document.getElementById("input_" + INPUT_NAME[Input.NSFW] + "_" + i + "_" + bottom_definition).checked = temp_totem.children[i].children[3].checked;
+    document.getElementById("input_" + INPUT_NAME[Input.CONTRIBUTOR] + "_" + i + "_" + bottom_definition).value = temp_totem.children[i].children[4].value;
   }
   
   bUpdated = true;
@@ -436,6 +446,7 @@ function remove_totem_block(totem_type, totem_item, definition_num = -999) {
         swap_totem_inputs(Input.SOURCE, i, definition_num);
         swap_totem_inputs(Input.FILE, i, definition_num);
         swap_totem_inputs(Input.DISPLAY, i, definition_num);
+        swap_totem_inputs(Input.NSFW, i, definition_num);
         swap_totem_inputs(Input.CONTRIBUTOR, i, definition_num);
       }
       break;
@@ -482,6 +493,7 @@ function move_totem_item(totem_type, totem_item, definition_num = -999) {
       swap_totem_inputs(Input.SOURCE, totem_item, definition_num);
       swap_totem_inputs(Input.FILE, totem_item, definition_num);
       swap_totem_inputs(Input.DISPLAY, totem_item, definition_num);
+      swap_totem_inputs(Input.NSFW, totem_item, definition_num);
       swap_totem_inputs(Input.CONTRIBUTOR, totem_item, definition_num);
       break;
   }
