@@ -25,6 +25,21 @@ p, input {
   transform: translate(2px, 1px);
 }
 
+.popup_control {
+  background-color: #d03939;
+  color: white;
+  padding: 4px 8px;
+  margin: 1px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
 input[type=text] {
   background-color: #000000;
   border: 1px solid #5c5c5c;
@@ -346,6 +361,14 @@ input, input:before, input:after {
 
 .update_text {
   margin-bottom: -5px; 
+}
+
+.blur_thumbnail {
+  filter: blur(3px);
+}
+
+.blur_example {
+  filter: blur(20px);
 }
 
 #search_input {

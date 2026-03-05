@@ -346,13 +346,14 @@ function shower_results(details, deet_num) {
       var image_div = document.createElement("div");
       var path = CONTENT_URL + "img/" + ex_itm.source + "/" + ex_itm.file;
       
-      var link = document.createElement("img");
-      link.setAttribute("class", "example_button");
-      link.setAttribute("onclick", "show_popup_from_record(" + deet_num + ", " + idx + ", " + ex_idx + ");");      
-      link.setAttribute("src", path);
-      link.setAttribute("alt", ex_itm.file);
-      
-      image_div.appendChild(link);
+      var thumbnail = document.createElement("img");
+      thumbnail.setAttribute("class", "example_button");
+      thumbnail.setAttribute("onclick", "show_popup_from_record(" + deet_num + ", " + idx + ", " + ex_idx + ");");      
+      thumbnail.setAttribute("src", path);
+      thumbnail.setAttribute("alt", ex_itm.file);
+      if(ex_itm.nsfw) 
+        thumbnail.classList.add("blur_thumbnail");
+      image_div.appendChild(thumbnail);
       exam.appendChild(image_div);
     });
     defs.appendChild(exam);
@@ -369,16 +370,40 @@ function shower_results(details, deet_num) {
 
 //=================================================================================
 
+function unblur_popup_image() {
+  document.getElementById("nsfw_button").remove();
+  document.getElementById("popup_img").classList.remove("blur_example")
+}
+
+//=================================================================================
+
 function show_popup_from_record(record_index, definition_index, example_index) {
   let example = RECORDS_ARRAY[record_index].definition[definition_index].example[example_index];
   let img_path = CONTENT_URL + "img/" + example.source + "/" + example.file;
   let example_count = RECORDS_ARRAY[record_index].definition[definition_index].example.length;
+  let p_img = document.getElementById("popup_img");
   
   document.getElementById("blackOverlay").style.display = "block";
   document.getElementById("popup").style.display = "block";
-  document.getElementById("popup_img").src = img_path;
   document.getElementById("imgTitle").innerHTML = example.display;
   document.getElementById("imgSubTitle").innerHTML = get_romaji(example.display);
+  p_img.src = img_path;
+  
+  if(example.nsfw) {
+    p_img.classList.add("blur_example");
+    let nsfw_notice = document.createElement("input");
+    nsfw_notice.setAttribute("type", "button");
+    nsfw_notice.setAttribute("id", "nsfw_button");
+    nsfw_notice.setAttribute("class", "popup_control");
+    nsfw_notice.setAttribute("value", "NSFW Content - Click to view");
+    nsfw_notice.setAttribute("onclick", "unblur_popup_image()");
+    document.getElementById("popup").appendChild(nsfw_notice);
+  }
+  else {
+    if (p_img.classList.contains("blur_example")) {
+      unblur_popup_image();
+    }
+  }
   
   var attribution = "Image used for education/instructional purposes only."
   PUBLISHERS_ARRAY.forEach((pub) => {
