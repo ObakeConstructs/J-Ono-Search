@@ -371,7 +371,7 @@ function shower_results(details, deet_num) {
 //=================================================================================
 
 function unblur_popup_image() {
-  document.getElementById("nsfw_button").remove();
+  document.getElementById("button_nsfw").style.display = "none";
   document.getElementById("popup_img").classList.remove("blur_example")
 }
 
@@ -379,27 +379,20 @@ function unblur_popup_image() {
 
 function show_popup_from_record(record_index, definition_index, example_index) {
   let example = RECORDS_ARRAY[record_index].definition[definition_index].example[example_index];
-  let img_path = CONTENT_URL + "img/" + example.source + "/" + example.file;
-  let example_count = RECORDS_ARRAY[record_index].definition[definition_index].example.length;
   let p_img = document.getElementById("popup_img");
+  let prev = document.getElementById("button_nav_left");
+  let next = document.getElementById("button_nav_right");
   
   document.getElementById("blackOverlay").style.display = "block";
   document.getElementById("popup").style.display = "block";
   document.getElementById("imgTitle").innerHTML = example.display;
   document.getElementById("imgSubTitle").innerHTML = get_romaji(example.display);
-  p_img.src = img_path;
+  p_img.src = CONTENT_URL + "img/" + example.source + "/" + example.file;
   
   if(example.nsfw) {
     p_img.classList.add("blur_example");
-    let nsfw_notice = document.createElement("input");
-    nsfw_notice.setAttribute("type", "button");
-    nsfw_notice.setAttribute("id", "nsfw_button");
-    nsfw_notice.setAttribute("class", "popup_control");
-    nsfw_notice.setAttribute("value", "NSFW Content - Click to view");
-    nsfw_notice.setAttribute("onclick", "unblur_popup_image()");
-    document.getElementById("popup").appendChild(nsfw_notice);
-  }
-  else {
+    document.getElementById("button_nsfw").style.display = "block";
+  } else {
     if (p_img.classList.contains("blur_example")) {
       unblur_popup_image();
     }
@@ -423,7 +416,7 @@ function show_popup_from_record(record_index, definition_index, example_index) {
     cont = "Contributor:<br /> NightBug"
   document.getElementById("imgContrib").innerHTML = cont;
   
-  let prev = document.getElementById("button_nav_left");
+  
   if (example_index > 0) {
     prev.style.display = "block";
     prev.setAttribute("onclick", "show_popup_from_record(" + record_index + ", " + definition_index + ", " + (example_index - 1) + ");");
@@ -431,8 +424,8 @@ function show_popup_from_record(record_index, definition_index, example_index) {
     prev.style.display = "none";
   }
   
-  let next = document.getElementById("button_nav_right");
-  if (example_index < example_count - 1) {
+  
+  if (example_index < RECORDS_ARRAY[record_index].definition[definition_index].example.length - 1) {
     next.style.display = "block";
     next.setAttribute("onclick", "show_popup_from_record(" + record_index + ", " + definition_index + ", " + (example_index + 1) + ");");
   } else {
@@ -445,10 +438,11 @@ function show_popup_from_record(record_index, definition_index, example_index) {
 
 function show_stats() {
   // show stats popup
+  let stats = document.getElementById('stat_text');
+  
   document.getElementById('blackOverlay').style.display = 'block';
   document.getElementById('stat_popup').style.display = 'block';
-  document.getElementById('stat_text').innerHTML = "<p class=\"stat_text\">J-Ono Statistics</p>";
-  
+    
   var kana_cnt = 0;
   var def_cnt = 0;
   var img_cnt = 0;
@@ -469,17 +463,17 @@ function show_stats() {
     mng_cnt += p.sources.length;
   });
   
-  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">---------------------</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Defined Meanings: " + def_cnt + "</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Recognized Kanas: " + kana_cnt + "</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Example Images: " + img_cnt + "</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Referenced Mangas: " + mng_cnt + "</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Referenced Publishers: " + pub_cnt + "</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">---------------------</p>";
-  document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">Recent Updates</p>";
   
+  stats.innerHTML = "<p class=\"stat_header\">J-Ono Statistics</p>";
+  stats.innerHTML += "<p class=\"stat_text\"><b>Defined Meanings</b>: <i>" + def_cnt + "</i></p>";
+  stats.innerHTML += "<p class=\"stat_text\"><b>Recognized Kanas</b>: <i>" + kana_cnt + "</i></p>";
+  stats.innerHTML += "<p class=\"stat_text\"><b>Example Images</b>: <i>" + img_cnt + "</i></p>";
+  stats.innerHTML += "<p class=\"stat_text\"><b>Referenced Mangas</b>: <i>" + mng_cnt + "</i></p>";
+  stats.innerHTML += "<p class=\"stat_text\"><b>Referenced Publishers</b>: <i>" + pub_cnt + "</i></p><br />";
+  
+  stats.innerHTML += "<p class=\"stat_header\">Recent Updates</p>";  
   UPDATES_ARRAY.forEach((u) => {
-    document.getElementById('stat_text').innerHTML += "<p class=\"stat_text\">" + u.date + " - " + u.message + "</p>";
+    stats.innerHTML += "<p class=\"stat_text\"><b>" + u.date + "</b>: <i>" + u.message + "</i></p>";
   });
   
 }
