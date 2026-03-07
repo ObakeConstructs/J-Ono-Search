@@ -122,10 +122,21 @@ function submitter() {
   if (document.getElementById("search_for_extended").checked)
     url.searchParams.set("for", "extended");
   
-  //console.log(url);
-  
   window.location.href = url.href;
-  
+}
+
+//=================================================================================
+
+function checkForHiragana(search_str) {
+  const hira = "あぁいぃうぅゔえぇおぉかがきぎくぐけげこごさざしじすずせぜそぞただちぢつっづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもやゃゆゅよょらりるれろわゎゐゑをん";
+  for (const c of search_str) {
+    h_index = hira.indexOf(c);
+    if (h_index > -1) {
+      document.getElementById('hira').checked = true;
+      create_picker_sidebar()
+      return;
+    }
+  }
 }
 
 //=================================================================================
@@ -690,6 +701,7 @@ async function opener() {
     if (search_value) {
       document.getElementById("search_input").value = search_value;
     }
+    checkForHiragana(search_value);
     searcher();
   }
 }
