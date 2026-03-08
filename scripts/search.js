@@ -414,7 +414,11 @@ function show_popup_from_record(record_index, definition_index, example_index) {
     pub.sources.forEach((source) => {
       if (source.id === example.source) {
         attribution += "<br />Source: " + source.manga;
-        attribution += "<br />© " + pub.publisher_name;
+        if (pub.publisher_name === "doujinshi") {
+          attribution += "<br />(doujinshi by " + source.author + ")";
+        } else {
+          attribution += "<br />© " + pub.publisher_name;
+        }
       }
     });    
   });
