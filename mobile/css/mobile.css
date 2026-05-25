@@ -75,9 +75,25 @@ SEARCH SECTION
 
 .input_wrapper {
   display: grid;
-  grid-template-columns: 1fr 3.5fr 0.5fr;
-  padding: 0.5vw;
-  
+  grid-template-columns: auto 1fr auto;
+  gap: 0.5rem;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+.search_field_wrapper {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.search_input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding-right: 2.5rem; /* room for the X */
 }
 
 input[type=text] {
@@ -101,9 +117,11 @@ input[type=text] {
 
 .clear_button {
   position: absolute;
-  right: 14vw;
-  font-size: 1.8rem;
-  vertical-align: inherit;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.4rem;
+  font-weight: bold;
 }
 
 /* ----------------------------------

@@ -6,8 +6,15 @@ var RECORDS_ARRAY = [];
 var PUBLISHERS_ARRAY = [];
 var UPDATES_ARRAY = [];
 
-//global state variable to track where we're at in the app
-var STATE = "";
+//global state variable to track where we're at in the app - see change_state() function
+var CURRENT_STATE = -1;
+const STATES = {
+  SEARCH:   0,
+  RESULTS:  1,
+  DETAILS:  2,
+  EXAMPLES: 3,
+  STATS:    4
+}
 
 //---------------------------------------------------------------
 
@@ -68,17 +75,20 @@ function submitter() {
   //handles URL searching
   
   let url = new URL(window.location.href.split("?")[0]);
+  let search_val = document.getElementById("search_input").value;
+  
+  if (search_val.length > 0) {
+    url.searchParams.set("search", search_val);
     
-  url.searchParams.set("search", document.getElementById("search_input").value);    
-  
-  if (document.getElementById("search_method_exact").checked)
-    url.searchParams.set("method", "exact");
-  
-  if (document.getElementById("search_method_any").checked)
-    url.searchParams.set("method", "any");
-  
-  if (document.getElementById("search_for_extended").checked)
-    url.searchParams.set("for", "extended");
+    if (document.getElementById("search_method_exact").checked)
+      url.searchParams.set("method", "exact");
+    
+    if (document.getElementById("search_method_any").checked)
+      url.searchParams.set("method", "any");
+    
+    if (document.getElementById("search_for_extended").checked)
+      url.searchParams.set("for", "extended");
+  }
   
   window.location.href = url.href;
   
@@ -377,13 +387,13 @@ function set_def_div(record_index) {
 function returner() {
   // handles "Return" button - i.e. change state
   
-  console.log("current state: " + STATE);
-  switch (STATE) {
-    case 2:
-      change_state("DETAILS");
+  console.log("current state: " + CURRENT_STATE);
+  switch (CURRENT_STATE) {
+    case STATES.EXAMPLES:
+      change_state(STATES.DETAILS);
       break;
     default:
-      change_state("SEARCH");
+      change_state(STATES.RESULTS);
   }
 }
 
@@ -399,22 +409,24 @@ function change_state(state) {
   document.getElementById("examples_wrapper").style.display = "none";
   document.getElementById("return_wrapper").style.display = "none";
 
+  CURRENT_STATE = state;
+  
   switch (state) {
-    case "DETAILS":
-      STATE = 1;
+    case STATES.DETAILS:
       document.getElementById("return_wrapper").style.display = "block";
       document.getElementById("details_wrapper").style.display = "block";
       break;
-    case "EXAMPLES":
-      STATE = 2;
+    case STATES.EXAMPLES:
       document.getElementById("return_wrapper").style.display = "block";
       document.getElementById("examples_wrapper").style.display = "block";
       break;
-    default: // "SEARCH"
-      STATE = 0;
+    case STATES.RESULTS:
       document.getElementById("title_wrapper").style.display = "grid";
       document.getElementById("search_wrapper").style.display = "grid";
       document.getElementById("results_wrapper").style.display = "block";
+    default: // STATES.SEARCH
+      document.getElementById("title_wrapper").style.display = "grid";
+      document.getElementById("search_wrapper").style.display = "grid";
   }
 
 }
@@ -432,7 +444,7 @@ function display_details(record_index) {
   let details_jr = document.getElementById("details_body_jr");
   let details_body_def = document.getElementById("details_body_def");
   
-  change_state("DETAILS");
+  change_state(STATES.DETAILS);
   
   details_jr.innerHTML = "";
   details_jr.appendChild(kana);
@@ -460,7 +472,7 @@ function show_examples(record_index, definition_index) {
   examples_div = document.getElementById("examples_wrapper");
   examples_div.innerHTML = "";
   
-  change_state("EXAMPLES");
+  change_state(STATES.EXAMPLES);
   
   examples.forEach((example, example_index) => {
     let example_body = document.createElement("div");
@@ -787,17 +799,11 @@ async function prefetch() {
 async function opener() {
   await prefetch();
   create_kana_picker();
-  
-  change_state("SEARCH");
-  /*
-  show_title_section();
-  show_search_section();
-  if(url_search) show_results_section();
-  */
-      
+        
   const url_search = window.location.search;
   //document.getElementById("search_wrapper").style.display = "grid";
   if (url_search) {
+    change_state(STATES.RESULTS);
     const params = new URLSearchParams(url_search);
     let search_value = params.get("search");
     let search_method = params.get("method");
@@ -820,7 +826,9 @@ async function opener() {
     checkForHiragana(search_value);
     searcher();
   } else {
+    change_state(STATES.SEARCH);
     document.getElementById("kana_picker").style.display = "grid";
+    
   }
   
 }

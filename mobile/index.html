@@ -35,8 +35,10 @@
     <!-- input block -->
     <div class="input_wrapper">
       <input type="button" class="control" value="Kana ▼" onclick="toggle_kana_picker()" />
-      <input type="text" id="search_input" class="search_input" name="search" placeholder="search text here" />
-      <span class="clear_button" onclick="clearer()">X</span>
+      <div class="search_field_wrapper">
+        <input type="text" id="search_input" class="search_input" name="search" placeholder="search text here" />
+        <span class="clear_button" onclick="clearer()">X</span>
+      </div>
       <input type="button" class="control" value="&#x1F50D;" onclick="submitter()" />
     </div>
     
@@ -53,6 +55,7 @@
         </div>
       </div>
       <div class="kana_picker_grid" id="pick_place"></div>
+    <br />
     </div>
     
     <!-- search parameters block -->
