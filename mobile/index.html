@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta name="description" content="An open-source, searchable collection of translated Japanese onomatopoeia and mimetic words with examples from manga!">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>J-Ono Search for Japanese SFX and Onomaropeia Words with Examples</title>
+  <link rel="icon" type="image/x-icon" href="./img/favicon.ico">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel='stylesheet' href='./css/mobile.css'>
+</head>
+<body onload="opener()">
+  
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- RETURN BUTTON SECTION -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+  <div class="return_wrapper" id="return_wrapper">
+    <input type="button" class="control" value="◄ Return" onclick="returner()" />
+  </div>
+
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- TITLE SECTION -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+  <div class="title_wrapper" id="title_wrapper">
+    <div class="title">J-Ono Search</div>
+    <div>An open-source, searchable collection of translated Japanese onomatopoeia and mimetic words from manga&nbsp;&nbsp;&nbsp;</div>
+  </div>
+  
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- SEARCH SECTION -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+  <div class="search_wrapper" id="search_wrapper">
+    
+    <!-- input block -->
+    <div class="input_wrapper">
+      <input type="button" class="control" value="Kana ▼" onclick="toggle_kana_picker()" />
+      <input type="text" id="search_input" class="search_input" name="search" placeholder="search text here" />
+      <span class="clear_button" onclick="clearer()">X</span>
+      <input type="button" class="control" value="&#x1F50D;" onclick="submitter()" />
+    </div>
+    
+    <!-- picker block -->
+    <div class="kana_picker_wrapper" id="kana_picker">
+      <div class="kana_type_wrapper" id = "pick_kana_type">
+        <div class="kana_type">
+          <input type="radio" class="big_radio" id="kata" value="Katakana" name="pick_kana_type" checked="checked" />
+          <label for="kata">Katakana</label><br />
+        </div>
+        <div class="kana_type">
+          <input type="radio" class="big_radio" id="hira" value="Hiragana" name="pick_kana_type" />
+          <label for="hira">Hiragana</label>
+        </div>
+      </div>
+      <div class="kana_picker_grid" id="pick_place"></div>
+    </div>
+    
+    <!-- search parameters block -->
+    <div class="search_params_wrapper">
+      <fieldset>
+        <legend>Search Method</legend>
+        <input type="radio" id="search_method_lead" name="method" value="leading" checked="checked" />
+        <label for="search_method_lead">Leading Characters</label><br />
+        <input type="radio" id="search_method_exact" name="method" value="exact" />
+        <label for="search_method_exact">Exact Match</label><br />
+        <input type="radio" id="search_method_any" name="method" value="any" />
+        <label for="search_method_any">Any Characters</label><br />
+      </fieldset>
+      <fieldset>
+        <legend>Search For</legend>
+        <input type="radio" id="search_for_default" name="for" value="default" checked="checked" />
+        <label for="search_for_default">Japanese and Romaji</label><br />
+        <input type="radio" id="search_for_extended" name="for" value="extended" />
+        <label for="search_for_extended">All</label><br />
+      </fieldset>
+    </div>
+  </div>
+  
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- RESULTS SECTION -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+  <div class="results_wrapper" id="results_wrapper">
+  
+    <!-- results header block -->
+    <div class="grid_results">
+      <div class="grid_results_header"><b>Japanese</b></div>
+      <div class="grid_results_header"><b>Romaji</b></div>
+      <div class="grid_results_header"><b>More</b></div>
+    </div>
+    
+    <!-- results block -->
+    <div class="grid_results_body" id="results_body"></div>
+  </div>
+  
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- DETAILS SECTION -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+  <div class="details_wrapper" id="details_wrapper">
+  
+    <!-- Japanese and romaji block -->
+    <div class="grid_details">
+      <div class="grid_details_header"><b>Japanese</b></div>
+      <div class="grid_details_header"><b>Romaji</b></div>
+    </div>
+    <div class="grid_details" id="details_body_jr"></div>
+    <br />
+    <!-- definition block -->
+    <div class="grid_details_definition">
+      <div class="grid_details_header"><b>Equivalents</b></div>
+      <div class="grid_details_header"><b>Meaning</b></div>
+      <div class="grid_details_header"><b>Examples</b></div>
+    </div>
+    <div class="grid_details_definition" id="details_body_def"></div>
+        
+  </div>
+  
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- EXAMPLES SECTION -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+  <div class="examples_wrapper" id="examples_wrapper">
+    <div class="grid_examples" id="examples_body"></div>
+  </div>
+  
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- FOOTER SECTION -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+  <div class="footer_wrapper">
+      <p class="notes">
+        Do you see a translation mistake or want something added?<br />
+        Feel free to open a new <a href="https://github.com/ObakeConstructs/j-ono-data/issues" target="_blank">J-Ono Data Issue</a> via GitHub.
+      </p>
+  </div>
+    
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- SCRIPT -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+  <script src="./scripts/mobile.js" charset="utf-8"></script>
+  
+</body>
+</html>
