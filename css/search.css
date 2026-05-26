@@ -37,11 +37,11 @@ input[type=text] {
 }
 
 a:link {
-  color: black;
+  color: lightsteelblue;
 }
 
 a:visited {
-  color: black;
+  color: steelblue;
 }
 
 .blackOverlay {

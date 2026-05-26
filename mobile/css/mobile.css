@@ -28,36 +28,52 @@ input {
   font-size: 1.5rem;
 }
 
+a:link {
+  color: lightsteelblue;
+}
+
+a:visited {
+  color: steelblue;
+}
+
 /* ----------------------------------
 ROOT WRAPPERS
 ---------------------------------- */
 
+.scripts_alert {
+  display: block;
+}
+
 .title_wrapper {
-  display: grid;
+  display: none;
   padding: 0.5vw;
 }
 
 .search_wrapper {
-  display: grid;
+  display: none;
 }
 
 .results_wrapper {
-  display: block;
+  display: none;
   background-color: black;
 }
 
 .details_wrapper {
-  display: block;
+  display: none;
 }
 
 .examples_wrapper {
-  display: block;
+  display: none;
   background-color: black;
 }
 
 .return_wrapper {
-  display: block;
+  display: none;
   margin: 1vw;
+}
+
+.footer_wrapper {
+  display: none;
 }
 
 /* ----------------------------------

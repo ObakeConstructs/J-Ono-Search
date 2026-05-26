@@ -424,6 +424,7 @@ function change_state(state) {
       document.getElementById("title_wrapper").style.display = "grid";
       document.getElementById("search_wrapper").style.display = "grid";
       document.getElementById("results_wrapper").style.display = "block";
+    
     default: // STATES.SEARCH
       document.getElementById("title_wrapper").style.display = "grid";
       document.getElementById("search_wrapper").style.display = "grid";
@@ -799,10 +800,15 @@ async function prefetch() {
 async function opener() {
   await prefetch();
   create_kana_picker();
-        
-  const url_search = window.location.search;
-  //document.getElementById("search_wrapper").style.display = "grid";
+  
+  // set visibility for those divs not controlled by state
+  document.getElementById("scripts_alert").style.display = "none";
+  document.getElementById("footer_wrapper").style.display = "block";
+  
+  
+  const url_search = window.location.search;  
   if (url_search) {
+    // search parameters found in URL string
     change_state(STATES.RESULTS);
     const params = new URLSearchParams(url_search);
     let search_value = params.get("search");
@@ -826,9 +832,9 @@ async function opener() {
     checkForHiragana(search_value);
     searcher();
   } else {
+    // no search parameters in URL string
     change_state(STATES.SEARCH);
-    document.getElementById("kana_picker").style.display = "grid";
-    
+    document.getElementById("kana_picker").style.display = "grid";  
   }
   
 }

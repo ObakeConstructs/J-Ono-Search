@@ -11,26 +11,23 @@
   <link rel='stylesheet' href='./css/mobile.css'>
 </head>
 <body onload="opener()">
+
+<!-- HEADERS -->
+  <div class="scripts_alert" id="scripts_alert">
+    <p>⚠️ - This page requires JavaScript.<br /><br />(Note: all code used on this page is open-source and viewable at <a href='https://github.com/ObakeConstructs/j-ono-search' target='_blank'>https://github.com/ObakeConstructs/j-ono-search</a>.)
+  </div>
   
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
-<!-- RETURN BUTTON SECTION -->
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
   <div class="return_wrapper" id="return_wrapper">
     <input type="button" class="control" value="◄ Return" onclick="returner()" />
     <br />
   </div>
 
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
-<!-- TITLE SECTION -->
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
   <div class="title_wrapper" id="title_wrapper">
     <div class="title">J-Ono Search</div>
     <div>An open-source, searchable collection of translated Japanese onomatopoeia and mimetic words from manga&nbsp;&nbsp;&nbsp;</div>
   </div>
   
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
-<!-- SEARCH SECTION -->
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- SEARCH -->
   <div class="search_wrapper" id="search_wrapper">
     
     <!-- input block -->
@@ -80,9 +77,7 @@
     </div>
   </div>
   
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
-<!-- RESULTS SECTION -->
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- RESULTS -->
   <div class="results_wrapper" id="results_wrapper">
   
     <!-- results header block -->
@@ -96,9 +91,7 @@
     <div class="grid_results_body" id="results_body"></div>
   </div>
   
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
-<!-- DETAILS SECTION -->
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- DETAILS -->
   <div class="details_wrapper" id="details_wrapper">
   
     <!-- Japanese and romaji block -->
@@ -118,26 +111,20 @@
         
   </div>
   
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
-<!-- EXAMPLES SECTION -->
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- EXAMPLES -->
   <div class="examples_wrapper" id="examples_wrapper">
     <div class="grid_examples" id="examples_body"></div>
   </div>
   
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
-<!-- FOOTER SECTION -->
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
-  <div class="footer_wrapper">
+<!-- FOOTERS -->
+  <div class="footer_wrapper" id="footer_wrapper">
       <p class="notes">
         Do you see a translation mistake or want something added?<br />
         Feel free to open a new <a href="https://github.com/ObakeConstructs/j-ono-data/issues" target="_blank">J-Ono Data Issue</a> via GitHub.
       </p>
   </div>
     
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
 <!-- SCRIPT -->
-<!-- -------------------------------------------------------------------------------------------------------------------------------------------- -->
   <script src="./scripts/mobile.js" charset="utf-8"></script>
   
 </body>
